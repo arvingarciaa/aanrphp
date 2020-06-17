@@ -1,0 +1,588 @@
+.jumbotron-heading, .carousel-caption h5, .carousel-caption p{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+}
+
+.jumbotron{
+    background-color: rgb(255,255,255) !important;
+    margin-bottom: 0rem ;
+    margin-top: 0rem;
+    //max-width: 80rem;
+}
+
+.jumbotron .container{
+    max-width: 50rem;
+}
+
+.schedule-header th{
+  color:white;
+}
+
+.upper-nav .nav-item .nav-link{
+    color:black !important;
+}
+
+.footer-caption h5 {
+    //color:white !important;
+    color:white;
+}
+
+.footer-caption a, .footer-caption p, .footer-caption small{
+    //color:rgba(248, 248, 248, 0.781) !important;
+    color:rgb(211, 211, 211) !important;
+}
+
+
+
+.card{
+    margin-top:25px !important;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0rem; 
+}
+
+
+.nav-item.disabled{
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff !important;
+  background-color: rgb(36, 109, 158);
+}
+
+.carousel-caption{
+    filter: alpha(opacity=50); 
+    background: rgba(0, 0, 0, 0.5);
+    width:50% !important;
+}   
+
+.carousel-caption h, .carousel-caption p{
+    color:white;
+}
+
+/* Fixed/sticky icon bar (vertically aligned 50% from the top of the screen) */
+.icon-bar {
+    position: fixed;
+    top: 55%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  
+  /* Style the icon bar links */
+  .icon-bar a {
+    display: block;
+    text-align: center;
+    padding: 8px;
+    transition: all 0.5s ease;
+    color: white;
+    font-size: 18px;
+  }
+  
+  /* Style the social media icons with color, if you want */
+  .icon-bar a:hover {
+    padding:15px;
+  }
+  
+  .facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
+  .twitter {
+    background: #55ACEE;
+    color: white;
+  }
+  
+  .sarai {
+    background: #c5c5c5;
+    color: white;
+  }
+  
+  .email {
+    background: #fab700;
+    color: white;
+  }
+  
+  .youtube {
+    background: #bb0000;
+    color: white;
+  }
+
+  .comment-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: rgba(0,0,0,0);
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; 
+  }
+
+    @media (prefers-reduced-motion: reduce) {
+      .comment-control {
+        transition: none; } 
+      }
+
+    .comment-control::-ms-expand {
+      background-color: transparent;
+      border: 0; 
+    }
+
+    .comment-control:focus {
+      color: #495057;
+      outline: 0;
+    }
+
+    .comment-control::placeholder {
+      color: #6c757d;
+      opacity: 1; 
+    }
+
+    .name-comment::placeholder {
+      font-weight: bold;
+    }
+
+    .name-comment{
+      font-weight:bold;
+    }
+
+.author-info > h5{
+  margin-bottom:0;
+}
+
+.author-info > p{
+  font-size:13px;
+  font-style:italic;
+  color:#aaa;
+  margin-bottom:5px;
+}
+
+.comment-content{
+  font-size:16px;
+  line-height:1.5em;
+}
+
+.card-gray{
+  background-color: rgb(247, 247, 247);
+}
+
+.row-centered {
+text-align:center;
+}
+.col-centered {
+display:inline-block;
+float:none;
+/* reset the text-align */
+text-align:left;
+/* inline-block space fix */
+margin-right:-4px;
+}
+
+.toggle-tabs {
+  text-decoration:none !important;
+  color:black;
+}
+
+.text-muted {
+  margin:0;
+}
+
+.card-hover {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.card-middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.inside-card:hover .card-hover{
+  opacity: 0.3;
+}
+
+.inside-card:hover .card-middle{
+  opacity: 1;
+}
+
+.footer-bg {
+  background-color: rgb(34, 34, 34);
+}
+
+
+.edit-row > .card {
+  margin-top: 12px !important;
+  border-radius: 1rem !important;
+}
+
+.card-columns > .card {
+  margin-top: 15%;
+}
+
+.breadcrumb-link {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.breadcrumb-link:hover {
+  color: rgba(255, 255, 255, 0.90);
+}
+
+.breadcrumb > .breadcrumb-item.active {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.breadcrumb > .breadcrumb-item + .breadcrumb-item::before {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.breadcrumb {
+  font-size:19px;
+}
+
+.trail-end {
+  text-overflow: ellipsis; 
+  overflow:hidden; 
+  white-space: nowrap;
+}
+
+.sidebar > .card {
+  margin-top: 0.3rem !important;
+}
+
+
+.form-header {
+  margin: 3rem 3rem 2.2rem 2.5rem;
+}
+
+.form-body { 
+  margin: 1.5rem 2.5rem 3rem 2.5rem;
+}
+
+.form-nav {
+  margin:3rem;
+  justify-content:center;
+  align-items:center;
+}
+
+.dropdown-divider-2 {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 2px solid #e9ecef;
+}
+
+.nav-pills {
+  border-bottom: 1px solid #ced4da;
+}
+
+.form-underline:focus {
+  color: #495057;
+  border-bottom-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.list-group-header{
+  padding: 0 0;
+  padding-left:3px;
+  margin-bottom:0px;
+}
+
+
+.accordion-card{
+  margin-top:4px !important;
+}
+
+.list-group-header .btn-link {
+  width:100% !important;
+  text-align:left;
+  text-decoration: none !important;
+}
+
+.inner-collapse {
+  color:black !important;
+}
+
+.card-horizontal {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.fade-out-button{
+  position: absolute;
+  right: 0;
+  bottom: 12%;
+  left: 44%;
+  z-index: 2;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #fff;
+  text-align: center;
+  filter: alpha(opacity=50); 
+}
+
+.bottom-overlay {
+  opacity: 1;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.hover-overlay {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 15px;
+  left: -15px;
+  z-index:1000;
+  text-align: right;
+}
+
+.hover-overlay-text {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  z-index:1000;
+  text-align: center;
+  top:45%;
+}
+
+.overlay-container:hover .bottom-overlay{
+  opacity: 0.5;
+}
+
+.overlay-container:hover .hover-overlay, .overlay-container:hover .hover-overlay-text{
+  opacity: 1;
+}
+
+.front-card{
+  transition:all 300ms;
+}
+.front-card:hover{
+  margin-top: 23px !important;
+  margin-bottom: 2px !important;
+  box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75) !important;
+}
+
+.nav-pills,.nav-item {
+  font-size: 18px;
+  font-weight: 500 !important;
+  color: rgba(0,0,0,1) !important;
+}
+
+.navbar-brand,.nav-item {
+  color: rgba(0,0,0,1) !important;
+}
+
+.manage-image{
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.image-contain{
+  height:350px; 
+  position: relative;
+}
+
+/* The customcheck */
+.customcheck {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  padding-top: 3px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 0.5px solid rgba(0,0,0,0.2);
+  border-radius: 5px;
+  width: 250px;
+  background-color: rgba(0,0,0,0.1);
+  height:33px;
+}
+
+/* Hide the browser's default checkbox */
+.customcheck input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0.5px;
+  height: 31px;
+  width: 45px;
+  background-color: orange;
+  border-radius: 5px;
+}
+
+/* On mouse-over, add a grey background color */
+.customcheck:hover input ~ .checkmark {
+  background-color: orange;
+}
+
+/* When the checkbox is checked, add a blue background */
+.customcheck input:checked ~ .checkmark {
+  background-color: orange;
+  border-radius: 5px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.customcheck input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.customcheck .checkmark:after {
+  left: 18px;
+  top: 7px;
+  width: 9px;
+  height: 13px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.dyn-height {
+  width:100%;
+  max-height:250px;
+  overflow-y:scroll;
+}
+
+.check-label{
+  font-weight:600 !important;
+  line-height:2.3;
+}
+
+.cms-button-row{
+  margin-left:4.5rem !important;
+}
+
+.sort-head{
+  font: bold 30px Sans-Serif;
+}
+
+.carousel-text-container{
+  position: absolute;
+  top: 5%;
+  left: 3%;
+  z-index: 10;
+}
+.carousel-text{
+  padding-top: 15px;
+  padding-bottom: 10px;
+  color: #fff;
+  text-align: center;
+  filter: alpha(opacity=65); 
+  background: rgba(53, 187, 53, 0.75);
+  width:18%;
+}
+
+.jumbotron-heading, .carousel-text h5, .carousel-text p{
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+}
+.fade-out{
+  position: relative;
+  max-height: 500px;
+}
+.fade-out:after{
+  content:'';
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background-image:linear-gradient(to bottom, rgba(249,249,249,0) 50%, rgba(249,249,249,1) 100%);
+}
+
+.carousel-control-prev, .carousel-control-next{
+  bottom:20% !important;
+  top:20% !important;
+  width:10% !important;
+  transition: 0.5s ease !important;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+  background-color: rgba(161, 161, 161, 0.6);
+}
+
+.btn-flat {
+  color: #3490dc !important;
+  padding-left:0 !important;
+}
+.btn-flat:hover {
+  color: #1d68a7 !important;
+  text-decoration:underline !important;
+}
+
+.square {
+  position: relative;
+  width: 100%;
+}
+
+.square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.rectangle {
+  position: relative;
+  width: 100%;
+}
+
+.rectangle:after {
+  content: "";
+  display: block;
+  padding-bottom: 66.6%;
+}
+
