@@ -105,13 +105,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <style>
-                            table{
-                                overflow-y:scroll;
-                                height:350px;
-                                display:block;
-                            }
-                        </style>
                     </div>
                 </div> 
             </div>
@@ -150,18 +143,10 @@
                                             <button class="btn btn-primary pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#editSliderModal-{{$slider->id}}"><i class="fas fa-edit"></i></button>
                                             <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteSliderModal-{{$slider->id}}"><i class="fas fa-minus"></i></button>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <style>
-                            table{
-                                overflow-y:scroll;
-                                height:350px;
-                                display:block;
-                            }
-                        </style>
                     </div>
                 </div> 
             </div>
@@ -211,13 +196,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <style>
-                            table{
-                                overflow-y:scroll;
-                                height:350px;
-                                display:block;
-                            }
-                        </style>
                     </div>
                 </div> 
             </div>
@@ -306,6 +284,112 @@
                     </div>
                 </div>
             </div>  
+        </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <span style="font-size:23px; float:left">
+                        Enable/Disable Landing Page Items
+                    </span>
+                    <span class="text-muted float-right"><i>Manage the landing page items.</i></span>
+                </div>
+                <div class="card-body">
+                    <table class="table" id="user_table" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="40%">Thumbnail</th>
+                                <th width="40%">Landing Page Item</th>
+                                <th width="20%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ Form::open(['action' => ['LandingPageController@updateLandingPageItems'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+                            {{ method_field('GET') }}
+                            <tr>
+                                <td>
+                                    <img src="/storage/page_images/landing_page_carousel.jpg" class="landing-page-image">
+                                </td>
+                                <td class="center-td">
+                                    <h2>Carousel</h2>
+                                </td>
+                                <td class="center-td">
+                                    <label class="form-switch">
+                                        <input type="hidden" name="landing_page_item_carousel" value="0"/>
+                                        <input name="landing_page_item_carousel" type="checkbox" value="1" checked>
+                                        <i></i>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="/storage/page_images/landing_page_icon_bar.jpg" class="landing-page-image">
+                                </td>
+                                <td class="center-td">
+                                    <h2>Social Media Buttons</h2>
+                                </td>
+                                <td class="center-td">
+                                    <label class="form-switch">
+                                        <input type="hidden" name="landing_page_item_social_media_button" value="0"/>
+                                        <input name="landing_page_item_social_media_button" type="checkbox" value="1" checked>
+                                        <i></i>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="/storage/page_images/landing_page_search.jpg" class="landing-page-image">
+                                </td>
+                                <td class="center-td">
+                                    <h2>Search Bar</h2>
+                                </td>
+                                <td class="center-td">
+                                    <label class="form-switch">
+                                        <input type="hidden" name="landing_page_item_technology_counter" value="0"/>
+                                        <input name="landing_page_item_technology_counter" type="checkbox" value="1" checked>
+                                        <i></i>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="/storage/page_images/landing_page_latest_in_aanr.jpg" class="landing-page-image">
+                                </td>
+                                <td class="center-td">
+                                    <h2>Latest in AANR</h2>
+                                </td>
+                                <td class="center-td">
+                                    <label class="form-switch">
+                                        <input type="hidden" name="landing_page_item_technology_grid_view" value="0"/>
+                                        <input name="landing_page_item_technology_grid_view" type="checkbox" value="1" checked>
+                                        <i></i>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="/storage/page_images/landing_page_consortia.jpg" class="landing-page-image">
+                                </td>
+                                <td class="center-td">
+                                    <h2>Consortia</h2>
+                                </td>
+                                <td class="center-td">
+                                    <label class="form-switch">
+                                        <input type="hidden" name="landing_page_dashboard_view" value="0"/>
+                                        <input name="landing_page_item_technology_table_view" type="checkbox" value="1" checked>
+                                        <i></i>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>{{Form::submit('Save changes', ['class' => 'btn btn-success float-right'])}}</td>
+                                {{ Form::close() }}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -722,3 +806,70 @@
         
     </script>
 @endsection
+<style>
+    .center-td{
+        vertical-align:inherit !important;
+    }
+    .form-switch {
+        display: inline-block;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .form-switch i {
+        position: relative;
+        display: inline-block;
+        margin-right: .5rem;
+        width: 46px;
+        height: 26px;
+        background-color: #e6e6e6;
+        border-radius: 23px;
+        vertical-align: text-bottom;
+        transition: all 0.3s linear;
+    }
+
+    .form-switch i::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 42px;
+        height: 22px;
+        background-color: #fff;
+        border-radius: 11px;
+        transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+        transition: all 0.25s linear;
+    }
+
+    .form-switch i::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        background-color: #fff;
+        border-radius: 11px;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+        transform: translate3d(2px, 2px, 0);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .form-switch:active i::after {
+        width: 28px;
+        transform: translate3d(2px, 2px, 0);
+    }
+
+    .form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }
+
+    .form-switch input { display: none; }
+
+    .form-switch input:checked + i { background-color: #4BD763; }
+
+    .form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
+
+    .form-switch input:checked + i::after { transform: translate3d(22px, 2px, 0); }
+
+    .landing-page-image{
+        max-height:310px;
+        max-width:590px;
+    }
+</style>

@@ -31,6 +31,7 @@ Route::get('/manage', function () {
 //LandingPageController
 Route::post('manage/updateTopBanner', ['uses' => 'LandingPageElementsController@updateTopBanner', 'as' => 'landing.updateTopBanner']);
 Route::post('manage/updateConsortiaBanner', ['uses' => 'LandingPageElementsController@updateConsortiaBanner', 'as' => 'landing.updateConsortiaBanner']);
+Route::post('manage/updateLandingPageItems', ['uses' => 'LandingPageController@updateLandingPageItems', 'as' => 'pages.updateLandingPageItems']);
 
 //Headlines
 Route::post('headlines/addHeadline', 'HeadlinesController@addHeadline')->name('addHeadline');
