@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 
 <div class="container-fluid px-0">
-   <nav class="navbar navbar-expand-lg navbar-dark bg-light pl-3 pt-0 pb-0" style="min-height:55px; max-height:65px;height:65px">
-        <?php $page = App\LandingPageElement::find(1) ?>
-        <div class="col-sm-4" style="max-width:400px">
+    <?php $page = App\LandingPageElement::find(1) ?>
+    <nav class="navbar shadow navbar-expand-lg navbar-dark bg-light pl-3 pt-0 pb-0" style="height:79px">
+        <div class="navbar-header" style="margin-top:auto;margin-bottom:auto">
             <a href="/">
-                <img src="/storage/page_images/{{$page->header_logo}}" style="max-height:54px;max-width:200pxwidth:100%">
+                <img alt="PCAARRD logo" src="/storage/page_images/{{$page->header_logo}}" style="max-width:300px">
             </a>
         </div>
+        
             
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>

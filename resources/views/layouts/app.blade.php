@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -70,7 +70,7 @@
         </div>
         <section class="sticky-top">
             @include('layouts.navbar')
-            <nav class="navbar navbar-expand-lg navbar-dark p-0" style="background-color:#2478af; max-height:55px">
+            <nav class="navbar navbar-expand-lg navbar-dark p-0" style="background-color:#216d9e; max-height:52px">
                 <div class="col-auto">
                     @yield('breadcrumb')
                 </div>

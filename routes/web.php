@@ -31,7 +31,13 @@ Route::get('/manage', function () {
 //LandingPageController
 Route::post('manage/updateTopBanner', ['uses' => 'LandingPageElementsController@updateTopBanner', 'as' => 'landing.updateTopBanner']);
 Route::post('manage/updateConsortiaBanner', ['uses' => 'LandingPageElementsController@updateConsortiaBanner', 'as' => 'landing.updateConsortiaBanner']);
-Route::post('manage/updateLandingPageItems', ['uses' => 'LandingPageController@updateLandingPageItems', 'as' => 'pages.updateLandingPageItems']);
+Route::post('manage/updateHeaderLogo', ['uses' => 'LandingPageElementsController@updateHeaderLogo', 'as' => 'landing.updateHeaderLogo']);
+Route::post('manage/updateLandingPageItems', ['uses' => 'LandingPageElementsController@updateLandingPageItems', 'as' => 'pages.updateLandingPageItems']);
+Route::post('manage/updateLandingPageViews', ['uses' => 'LandingPageElementsController@updateLandingPageViews', 'as' => 'pages.updateLandingPageViews']);
+
+//Pages Controller
+Route::get('aanr-industry-profile/{id}', 'PagesController@industryProfileView')->name('industryProfileView');
+Route::get('about', 'PagesController@aboutUs')->name('aboutUs');
 
 //Headlines
 Route::post('headlines/addHeadline', 'HeadlinesController@addHeadline')->name('addHeadline');
@@ -47,3 +53,8 @@ Route::delete('headlines/{id}/deleteSlider', 'LandingPageSlidersController@delet
 Route::post('headlines/addConsortia', 'ConsortiaController@addConsortia')->name('addConsortia');
 Route::post('headlines/{id}/editConsortia', 'ConsortiaController@editConsortia')->name('editConsortia');
 Route::delete('headlines/{id}/deleteConsortia', 'ConsortiaController@deleteConsortia')->name('deleteConsortia');
+
+//Industries
+Route::post('manage/addIndustry', 'IndustriesController@addIndustry')->name('addIndustry');
+Route::post('manage/{id}/editIndustry', 'IndustriesController@editIndustry')->name('editIndustry');
+Route::delete('manage/{id}/deleteIndustry', 'IndustriesController@deleteIndustry')->name('deleteIndustry');

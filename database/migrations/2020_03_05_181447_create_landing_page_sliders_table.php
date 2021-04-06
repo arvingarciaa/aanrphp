@@ -19,7 +19,10 @@ class CreateLandingPageSlidersTable extends Migration
             $table->text('title');
             $table->text('link');
             $table->text('description');
-            $table->text('image')->nullable();;
+            $table->text('image')->nullable();
+            $table->text('caption_align')->nullable();
+            $table->text('button_text')->nullable();
+            $table->text('button_color')->nullable();
         });
     }
 
