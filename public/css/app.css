@@ -114,6 +114,11 @@
   color: white;
 }
 
+.feedback {
+  background: #4f3c6d;
+  color: white;
+}
+
 .comment-control {
   display: block;
   width: 100%;

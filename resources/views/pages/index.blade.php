@@ -34,8 +34,9 @@
             
             <div class="carousel-inner text-center" style="height:550px">
                 @foreach($sliders as $slider)
-                    <div class="carousel-item {{$count == 0 ? 'active' : ''}}" style="height:550px">
-                        <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100" alt="Carousel Image" width="100%" style="object-fit: fill; max-height:700px;min-height:550px">
+                    <div class="carousel-item {{$count == 0 ? 'active' : ''}}" style="height:550px;">
+                        <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100 fill-background" alt="Carousel Image">
+                        <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100" alt="Carousel Image" width="100%" style="object-fit: contain; height:550px; z-index:10;">
                         <div class="carousel-caption d-none d-md-block px-4 carousel-caption-align-{{$slider->caption_align}}" style="bottom:6%">
                             <h1 style="font-weight:600">{{$slider->title}}</h1>
                             <h4>{{$slider->description}}</h4>
@@ -46,6 +47,18 @@
                 @endforeach
             </div>
             <style>
+                .carousel-control-prev, .carousel-control-next{
+                    z-index:50 !important;
+                }
+                .fill-background{
+                    position: absolute;
+                    filter: blur(2em);
+                    height:100%;
+                    z-index:-1;
+                    box-shadow: inset 0 0 30px 15px #212121;
+                    transform: scale(1.2);
+                    object-fit:fill;
+                }
                 .carousel-caption-align-left{
                     left:5% !important;
                     text-align:left !important;
@@ -106,7 +119,7 @@
             <input type="text" class="form-control" style="font-size:1.25rem;height:4rem" name="search" placeholder="Input keywords or topics on AANR" value={{ isset($results) ? $query : ''}}> 
             <span class="input-group-append">
                 <button type="submit" class="btn btn-outline-secondary" style="font-size:1.25rem;color:white;#ced4da;height:100%;background-color:rgb(23,162,184)">
-                    Advance Search
+                    Advanced Search
                 </button>
                 <button type="submit" class="btn btn-outline-secondary" style="font-size:1.25rem;color:white;#ced4da;height:100%;background-color:rgb(33,109,158)">
                     <i class="fas fa-search" style="color:white;width:3rem"></i>
@@ -280,9 +293,15 @@
 <div class="container section-margin">
     <?php
         $url = "https://elibrary.pcaarrd.dost.gov.ph/km-api/";
-        $data = file_get_contents($url);
-        $publications = json_decode($data);
+        $data = @file_get_contents($url);
+        if($data == false){
+            $publications = [];
+        } else {
+
+            $publications = json_decode($data);
+        }
     ?>
+    @if($publications != null)
     <h2>Featured Publications</h2>
     <div class="row">
         <div class="col-sm-6">
@@ -322,6 +341,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 <div class="container section-margin">

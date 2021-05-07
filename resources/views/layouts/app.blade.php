@@ -54,6 +54,10 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
+    <!-- Datatables -->
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script> 
+
 
     @yield('top_scripts')
 
@@ -63,14 +67,15 @@
     <div id="app">
         <div class="icon-bar" style="z-index:5">
             <a href="#" class="sarai"><img src="https://i.imgur.com/TRr6O4s.png" height="30" width="30"></a> 
-            <a href="#" class="facebook"><i class="fab fa-facebook"></i></a> 
-            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a> 
-            <a href="#" class="email"><i class="fas fa-envelope"></i></a>
-            <a href="#" class="youtube"><i class="fab fa-youtube"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Facebook"href="#" class="facebook"><i class="fab fa-facebook"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Twitter" href="#" class="twitter"><i class="fab fa-twitter"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Send us an email" href="#" class="email"><i class="fas fa-envelope"></i></a>
+            <a target="_blank" data-toggle="tooltip" title="Visit our YouTube" href="#" class="youtube"><i class="fab fa-youtube"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Click to see feedback form" href="https://docs.google.com/forms/d/e/1FAIpQLSccdMrmX86mEkXGzui_hgqwpUaVPWln6lNsN8d4afQHp7c1oQ/viewform?usp=sf_link" class="feedback"><i class="far fa-comment-dots"></i></a> 
         </div>
         <section class="sticky-top">
             @include('layouts.navbar')
-            <nav class="navbar navbar-expand-lg navbar-dark p-0" style="background-color:#216d9e; max-height:52px">
+            <nav class="navbar navbar-expand-lg navbar-dark p-0" style="background-color:#216d9e; height:52px">
                 <div class="col-auto">
                     @yield('breadcrumb')
                 </div>
@@ -94,7 +99,7 @@
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ Auth::user()->name }} <span class="caret"></span>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-menu dropdown-menu-right" style="display:none" aria-labelledby="navbarDropdown">
                                         @if(auth()->user()->role != 0)
                                             <a href="/dashboard" class="dropdown-item">Dashboard</a>
                                             body             @endif                                        

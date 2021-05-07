@@ -2,10 +2,10 @@
 
 <div class="container-fluid px-0">
     <?php $page = App\LandingPageElement::find(1) ?>
-    <nav class="navbar shadow navbar-expand-lg navbar-dark bg-light pl-3 pt-0 pb-0" style="height:79px">
+    <nav class="navbar shadow navbar-expand-lg navbar-dark bg-light pl-3 pt-0 pb-0" style="height:90px" class="px-3">
         <div class="navbar-header" style="margin-top:auto;margin-bottom:auto">
             <a href="/">
-                <img alt="PCAARRD logo" src="/storage/page_images/{{$page->header_logo}}" style="max-width:300px">
+                <img alt="PCAARRD logo" src="/storage/page_images/{{$page->header_logo}}" style="max-width:400px">
             </a>
         </div>
         
@@ -18,6 +18,9 @@
             <ul class="navbar-nav ml-auto upper-nav">
                 <li class="nav-item">
                     <a class="nav-links active" href="http://aanr.test">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-links" href="http://aanr.test/about">About Us</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-links" href="http://fiesta.test">FIESTA</a>
@@ -51,15 +54,19 @@
 
         <div class="dropdown">
             <button class="btn btn-default btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="/storage/images/200px-Unibersidad_ng_Pilipinas_Los_Banos.png" style="width:2em">
+                ALL
             </button>
             <div class="dropdown-menu py-1" aria-labelledby="dropdownMenuButton" style="min-width:3em">
+                <a class="dropdown-item p-0" style="text-align:center" href="{{ url('/locale/en') }}">ALL</a>
+
                 <a class="dropdown-item p-0" style="text-align:center" href="{{ url('/locale/en') }}"><img src="/storage/images/200px-Unibersidad_ng_Pilipinas_Los_Banos.png" style="width:2em"></a>
+                <!--
                 <a class="dropdown-item p-0" style="text-align:center" href="{{ url('/locale/en') }}"><img src="/storage/images/ilaarrdec_logo.png" style="width:2em"></a>
+                -->
             </div>
         </div>  
         
-        <div class="dropdown">
+        <div class="dropdown" style="display:none">
             <button class="btn btn-default btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <!--<img src="/storage/page_images/{{config('app.locale') == 'en' ? 'us.jpg' : 'ph.jpg'}}" style="width:2em"> -->
                 {{config('app.locale') == 'en' ? 'EN (US)' : 'PH'}}

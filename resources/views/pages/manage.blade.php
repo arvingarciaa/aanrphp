@@ -22,7 +22,6 @@
     </div>
 @endsection
 @section('content')
-    
     <div class="container-fluid px-5 pt-3 pb-5">
 
         @include('layouts.messages')
@@ -178,7 +177,7 @@
                                     </td>
                                 </tr>
                                 <?php 
-                                    $consortia = App\Consortium::all(); 
+                                    $consortia = App\Consortia::all(); 
                                     $count = 1;
                                 ?>
                                 @foreach($consortia as $consortium)
@@ -581,40 +580,12 @@
         </div>
     <!-- END modal for update Header Logo -->
 
-<!-- Industry modals-->
-    <!-- Modal for add Industry -->
-        <div class="modal fade" id="addIndustryModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-l" role="document">
-                <div class="modal-content">
-                    {{ Form::open(['action' => ['IndustriesController@addIndustry'], 'method' => 'POST']) }}
-                    <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Add Industry</h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
-                            {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        {{Form::submit('Add Industry', ['class' => 'btn btn-success'])}}
-                    </div>
-                    {{Form::close()}}
-                </div>
-            </div>
-        </div>
-    <!-- END modal for Add Industry -->
-
-    @foreach(App\Industry::all() as $industry)
-        <!-- Modal for EDIT Industry -->
-            <div class="modal fade" id="editIndustryModal-{{$industry->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Industry modals-->
+        <!-- Modal for add Industry -->
+            <div class="modal fade" id="addIndustryModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-l" role="document">
                     <div class="modal-content">
-                        {{ Form::open(['action' => ['IndustriesController@editIndustry', $industry->id], 'method' => 'POST']) }}
+                        {{ Form::open(['action' => ['IndustriesController@addIndustry'], 'method' => 'POST']) }}
                         <div class="modal-header">
                             <h6 class="modal-title" id="exampleModalLabel">Add Industry</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -624,7 +595,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
-                                {{Form::text('name', $industry->name, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+                                {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -635,75 +606,71 @@
                     </div>
                 </div>
             </div>
-        <!-- END modal for Industry -->
-        <!-- Modal for add Industry -->
-            <div class="modal fade" id="deleteIndustryModal-{{$industry->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="{{ route('deleteIndustry', $industry->id) }}" id="deleteForm" method="POST">
-                        <div class="modal-header">
-                            <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <!-- END modal for Add Industry -->
+
+        @foreach(App\Industry::all() as $industry)
+            <!-- Modal for EDIT Industry -->
+                <div class="modal fade" id="editIndustryModal-{{$industry->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-l" role="document">
+                        <div class="modal-content">
+                            {{ Form::open(['action' => ['IndustriesController@editIndustry', $industry->id], 'method' => 'POST']) }}
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Add Industry</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
+                                    {{Form::text('name', $industry->name, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                {{Form::submit('Add Industry', ['class' => 'btn btn-success'])}}
+                            </div>
+                            {{Form::close()}}
                         </div>
-                        <div class="modal-body">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <span>
-                                Are you sure you want to delete: <b>{{$industry->name}}</b>
-                            </span>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                            <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                        </div>
-                        </form>
                     </div>
                 </div>
-            </div>
-        <!-- END modal for Industry -->
-    @endforeach
-<!-- END of Industry modals-->
-
-<!-- Headline modals-->
-    <!-- Modal for add Headline -->
-        <div class="modal fade" id="addHeadlineModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-l" role="document">
-                <div class="modal-content">
-                    {{ Form::open(['action' => ['HeadlinesController@addHeadline'], 'method' => 'POST']) }}
-                    <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Add Headline</h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
-                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+            <!-- END modal for Industry -->
+            <!-- Modal for add Industry -->
+                <div class="modal fade" id="deleteIndustryModal-{{$industry->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="{{ route('deleteIndustry', $industry->id) }}" id="deleteForm" method="POST">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <span>
+                                    Are you sure you want to delete: <b>{{$industry->name}}</b>
+                                </span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                            </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
-                            {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
-                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        {{Form::submit('Add Headline', ['class' => 'btn btn-success'])}}
-                    </div>
-                    {{Form::close()}}
                 </div>
-            </div>
-        </div>
-    <!-- END modal for Headline -->
+            <!-- END modal for Industry -->
+        @endforeach
+    <!-- END of Industry modals-->
 
-    @foreach($headlines as $headline)
-        <!-- Modal for EDIT Headline -->
-            <div class="modal fade" id="editHeadlineModal-{{$headline->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Headline modals-->
+        <!-- Modal for add Headline -->
+            <div class="modal fade" id="addHeadlineModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-l" role="document">
                     <div class="modal-content">
-                        {{ Form::open(['action' => ['HeadlinesController@editHeadline', $headline->id], 'method' => 'POST']) }}
+                        {{ Form::open(['action' => ['HeadlinesController@addHeadline'], 'method' => 'POST']) }}
                         <div class="modal-header">
                             <h6 class="modal-title" id="exampleModalLabel">Add Headline</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -713,11 +680,11 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
-                                {{Form::text('title', $headline->title, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+                                {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
                             </div>
                             <div class="form-group">
                                 {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
-                                {{Form::text('link', $headline->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                                {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -729,99 +696,76 @@
                 </div>
             </div>
         <!-- END modal for Headline -->
-        <!-- Modal for add Headline -->
-            <div class="modal fade" id="deleteHeadlineModal-{{$headline->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="{{ route('deleteHeadline', $headline->id) }}" id="deleteForm" method="POST">
-                        <div class="modal-header">
-                            <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+
+        @foreach($headlines as $headline)
+            <!-- Modal for EDIT Headline -->
+                <div class="modal fade" id="editHeadlineModal-{{$headline->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-l" role="document">
+                        <div class="modal-content">
+                            {{ Form::open(['action' => ['HeadlinesController@editHeadline', $headline->id], 'method' => 'POST']) }}
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Add Headline</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
+                                    {{Form::text('title', $headline->title, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
+                                    {{Form::text('link', $headline->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                {{Form::submit('Add Headline', ['class' => 'btn btn-success'])}}
+                            </div>
+                            {{Form::close()}}
                         </div>
-                        <div class="modal-body">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <span>
-                                Are you sure you want to delete: <b>{{$headline->title}}</b>
-                            </span>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                            <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                        </div>
-                        </form>
                     </div>
                 </div>
-            </div>
-        <!-- END modal for Headline -->
-    @endforeach
-<!-- END of Headline modals-->
-
-<!-- Slider modals-->
-    <!-- Modal for add Slider -->
-        <div class="modal fade" id="addSliderModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-l" role="document">
-                <div class="modal-content">
-                    {{ Form::open(['action' => ['LandingPageSlidersController@addSlider'], 'method' => 'POST']) }}
-                    <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Add Slider</h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <!-- END modal for Headline -->
+            <!-- Modal for add Headline -->
+                <div class="modal fade" id="deleteHeadlineModal-{{$headline->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="{{ route('deleteHeadline', $headline->id) }}" id="deleteForm" method="POST">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <span>
+                                    Are you sure you want to delete: <b>{{$headline->title}}</b>
+                                </span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                            </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
-                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('description', 'Description', ['class' => 'col-form-label'])}}
-                            {{Form::textarea('description', '', ['class' => 'form-control', 'placeholder' => 'Add a description', 'rows' => 4])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('button_text', 'Button Text', ['class' => 'col-form-label'])}}
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Text for the button"><i class="far fa-question-circle"></i></a>
-                            {{Form::text('button_text', '', ['class' => 'form-control', 'placeholder' => 'Add a text for the button'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Link for the button"><i class="far fa-question-circle"></i></a>
-                            {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link for the button'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('caption_align', 'Caption Align')}}
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Aligns the caption to the option selected"><i class="far fa-question-circle"></i></a>
-                            {{Form::select('caption_align', ['left' => 'Left', 
-                                                        'center' => 'Center', 
-                                                        'right' => 'Right'
-                                                        ], '',['class' => 'form-control', 'placeholder' => 'Select Align']) }}
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('image', 'Slider Image', ['class' => 'col-form-label']) }}
-                            {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        {{Form::submit('Add Slider', ['class' => 'btn btn-success'])}}
-                    </div>
-                    {{Form::close()}}
                 </div>
-            </div>
-        </div>
-    <!-- END modal for Slider -->
+            <!-- END modal for Headline -->
+        @endforeach
+    <!-- END of Headline modals-->
 
-    @foreach($sliders as $slider)
-        <!-- Modal for EDIT Slider -->
-            <div class="modal fade" id="editSliderModal-{{$slider->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Slider modals-->
+        <!-- Modal for add Slider -->
+            <div class="modal fade" id="addSliderModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-l" role="document">
                     <div class="modal-content">
-                        {{ Form::open(['action' => ['LandingPageSlidersController@editSlider', $slider->id], 'method' => 'POST']) }}
+                        {{ Form::open(['action' => ['LandingPageSlidersController@addSlider'], 'method' => 'POST']) }}
                         <div class="modal-header">
-                            <h6 class="modal-title" id="exampleModalLabel">Edit Slider</h6>
+                            <h6 class="modal-title" id="exampleModalLabel">Add Slider</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -829,116 +773,136 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
-                                {{Form::text('title', $slider->title, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+                                {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
                             </div>
                             <div class="form-group">
                                 {{Form::label('description', 'Description', ['class' => 'col-form-label'])}}
-                                {{Form::textarea('description', $slider->description, ['class' => 'form-control', 'placeholder' => 'Add a description', 'rows' => 4])}}
+                                {{Form::textarea('description', '', ['class' => 'form-control', 'placeholder' => 'Add a description', 'rows' => 4])}}
                             </div>
-
-                        <div class="form-group">
-                            {{Form::label('button_text', 'Button Text', ['class' => 'col-form-label'])}}
-                            {{Form::text('button_text', $slider->button_text, ['class' => 'form-control', 'placeholder' => 'Add a text for the button'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
-                            {{Form::text('link', $slider->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('caption_align', 'Caption Align')}}
-                            {{Form::select('caption_align', ['left' => 'Left', 
-                                                        'center' => 'Center', 
-                                                        'right' => 'Right'
-                                                        ], $slider->caption_align,['class' => 'form-control', 'placeholder' => 'Select Align']) }}
-                        </div>
                             <div class="form-group">
-                                {{ Form::label('image', 'Replace Image', ['class' => 'col-form-label']) }}
-                                <img src="/storage/cover_images/{{$slider->image}}" class="card-img-top" style="width:100%;border:1px solid rgba(100,100,100,0.25)" >
+                                {{Form::label('button_text', 'Button Text', ['class' => 'col-form-label'])}}
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="Text for the button"><i class="far fa-question-circle"></i></a>
+                                {{Form::text('button_text', '', ['class' => 'form-control', 'placeholder' => 'Add a text for the button'])}}
+                            </div>
+                            <div class="form-group">
+                                {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="Link for the button"><i class="far fa-question-circle"></i></a>
+                                {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link for the button'])}}
+                            </div>
+                            <div class="form-group">
+                                {{Form::label('caption_align', 'Caption Align')}}
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="Aligns the caption to the option selected"><i class="far fa-question-circle"></i></a>
+                                {{Form::select('caption_align', ['left' => 'Left', 
+                                                            'center' => 'Center', 
+                                                            'right' => 'Right'
+                                                            ], '',['class' => 'form-control', 'placeholder' => 'Select Align']) }}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('image', 'Slider Image', ['class' => 'col-form-label']) }}
                                 {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
                             </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            {{Form::submit('Submit Changes', ['class' => 'btn btn-success'])}}
+                            {{Form::submit('Add Slider', ['class' => 'btn btn-success'])}}
                         </div>
                         {{Form::close()}}
                     </div>
                 </div>
             </div>
-        <!-- END modal for edit Slider -->
-        <!-- Modal for delete Slider -->
-            <div class="modal fade" id="deleteSliderModal-{{$slider->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="{{ route('deleteSlider', $slider->id) }}" id="deleteForm" method="POST">
-                        <div class="modal-header">
-                            <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <span>
-                                Are you sure you want to delete: <b>{{$slider->title}}</b>
-                            </span>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                            <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        <!-- END modal for delete Slider -->
-    @endforeach
-<!-- END of Slider modals-->
+        <!-- END modal for Slider -->
 
-<!-- Consortia modals-->
-    <!-- Modal for add Consortia -->
-        <div class="modal fade" id="addConsortiaModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-l" role="document">
-                <div class="modal-content">
-                    {{ Form::open(['action' => ['ConsortiaController@addConsortia'], 'method' => 'POST']) }}
-                    <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Add Consortia</h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            {{Form::label('short_name', 'Short Name', ['class' => 'col-form-label'])}}
-                            {{Form::text('short_name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
+        @foreach($sliders as $slider)
+            <!-- Modal for EDIT Slider -->
+                <div class="modal fade" id="editSliderModal-{{$slider->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-l" role="document">
+                        <div class="modal-content">
+                            {{ Form::open(['action' => ['LandingPageSlidersController@editSlider', $slider->id], 'method' => 'POST']) }}
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Edit Slider</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
+                                    {{Form::text('title', $slider->title, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('description', 'Description', ['class' => 'col-form-label'])}}
+                                    {{Form::textarea('description', $slider->description, ['class' => 'form-control', 'placeholder' => 'Add a description', 'rows' => 4])}}
+                                </div>
+
+                            <div class="form-group">
+                                {{Form::label('button_text', 'Button Text', ['class' => 'col-form-label'])}}
+                                {{Form::text('button_text', $slider->button_text, ['class' => 'form-control', 'placeholder' => 'Add a text for the button'])}}
+                            </div>
+                            <div class="form-group">
+                                {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
+                                {{Form::text('link', $slider->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                            </div>
+                            <div class="form-group">
+                                {{Form::label('caption_align', 'Caption Align')}}
+                                {{Form::select('caption_align', ['left' => 'Left', 
+                                                            'center' => 'Center', 
+                                                            'right' => 'Right'
+                                                            ], $slider->caption_align,['class' => 'form-control', 'placeholder' => 'Select Align']) }}
+                            </div>
+                                <div class="form-group">
+                                    {{ Form::label('image', 'Replace Image', ['class' => 'col-form-label']) }}
+                                    <img src="/storage/cover_images/{{$slider->image}}" class="card-img-top" style="width:100%;border:1px solid rgba(100,100,100,0.25)" >
+                                    {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                {{Form::submit('Submit Changes', ['class' => 'btn btn-success'])}}
+                            </div>
+                            {{Form::close()}}
                         </div>
-                        <div class="form-group">
-                            {{Form::label('full_name', 'Full Name', ['class' => 'col-form-label'])}}
-                            {{Form::text('full_name', '', ['class' => 'form-control', 'placeholder' => 'Add full name'])}}
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('image', 'Thumbnail', ['class' => 'col-form-label']) }}
-                            {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
-                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        {{Form::submit('Add Consortia', ['class' => 'btn btn-success'])}}
-                    </div>
-                    {{Form::close()}}
                 </div>
-            </div>
-        </div>
-    <!-- END modal for Consortia -->
-    @foreach($consortia as $consortium)
-        <!-- Modal for EDIT Consortia -->
-            <div class="modal fade" id="editConsortiaModal-{{$consortium->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <!-- END modal for edit Slider -->
+            <!-- Modal for delete Slider -->
+                <div class="modal fade" id="deleteSliderModal-{{$slider->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="{{ route('deleteSlider', $slider->id) }}" id="deleteForm" method="POST">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <span>
+                                    Are you sure you want to delete: <b>{{$slider->title}}</b>
+                                </span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <!-- END modal for delete Slider -->
+        @endforeach
+    <!-- END of Slider modals-->
+
+    <!-- Consortia modals-->
+        <!-- Modal for add Consortia -->
+            <div class="modal fade" id="addConsortiaModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-l" role="document">
                     <div class="modal-content">
-                        {{ Form::open(['action' => ['ConsortiaController@editConsortia', $consortium->id], 'method' => 'POST']) }}
+                        {{ Form::open(['action' => ['ConsortiaController@addConsortia'], 'method' => 'POST']) }}
                         <div class="modal-header">
-                            <h6 class="modal-title" id="exampleModalLabel">Edit Consortia</h6>
+                            <h6 class="modal-title" id="exampleModalLabel">Add Consortia</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -946,57 +910,92 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 {{Form::label('short_name', 'Short Name', ['class' => 'col-form-label'])}}
-                                {{Form::text('short_name', $consortium->short_name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
+                                {{Form::text('short_name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                             </div>
                             <div class="form-group">
                                 {{Form::label('full_name', 'Full Name', ['class' => 'col-form-label'])}}
-                                {{Form::text('full_name', $consortium->full_name, ['class' => 'form-control', 'placeholder' => 'Add full name'])}}
+                                {{Form::text('full_name', '', ['class' => 'form-control', 'placeholder' => 'Add full name'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('image', 'Replace Thumbnail', ['class' => 'col-form-label']) }}
-                                <br>
-                                <img src="/storage/images/{{$consortium->thumbnail}}" class="card-img-top" style="width:50px;height:50px;border:1px solid rgba(100,100,100,0.25)" >
+                                {{ Form::label('image', 'Thumbnail', ['class' => 'col-form-label']) }}
                                 {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            {{Form::submit('Submit Changes', ['class' => 'btn btn-success'])}}
+                            {{Form::submit('Add Consortia', ['class' => 'btn btn-success'])}}
                         </div>
                         {{Form::close()}}
                     </div>
                 </div>
             </div>
-        <!-- END modal for edit Consortia -->
-        <!-- Modal for delete Consortia -->
-            <div class="modal fade" id="deleteConsortiaModal-{{$consortium->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="{{ route('deleteConsortia', $consortium->id) }}" id="deleteForm" method="POST">
-                        <div class="modal-header">
-                            <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <!-- END modal for Consortia -->
+        @foreach($consortia as $consortium)
+            <!-- Modal for EDIT Consortia -->
+                <div class="modal fade" id="editConsortiaModal-{{$consortium->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-l" role="document">
+                        <div class="modal-content">
+                            {{ Form::open(['action' => ['ConsortiaController@editConsortia', $consortium->id], 'method' => 'POST']) }}
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Edit Consortia</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    {{Form::label('short_name', 'Short Name', ['class' => 'col-form-label'])}}
+                                    {{Form::text('short_name', $consortium->short_name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('full_name', 'Full Name', ['class' => 'col-form-label'])}}
+                                    {{Form::text('full_name', $consortium->full_name, ['class' => 'form-control', 'placeholder' => 'Add full name'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('image', 'Replace Thumbnail', ['class' => 'col-form-label']) }}
+                                    <br>
+                                    <img src="/storage/images/{{$consortium->thumbnail}}" class="card-img-top" style="width:50px;height:50px;border:1px solid rgba(100,100,100,0.25)" >
+                                    {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                {{Form::submit('Submit Changes', ['class' => 'btn btn-success'])}}
+                            </div>
+                            {{Form::close()}}
                         </div>
-                        <div class="modal-body">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <span>
-                                Are you sure you want to delete: <b>{{$consortium->short_name}}</b>
-                            </span>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                            <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                        </div>
-                        </form>
                     </div>
                 </div>
-            </div>
-        <!-- END modal for delete Consortia -->
-    @endforeach
-<!-- END of Consortia modals-->
+            <!-- END modal for edit Consortia -->
+            <!-- Modal for delete Consortia -->
+                <div class="modal fade" id="deleteConsortiaModal-{{$consortium->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="{{ route('deleteConsortia', $consortium->id) }}" id="deleteForm" method="POST">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <span>
+                                    Are you sure you want to delete: <b>{{$consortium->short_name}}</b>
+                                </span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <!-- END modal for delete Consortia -->
+        @endforeach
+    <!-- END of Consortia modals-->
 @endsection
 @section('scripts')
     <script type="text/javascript">

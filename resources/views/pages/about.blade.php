@@ -21,7 +21,7 @@
     <img style="width:100%" src="storage/cover_images/KM4AANR Banner A.gif" alt="">
 </div>
 <div class="container mt-5 mb-5">
-    <h2 class="title">About the project</h2>
+    <h2 class="title">About us</h2>
     <p style="line-height:1.8; font-size:1.1em">
         Ang KM4AANR.PH ay nakalaan sa pagkalap ng mga nilalaman mula sa iba’t ibang plataporma na matatagpuan online. Tampok dito ang mga datos, impormasyon, at balita tungkol sa pinakabagong teknolohiya sa Agrikultura, Yamang Tubig at Likas na Yaman (AANR). Kaugnay dito, binuo ng PCAARRD ang Industry Strategic S&T Programs o ISPs upang makapagbigay ng mga solusyong naka-base sa agham at teknolohiya para sa mga pangangailangan ng AANR. 
         <br><br>
@@ -59,22 +59,26 @@
     </div>
     
     <br>
-    <h2 class="title">About the project team</h2>
-    <div class="row">
-        <div class="col-sm-6">
-            <img src="/storage/cover_images/staff_1" alt="" style="height:540px; width:540px">
-        </div>
-        <div class="col-sm-6">
-
-            <img src="/storage/cover_images/staff_2" alt="" style="height:540px; width:540px">
-        </div>
+    <h2 class="title">How KM4AANR Works</h2>
+    <p style="line-height:1.8; font-size:1.1em">
+        KM4AANR.ph is an online database dedicated to Agriculture, Aquatic and Natural Resources news, updates, and content from different platforms. This project is funded by DOST-PCAARRD. This is a short walkthrough of the system.
+    </p>
+    <div class="video-container text-center my-4">
+        <iframe src="//www.youtube.com/embed/B1qgdkgxnLk" width="720" height="460" frameborder="0" allowfullscreen="true"></iframe>
     </div>
+    <p style="line-height:1.8; font-size:1.1em">
+        Learn our process in creating the knowledge sharing system. Our information systems analyst presents the considerations and the technology stack used to develop the system.
+    </p>
 
+    <div class="video-container text-center">
+        <iframe src="//www.youtube.com/embed/JpjCo8xboU8" width="720" height="460" frameborder="0" allowfullscreen="true"></iframe>
+    </div>
 </div>
 @endsection
 <style>
     .title{
         color:rgb(74,130,185);
+        margin-bottom: 2rem;
     }
     .consortia-section{
         padding-top:0.5rem;
