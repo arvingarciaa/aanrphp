@@ -34,11 +34,9 @@ class ISPController extends Controller
         return redirect()->back()->with('success','ISP Updated.'); 
     }
 
-    public function deleteISP($isp_id, Request $request){
+    public function deleteISP($isp_id){
         $isp = ISP::find($isp_id);
-        $deletedName = $isp->name;
         $isp->delete();
-
         return redirect()->back()->with('success','ISP Deleted.'); 
     }
 }

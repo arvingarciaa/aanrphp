@@ -12,4 +12,7 @@ class Content extends Model
     public function content_subtypes(){
         return $this->hasMany('App\ContentSubtype');
     }
+    public function artifacts(){
+        return $this->hasMany('App\ArtifactAANR');
+    }
 }

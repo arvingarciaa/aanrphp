@@ -3,7 +3,7 @@
     <div class="modal fade" id="createConsortiaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {{ Form::open(['action' => 'ConsortiaController@addConsortia', 'method' => 'POST']) }}
+                {{ Form::open(['action' => 'ConsortiaController@addConsortia', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                 <div class="modal-header">
                     <h6 class="modal-title" id="exampleModalLabel">Create new Consortia</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,15 +12,15 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {{Form::label('full_name', 'Consortia Full Name', ['class' => 'col-form-label'])}}
+                        {{Form::label('full_name', 'Consortia Full Name', ['class' => 'col-form-label required'])}}
                         {{Form::text('full_name', '', ['class' => 'form-control', 'placeholder' => 'Add full name'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('short_name', 'Consortia Short Name', ['class' => 'col-form-label'])}}
+                        {{Form::label('short_name', 'Consortia Short Name', ['class' => 'col-form-label required'])}}
                         {{Form::text('short_name', '', ['class' => 'form-control', 'placeholder' => 'Add acronym/short name'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('image', 'Consortia Logo')}}
+                        {{Form::label('image', 'Consortia Logo', ['class' => 'col-form-label required'])}}
                         {{ Form::file('image', ['class' => 'form-control mb-3 pt-1'])}}
                     </div>
                     <div class="form-group">
@@ -49,12 +49,20 @@
                         {{Form::textarea('profile', '', ['class' => 'form-control', 'placeholder' => 'Add a profile', 'rows' => '4'])}}
                     </div>
                     <div class="form-group">
+                        {{Form::label('welcome', 'Welcome Message', ['class' => 'col-form-label'])}}
+                        {{Form::textarea('welcome', '', ['class' => 'form-control', 'placeholder' => 'Add a welcome message', 'rows' => '4'])}}
+                    </div>
+                    <div class="form-group">
                         {{Form::label('contact_name', 'Contact Name', ['class' => 'col-form-label'])}}
                         {{Form::text('contact_name', '', ['class' => 'form-control', 'placeholder' => 'Add contact name'])}}
                     </div>
                     <div class="form-group">
                         {{Form::label('contact_details', 'Contact Details', ['class' => 'col-form-label'])}}
                         {{Form::text('contact_details', '', ['class' => 'form-control', 'placeholder' => 'Add contact details'])}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('link', 'Link to website', ['class' => 'col-form-label'])}}
+                        {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -71,7 +79,7 @@
         <div class="modal fade" id="editConsortiaModal-{{$consortium->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    {{ Form::open(['action' => ['ConsortiaController@editConsortia', $consortium->id], 'method' => 'POST']) }}
+                    {{ Form::open(['action' => ['ConsortiaController@editConsortia', $consortium->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                     <div class="modal-header">
                         <h6 class="modal-title" id="exampleModalLabel">Edit Consortia</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -80,16 +88,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            {{Form::label('full_name', 'Consortia Full Name', ['class' => 'col-form-label'])}}
+                            {{Form::label('full_name', 'Consortia Full Name', ['class' => 'col-form-label required'])}}
                             {{Form::text('full_name', $consortium->full_name, ['class' => 'form-control', 'placeholder' => 'Add full name'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('short_name', 'Consortia Short Name', ['class' => 'col-form-label'])}}
+                            {{Form::label('short_name', 'Consortia Short Name', ['class' => 'col-form-label required'])}}
                             {{Form::text('short_name', $consortium->short_name, ['class' => 'form-control', 'placeholder' => 'Add acronym/short name'])}}
                         </div>
                         <div class="form-group">
-                            <div class="row mt-3">
-                                {{Form::label('image', 'Consortia Logo')}}
+                            <div class="mt-3">
+                                {{Form::label('image', 'Consortia Logo', ['class' => 'col-form-label required'])}}
+                                <br>
                                 @if($consortium->thumbnail!=null)
                                 <img src="/storage/page_images/{{$consortium->thumbnail}}" class="card-img-top" style="object-fit: cover;overflow:hidden;height:250px;width:250px;border:1px solid rgba(100,100,100,0.25)" >
                                 @else
@@ -135,12 +144,20 @@
                             {{Form::textarea('profile', $consortium->profile, ['class' => 'form-control', 'placeholder' => 'Add a profile', 'rows' => '4'])}}
                         </div>
                         <div class="form-group">
+                            {{Form::label('welcome', 'Welcome Message', ['class' => 'col-form-label'])}}
+                            {{Form::textarea('welcome', $consortium->welcome_message, ['class' => 'form-control', 'placeholder' => 'Add a welcome message', 'rows' => '4'])}}
+                        </div>
+                        <div class="form-group">
                             {{Form::label('contact_name', 'Contact Name', ['class' => 'col-form-label'])}}
                             {{Form::text('contact_name', $consortium->contact_name, ['class' => 'form-control', 'placeholder' => 'Add contact name'])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('contact_details', 'Contact Details', ['class' => 'col-form-label'])}}
                             {{Form::text('contact_details', $consortium->contact_details, ['class' => 'form-control', 'placeholder' => 'Add contact details'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('link', 'Link to website', ['class' => 'col-form-label'])}}
+                            {{Form::text('link', $consortium->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
                         </div>
                     </div>
                     <div class="modal-footer">

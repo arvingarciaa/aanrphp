@@ -17,8 +17,8 @@
 @endsection
 @section('content')
 @include('layouts.messages')
-<div class="w-100">
-    <img style="width:100%" src="storage/cover_images/KM4AANR Banner A.gif" alt="">
+<div class="text-center">
+    <img style="width:100%" src="storage/cover_images/KM4AANR_Banner_A.png" alt="">
 </div>
 <div class="container mt-5 mb-5">
     <h2 class="title">About us</h2>
@@ -27,34 +27,29 @@
         <br><br>
         Ang pahinaryang ito ay pinamumunuan ng DOST-PCAARRD.  
     </p>
-    <div class="consortia-section">
-        <div class="container section-margin text-center">
-            <span data-toggle="collapse" href="#collapseExample" >
-                <a data-toggle="tooltip" title="WESVAARRDEC"><img src="/storage/page_images/WESVAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            </span>
-            <a target="_blank" data-toggle="tooltip" title="WESMAARRDEC" href="https://wmsu.edu.ph/zampen-native-chicken-fiesta-highlights-aanr-st-outputs/"><img src="/storage/page_images/WESMAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="ILAARRDEC" href="https://ilaarrdec.mmsu.edu.ph/"><img src="/storage/page_images/ILAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="VICARP" href="https://www.vsu.edu.ph/vicaarp"><img src="/storage/page_images/VICARP.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="STAARRDEC" href="https://www.facebook.com/staarrdec.cvsuindangcavite"><img src="/storage/page_images/STAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="SMARRDEC" href="https://smaarrdec.usep.edu.ph/"><img src="/storage/page_images/SMARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="NOMCAARRD" href="http://nomcaarrd.cmu.edu.ph/"><img src="/storage/page_images/NOMCAARRD.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="MAARRDEC" href="https://bit.ly/3o2df3n"><img src="/storage/page_images/MAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="CVAARRDEC" href="https://www.facebook.com/cvaarrdecOfficial/"><img src="/storage/page_images/CVAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="CVAARRD" href="https://www.facebook.com/cvaarrd/"><img src="/storage/page_images/CVAARRD.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="CorCAARRD" href="https://www.facebook.com/CorCAARRD"><img src="/storage/page_images/CorCAARRD.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="CLAARRDEC" href="https://claarrdec.clsu.edu.ph/"><img src="/storage/page_images/CLAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="CCAARRD" href="https://sites.google.com/site/ccarrd/home/about-ccarrd"><img src="/storage/page_images/CCAARRD.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="CAARRDEC" href="https://caarrdec.wordpress.com/"><img src="/storage/page_images/CAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="BCAARRD" href="http://bicol-u.edu.ph/bu/bcaarrd/bcaarrd"><img src="/storage/page_images/BCAARRD.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-            <a target="_blank" data-toggle="tooltip" title="ARMMAARRDEC" href="https://www.facebook.com/Armmaarrdec-1541803542723663/"><img src="/storage/page_images/ARMMAARRDEC.png" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
-        </div>
-        <div class="collapse" id="collapseExample">
-            <div class="container">
-                <div class="card card-body">
-                    Western Visayas Agriculture and Resources Research and Development Consortium (WESVARRDEC) is an organization of 29 consortium member and partner member agencies that seeks to pool technical expertise and other resources related to research and development activities in Western Visayas.
-                    <button type="button" class="btn btn-primary mt-3" style="width:15%;margin:auto">Link to website</button>
+    <div class="consortia-section container section-margin text-center" id="consortiaGroup">
+        <h1>Consortia Members</h1>
+        @foreach(App\Consortia::all() as $consortium)
+        <span data-toggle="collapse" data-target="#{{$consortium->short_name}}">
+            <a data-toggle="tooltip" title="{{$consortium->short_name}}"><img src="/storage/page_images/{{$consortium->thumbnail}}" style="object-fit: cover;background-repeat: no-repeat;height:55px; width:55px"></a>
+        </span>
+        @endforeach
+            
+        <div class="accordion-group">
+            @foreach(App\Consortia::all() as $consortium)
+                <div class="collapse" id="{{$consortium->short_name}}" data-parent="#consortiaGroup">
+                    <div class="container">
+                        <div class="card card-body">
+                            <h3>{{$consortium->short_name}}</h3>
+                            {{$consortium->profile}}
+                            <div class="btn-group">
+                                <a target="_blank" href="{{route('consortiaAboutPage', ['consortia' => $consortium->short_name])}}" class="btn btn-primary mt-3" role="button" aria-disabled="true">Link to page</a>
+                                <a target="_blank" href="{{$consortium->link}}" class="btn btn-secondary mt-3" role="button" aria-disabled="true">Link to website</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
     

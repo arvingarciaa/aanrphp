@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('pages.index');
-});
+})->name('getLandingPage');
 
 Auth::routes();
 
@@ -33,35 +33,95 @@ Route::post('manage/updateTopBanner', ['uses' => 'LandingPageElementsController@
 Route::post('manage/updateConsortiaBanner', ['uses' => 'LandingPageElementsController@updateConsortiaBanner', 'as' => 'landing.updateConsortiaBanner']);
 Route::post('manage/updateHeaderLogo', ['uses' => 'LandingPageElementsController@updateHeaderLogo', 'as' => 'landing.updateHeaderLogo']);
 Route::post('manage/updateLandingPageItems', ['uses' => 'LandingPageElementsController@updateLandingPageItems', 'as' => 'pages.updateLandingPageItems']);
-Route::post('manage/updateLandingPageViews', ['uses' => 'LandingPageElementsController@updateLandingPageViews', 'as' => 'pages.updateLandingPageViews']);
+Route::post('manage/updateLandingPageViews', ['uses' => 'LandingPageElementsController@updateLandingPageViews', 'as' => 'l.updateLandingPageViews']);
+
+Route::post('manage/editIndustryProfileSection', 'LandingPageElementsController@editIndustryProfileSection')->name('editIndustryProfileSection');
+Route::post('manage/editLatestAANRSection', 'LandingPageElementsController@editLatestAANRSection')->name('editLatestAANRSection');
+Route::post('manage/editUserTypeRecommendationSection', 'LandingPageElementsController@editUserTypeRecommendationSection')->name('editUserTypeRecommendationSection');
+Route::post('manage/editFeaturedPublicationsSection', 'LandingPageElementsController@editFeaturedPublicationsSection')->name('editFeaturedPublicationsSection');
+Route::post('manage/editFeaturedVideosSection', 'LandingPageElementsController@editFeaturedVideosSection')->name('editFeaturedVideosSection');
+Route::post('manage/editRecommendedForYouSection', 'LandingPageElementsController@editRecommendedForYouSection')->name('editRecommendedForYouSection');
+Route::post('manage/editConsortiaMembersSection', 'LandingPageElementsController@editConsortiaMembersSection')->name('editConsortiaMembersSection');
+Route::post('manage/editAgrisyunaryoSearchBanner', 'LandingPageElementsController@editAgrisyunaryoSearchBanner')->name('editAgrisyunaryoSearchBanner');
+
 
 //Pages Controller
 Route::get('aanr-industry-profile/{id}', 'PagesController@industryProfileView')->name('industryProfileView');
 Route::get('about', 'PagesController@aboutUs')->name('aboutUs');
+Route::get('usefulLinks', 'PagesController@usefulLinks')->name('usefulLinks');
 Route::get('search', 'PagesController@search')->name('search');
+Route::get('consortia/about', 'PagesController@consortiaAboutPage')->name('consortiaAboutPage');
+Route::get('consortia/landing', 'PagesController@consortiaLandingPage')->name('consortiaLandingPage');
+Route::get('unit/about', 'PagesController@unitAboutPage')->name('unitAboutPage');
+Route::get('aanr/about', 'PagesController@AANRAboutPage')->name('AANRAboutPage');
+Route::get('pcaarrd/about', 'PagesController@PCAARRDAboutPage')->name('PCAARRDAboutPage');
+Route::get('agrisyunaryo', 'PagesController@agrisyunaryo')->name('agrisyunaryo');
+Route::get('analytics/search', 'PagesController@searchAnalytics')->name('searchAnalytics');
+
+//Social Media
+Route::post('headlines/{id}/editSocial', 'SocialMediaStickyController@editSocial')->name('editSocial');
+
+//Header Links
+Route::post('headlines/{id}/editHeaderLink', 'HeaderLinksController@editHeaderLink')->name('editHeaderLink');
+
+//AANR Page
+Route::post('headlines/{id}/editAANRPage', 'AANRPageController@editAANRPage')->name('editAANRPage');
+Route::post('headlines/{id}/editAANRPageBanner', 'AANRPageController@editAANRPageBanner')->name('editAANRPageBanner');
+Route::post('headlines/{id}/editAANRPageDetails', 'AANRPageController@editAANRPageDetails')->name('editAANRPageDetails');
+
+//PCAARRD Page
+Route::post('headlines/{id}/editPCAARRDPage', 'PCAARRDPageController@editPCAARRDPage')->name('editPCAARRDPage');
+Route::post('headlines/{id}/editPCAARRDPageBanner', 'PCAARRDPageController@editPCAARRDPageBanner')->name('editPCAARRDPageBanner');
+Route::post('headlines/{id}/editPCAARRDPageDetails', 'PCAARRDPageController@editPCAARRDPageDetails')->name('editPCAARRDPageDetails');
 
 //Dashboard
 Route::get('dashboard/manage', 'PagesController@dashboardManage')->name('dashboardManage');
+Route::get('dashboard/userDashboard', 'PagesController@userDashboard')->name('userDashboard');
 
 //Headlines
 Route::post('headlines/addHeadline', 'HeadlinesController@addHeadline')->name('addHeadline');
 Route::post('headlines/{id}/editHeadline', 'HeadlinesController@editHeadline')->name('editHeadline');
 Route::delete('headlines/{id}/deleteHeadline', 'HeadlinesController@deleteHeadline')->name('deleteHeadline');
 
+//Agrisyunaryo
+Route::get('agrisyunaryo/search', 'PagesController@agrisyunaryoSearch')->name('agrisyunaryoSearch');
+Route::post('headlines/addAgrisyunaryo', 'AgrisyunaryosController@addAgrisyunaryo')->name('addAgrisyunaryo');
+Route::post('headlines/{id}/editAgrisyunaryo', 'AgrisyunaryosController@editAgrisyunaryo')->name('editAgrisyunaryo');
+Route::delete('headlines/deleteAgrisyunaryo', 'AgrisyunaryosController@deleteAgrisyunaryo')->name('deleteAgrisyunaryo');
+
 //Slider
 Route::post('headlines/addSlider', 'LandingPageSlidersController@addSlider')->name('addSlider');
 Route::post('headlines/{id}/editSlider', 'LandingPageSlidersController@editSlider')->name('editSlider');
 Route::delete('headlines/{id}/deleteSlider', 'LandingPageSlidersController@deleteSlider')->name('deleteSlider');
 
+//Users
+Route::post('signup/createUser', 'UsersController@createUser')->name('createUser');
+Route::post('headlines/{id}/editUser', 'UsersController@editUser')->name('editUser');
+Route::post('headlines/{id}/deleteUser', 'UsersController@deleteUser')->name('deleteUser');
+Route::post('headlines/{id}/sendConsortiaAdminRequest', 'UsersController@sendConsortiaAdminRequest')->name('sendConsortiaAdminRequest');
+Route::post('headlines/{id}/consortiaAdminRequestApprove', 'UsersController@consortiaAdminRequestApprove')->name('consortiaAdminRequestApprove');
+Route::post('headlines/{id}/consortiaAdminRequestDecline', 'UsersController@consortiaAdminRequestDecline')->name('consortiaAdminRequestDecline');
+
 //Consortia
 Route::post('headlines/addConsortia', 'ConsortiaController@addConsortia')->name('addConsortia');
 Route::post('headlines/{id}/editConsortia', 'ConsortiaController@editConsortia')->name('editConsortia');
+Route::post('headlines/{id}/editConsortiaBanner', 'ConsortiaController@editConsortiaBanner')->name('editConsortiaBanner');
+Route::post('headlines/{id}/editConsortiaLandingPageBanner', 'ConsortiaController@editConsortiaLandingPageBanner')->name('editConsortiaLandingPageBanner');
+Route::post('headlines/{id}/editConsortiaDetails', 'ConsortiaController@editConsortiaDetails')->name('editConsortiaDetails');
 Route::delete('headlines/{id}/deleteConsortia', 'ConsortiaController@deleteConsortia')->name('deleteConsortia');
+Route::post('headlines/{id}/setUserAdmin', 'ConsortiaController@setUserAdmin')->name('setUserAdmin');
+Route::post('consortia/{id}/editLatestAANRSection', 'ConsortiaController@editConsortiaLatestAANRSection')->name('editConsortiaLatestAANRSection');
+Route::post('consortia/{id}/editFeaturedPublicationsSection', 'ConsortiaController@editConsortiaFeaturedPublicationsSection')->name('editConsortiaFeaturedPublicationsSection');
+Route::post('consortia/{id}/editFeaturedVideosSection', 'ConsortiaController@editConsortiaFeaturedVideosSection')->name('editConsortiaFeaturedVideosSection');
+Route::post('consortia/{id}/editConsortiaMembersSection', 'ConsortiaController@editConsortiaConsortiaMembersSection')->name('editConsortiaConsortiaMembersSection');
+
 
 //ConsortiaMember
 Route::post('headlines/addConsortiaMember', 'ConsortiaMembersController@addConsortiaMember')->name('addConsortiaMember');
 Route::post('headlines/{id}/editConsortiaMember', 'ConsortiaMembersController@editConsortiaMember')->name('editConsortiaMember');
 Route::delete('headlines/{id}/deleteConsortiaMember', 'ConsortiaMembersController@deleteConsortiaMember')->name('deleteConsortiaMember');
+Route::post('headlines/{id}/editConsortiaMemberBanner', 'ConsortiaMembersController@editConsortiaMemberBanner')->name('editConsortiaMemberBanner');
+Route::post('headlines/{id}/editConsortiaMemberDetails', 'ConsortiaMembersController@editConsortiaMemberDetails')->name('editConsortiaMemberDetails');
 
 //Industries
 Route::post('manage/addIndustry', 'IndustriesController@addIndustry')->name('addIndustry');
@@ -84,19 +144,24 @@ Route::post('headlines/{id}/editAnnouncement', 'AnnouncementsController@editAnno
 Route::delete('headlines/{id}/deleteAnnouncement', 'AnnouncementsController@deleteAnnouncement')->name('deleteAnnouncement');
 
 //ArtifactAANR
-Route::post('headlines/addArtifactAANR', 'ArtifactAANRController@addArtifactAANR')->name('addArtifactAANR');
-Route::post('headlines/{id}/editArtifactAANR', 'ArtifactAANRController@editArtifactAANR')->name('editArtifactAANR');
-Route::delete('headlines/{id}/deleteArtifactAANR', 'ArtifactAANRController@deleteArtifactAANR')->name('deleteArtifactAANR');
+Route::post('headlines/addArtifact', 'ArtifactAANRController@addArtifact')->name('addArtifact');
+Route::post('headlines/{id}/editArtifact', 'ArtifactAANRController@editArtifact')->name('editArtifact');
+Route::delete('headlines/deleteArtifact', 'ArtifactAANRController@deleteArtifact')->name('deleteArtifact');
+Route::post('headlines/uploadPDFArtifact', 'ArtifactAANRController@uploadPDFArtifact')->name('uploadPDFArtifact');
+Route::post('dashboard/manage/fetchConsortiaMemberDependent', 'ArtifactAANRController@fetchConsortiaMemberDependent')->name('fetchConsortiaMemberDependent');
+Route::post('dashboard/manage/fetchContentSubtypeDependent', 'ArtifactAANRController@fetchContentSubtypeDependent')->name('fetchContentSubtypeDependent');
+Route::post('dashboard/manage/fetchCommodityDependent', 'ArtifactAANRController@fetchCommodityDependent')->name('fetchCommodityDependent');
+Route::get('dashboard/manage/content/{id}/edit', 'PagesController@contentEdit')->name('contentEdit');
 
 //Content
 Route::post('headlines/addContent', 'ContentController@addContent')->name('addContent');
 Route::post('headlines/{id}/editContent', 'ContentController@editContent')->name('editContent');
-Route::delete('headlines/{id}/deleteContent', 'ContentController@deleteContent')->name('deleteContent');
+Route::delete('headlines/deleteContent', 'ContentController@deleteContent')->name('deleteContent');
 
 //ContentSubtype
 Route::post('headlines/addContentSubtype', 'ContentSubtypesController@addContentSubtype')->name('addContentSubtype');
 Route::post('headlines/{id}/editContentSubtype', 'ContentSubtypesController@editContentSubtype')->name('editContentSubtype');
-Route::delete('headlines/{id}/deleteContentSubtype', 'ContentSubtypesController@deleteContentSubtype')->name('deleteContentSubtype');
+Route::delete('headlines/deleteContentSubtype', 'ContentSubtypesController@deleteContentSubtype')->name('deleteContentSubtype');
 
 //Contributors
 Route::post('headlines/addContributor', 'ContributorsController@addContributor')->name('addContributor');
@@ -119,6 +184,13 @@ Route::post('headlines/{id}/editCommodity', 'CommoditiesController@editCommodity
 Route::delete('headlines/{id}/deleteCommodity', 'CommoditiesController@deleteCommodity')->name('deleteCommodity');
 
 //Subscriber
-Route::post('headlines/addSubscriber', 'SubscriberController@addSubscriber')->name('addSubscriber');
-Route::post('headlines/{id}/editSubscriber', 'SubscriberController@editSubscriber')->name('editSubscriber');
-Route::delete('headlines/{id}/deleteSubscriber', 'SubscriberController@deleteSubscriber')->name('deleteSubscriber');
+Route::post('headlines/addSubscriber', 'SubscribersController@addSubscriber')->name('addSubscriber');
+Route::post('headlines/{id}/editSubscriber', 'SubscribersController@editSubscriber')->name('editSubscriber');
+Route::delete('headlines/{id}/deleteSubscriber', 'SubscribersController@deleteSubscriber')->name('deleteSubscriber');
+
+//Mailing
+Route::get('email/subsuccess', 'MailController@subscriptionSuccess')->name('subscriptionSuccess');
+Route::get('email/confirm', 'MailController@confirm')->name('confirm');
+Route::get('email/digest', 'MailController@digest')->name('digest');
+Route::get('email/unsub', 'MailController@unsub')->name('unsub');
+Route::get('email/unsubsuccess', 'MailController@unsubsuccess')->name('unsubsuccess');

@@ -21,7 +21,9 @@ class AdvertisementsController extends Controller
         if($request->hasFile('image')){
             if($advertisement->img_filename != null){
                 $image_path = public_path().'/storage/page_images/'.$advertisement->img_filename;
-                unlink($image_path);
+                if(file_exists($image_path)){
+                    unlink($image_path);
+                }
             }
             $imageFile = $request->file('image');
             $imageName = uniqid().$imageFile->getClientOriginalName();
@@ -47,7 +49,9 @@ class AdvertisementsController extends Controller
         if($request->hasFile('image')){
             if($advertisement->img_filename != null){
                 $image_path = public_path().'/storage/page_images/'.$advertisement->img_filename;
-                unlink($image_path);
+                if(file_exists($image_path)){
+                    unlink($image_path);
+                }
             }
             $imageFile = $request->file('image');
             $imageName = uniqid().$imageFile->getClientOriginalName();
@@ -63,7 +67,9 @@ class AdvertisementsController extends Controller
         $advertisement = Advertisement::find($advertisement_id);
         if($advertisement->img_filename != null){
             $image_path = public_path().'/storage/page_images/'.$advertisement->img_filename;
-            unlink($image_path);
+            if(file_exists($image_path)){
+                    unlink($image_path);
+                }
         }
         $advertisement->delete();
 

@@ -71,7 +71,8 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
-  
+
+ 
   /* Style the icon bar links */
   .icon-bar a {
     display: block;
@@ -113,7 +114,12 @@
   }
 
   .feedback {
-    background: rgb(79,60,109);
+    background: #007a27;
+    color: white;
+  }
+
+  .instagram {
+    background: #D62976;
     color: white;
   }
 
@@ -591,3 +597,15 @@ margin-right:-4px;
   padding-bottom: 66.6%;
 }
 
+.required:after {
+  content:" *";
+  color: red;
+}
+
+.edit-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  transform: translate(0%);
+  z-index: 10000;
+}

@@ -12,11 +12,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {{Form::label('sector', 'Sector')}}
+                        {{Form::label('sector', 'Sector', ['class' => 'col-form-label required'])}}
                         {{Form::select('sector', $sectors, null,['class' => 'form-control', 'placeholder' => 'Select Sector']) }}
                     </div>
                     <div class="form-group">
-                        {{Form::label('name', 'ISP Name', ['class' => 'col-form-label'])}}
+                        {{Form::label('name', 'ISP Name', ['class' => 'col-form-label required'])}}
                         {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                     </div>
                     <div class="form-group">
@@ -48,11 +48,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            {{Form::label('industry', 'Industry')}}
-                            {{Form::select('industry', $industries, $isp->industry_id,['class' => 'form-control', 'placeholder' => 'Select Industry']) }}
+                            {{Form::label('sector', 'Sector', ['class' => 'col-form-label required'])}}
+                            {{Form::select('sector', $sectors, $isp->sector_id,['class' => 'form-control', 'placeholder' => 'Select Sector']) }}
                         </div>
                         <div class="form-group">
-                            {{Form::label('name', 'ISP Name', ['class' => 'col-form-label'])}}
+                            {{Form::label('name', 'ISP Name', ['class' => 'col-form-label required'])}}
                             {{Form::text('name', $isp->name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                         </div>
                         <div class="form-group">

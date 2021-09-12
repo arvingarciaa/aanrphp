@@ -12,4 +12,8 @@ class Commodity extends Model
     public function isp(){
         return $this->belongsTo('App\ISP', 'isp_id');
     }
+
+    public function artifacts(){
+        return $this->belongsToMany('App\ArtifactAANR', 'artifactaanr_commodity');
+    }
 }

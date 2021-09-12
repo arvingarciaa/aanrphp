@@ -14,7 +14,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
+                        {{Form::label('name', 'Name', ['class' => 'col-form-label required'])}}
                         {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
+                            {{Form::label('name', 'Name', ['class' => 'col-form-label required'])}}
                             {{Form::text('name', $industry->name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                         {{ method_field('DELETE') }}
                         <span>
                             <?php $industries = App\Industry::with('sectors')->find($industry->id); ?>
-                            @if($industries->sectors->where('approved', '=', '2')->count() > 0)
+                            @if($industries->sectors->count() > 0)
                                 You cannot delete: <b>{{$industry->name}}</b></br></br>
                                 The following sectors needs to be deleted before deleting this industry:
                                 <ul>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                        @if($industries->sectors->where('approved','=','2')->where('approved', '=', '2')->count() == 0)
+                        @if($industries->sectors->count() == 0)
                         <input class="btn btn-danger" type="submit" value="Yes, Delete">
                         @endif
                     </div>

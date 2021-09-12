@@ -4,7 +4,7 @@
     <?php $page = App\LandingPageElement::find(1) ?>
     <nav class="navbar shadow navbar-expand-lg navbar-dark bg-light pl-3 pt-0 pb-0" style="height:90px" class="px-3">
         <div class="navbar-header" style="margin-top:auto;margin-bottom:auto">
-            <a href="/">
+            <a href="{{route('getLandingPage')}}">
                 <img alt="PCAARRD logo" src="/storage/page_images/{{$page->header_logo}}" style="max-width:400px">
             </a>
         </div>
@@ -14,22 +14,25 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" i d="navbarSupportedContent">
             <ul class="navbar-nav ml-auto upper-nav">
                 <li class="nav-item">
-                    <a class="nav-links active" href="http://aanr.test">Home</a>
+                    <a class="nav-links active" href="{{route('getLandingPage')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-links" href="http://aanr.test/about">About Us</a>
+                    <a class="nav-links" href="{{route('aboutUs')}}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-links" href="http://fiesta.test">FIESTA</a>
+                    <a class="nav-links" href="{{route('usefulLinks')}}">Useful Links</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-links" href="http://techdashboard.test">Technology</a>
+                    <a class="nav-links" href="http://aanr.ph">Technology</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-links" href="http://167.71.210.45:8080">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-links" href="{{route('agrisyunaryo')}}">Agrisyunaryo</a>
                 </li>
             </ul>
         </div>
@@ -52,18 +55,22 @@
             }
         </style>
 
-        <div class="dropdown">
+        <div class="dropdown btn-group">
             <button class="btn btn-default btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                ALL
+                @if(request()->consortia)
+                    <img src="/storage/page_images/{{$consortium->thumbnail}}" style="width:2em"> {{$consortium->short_name}}
+                @else
+                    ALL CONSORTIA
+                @endif
             </button>
-            <div class="dropdown-menu py-1" aria-labelledby="dropdownMenuButton" style="min-width:3em">
-                <a class="dropdown-item p-0" style="text-align:center" href="{{ url('/locale/en') }}">ALL</a>
-
-                <a class="dropdown-item p-0" style="text-align:center" href="{{ url('/locale/en') }}"><img src="/storage/images/200px-Unibersidad_ng_Pilipinas_Los_Banos.png" style="width:2em"></a>
-                <!--
-                <a class="dropdown-item p-0" style="text-align:center" href="{{ url('/locale/en') }}"><img src="/storage/images/ilaarrdec_logo.png" style="width:2em"></a>
-                -->
-            </div>
+            <ul class="dropdown-menu py-1 dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="min-width:3em;padding-left:6px;padding-right:6px">
+                <li><a class="dropdown-item p-0" style="text-align:left" href="{{ url('/locale/en') }}">ALL CONSORTIA</a></li>
+                @foreach(App\Consortia::all() as $consortium)
+                    <li class="dropdown-submenu dropleft">
+                        <a class="dropdown-item p-0" style="text-align:left" href="{{route('consortiaLandingPage', ['consortia' => $consortium->short_name])}}"><img src="/storage/page_images/{{$consortium->thumbnail}}" style="width:2em"> {{$consortium->short_name}}<span class="caret"></span></a>
+                    </li>
+                @endforeach
+            </ul>
         </div>  
         
         <div class="dropdown" style="display:none">
@@ -78,5 +85,35 @@
         </div>  
     </nav>
 </div>
+
+<script>
+    $(document).ready(function(){
+      $('.dropdown-submenu a.submenu-option').on("click", function(e){
+        $('ul .dropdown-menu').not(this).each(function(){
+            $(this).removeClass('dropdown-menu-show');
+            $(this).addClass('dropdown-menu-hide');
+        });
+        $(this).next('ul').toggle();
+        if ($(this).next('ul').hasClass('dropdown-menu-show')) {
+            $(this).next('ul').addClass('dropdown-menu-hide');
+            $(this).next('ul').removeClass('dropdown-menu-show');
+        } else {
+            $(this).next('ul').removeClass('dropdown-menu-hide');
+            $(this).next('ul').addClass('dropdown-menu-show');
+        };
+        e.stopPropagation();
+        e.preventDefault();
+      });
+    });
+</script>
+
+<style>
+    .dropdown-menu-hide{
+        display:none !important;
+    }
+    .dropdown-menu-show{
+        display:block !important;
+    }
+</style>
     
 

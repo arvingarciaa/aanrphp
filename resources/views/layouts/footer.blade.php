@@ -21,9 +21,10 @@
             <div class="col-sm-4 offset-sm-1">
                 <h5 class="footer-title">Connect with us</h5>
                 <ul class="list-unstyled text-small">
-                    <li><i class="fas fa-phone-alt" style="font-size:25px"></i> +63 (049) 536-2302</li>
+                    <li><i class="fas fa-phone-alt" style="font-size:25px"></i> (+63 49) 554 9670</li>
                     <li><i class="fas fa-envelope" style="font-size:25px;margin-top:3px"></i> km4aanr@gmail.com</li>
-                    <li><i class="fas fa-map-marker-alt" style="font-size:25px;margin-top:3px"></i> ICS, UPLB, Laguna, Philippines 4030</li>
+                    <li><i class="fas fa-map-marker-alt" style="font-size:25px;margin-top:3px"></i> Paseo de Valmayor, Timugan, Economic Garden Los Baños, Laguna 4030 Philippines
+                        </li>
                     <li style="margin-top:15px">
                         <a aria-label="Footer FB" href="#" style="font-size:30px;margin-right:5px;color:#3b5998"><i class="fab fa-facebook"></i></a> 
                         <a aria-label="Footer twitter" href="#" style="font-size:30px;margin-right:5px;color:#00acee"><i class="fab fa-twitter"></i></a> 
@@ -35,7 +36,7 @@
                 <h5 class="footer-title">Links</h5>
                 <ul class="list-unstyled text-small">
                     <li>
-                        <a href="http://aanr.ph/en/about-project/">About us</a>
+                        <a href="http://167.71.210.45/about">About us</a>
                     </li>
                     <li>
                         <a href="http://167.71.210.45:8080/">KM Community</a>

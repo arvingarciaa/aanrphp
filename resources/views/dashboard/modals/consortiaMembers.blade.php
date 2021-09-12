@@ -3,21 +3,25 @@
     <div class="modal fade" id="createConsortiaMemberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {{ Form::open(['action' => 'ConsortiaMembersController@addConsortiaMember', 'method' => 'POST']) }}
+                {{ Form::open(['action' => 'ConsortiaMembersController@addConsortiaMember', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                 <div class="modal-header">
-                    <h6 class="modal-title" id="exampleModalLabel">Create new Consortia Member</h6>
+                    <h6 class="modal-title" id="exampleModalLabel">Create new Institution/Agency</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {{Form::label('name', 'Consortia Member Name', ['class' => 'col-form-label'])}}
+                        {{Form::label('name', 'Consortia Member Name', ['class' => 'col-form-label required'])}}
                         {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add member name'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('acronym', 'Consortia Member Acronym', ['class' => 'col-form-label'])}}
+                        {{Form::label('acronym', 'Consortia Member Acronym', ['class' => 'col-form-label required'])}}
                         {{Form::text('acronym', '', ['class' => 'form-control', 'placeholder' => 'Add acronym'])}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('image', 'Consortia Member Logo', ['class' => 'col-form-label required'])}}
+                        {{ Form::file('image', ['class' => 'form-control mb-3 pt-1'])}}
                     </div>
                     <div class="form-group">
                         {{Form::label('profile', 'Profile', ['class' => 'col-form-label'])}}
@@ -42,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    {{Form::submit('Create Consortia', ['class' => 'btn btn-success'])}}
+                    {{Form::submit('Create Consortia Member', ['class' => 'btn btn-success'])}}
                 </div>
                 {{Form::close()}}
             </div>
@@ -54,7 +58,7 @@
         <div class="modal fade" id="editConsortiaMemberModal-{{$consortia_member->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    {{ Form::open(['action' => ['ConsortiaMembersController@editConsortiaMember', $consortia_member->id], 'method' => 'POST']) }}
+                    {{ Form::open(['action' => ['ConsortiaMembersController@editConsortiaMember', $consortia_member->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                     <div class="modal-header">
                         <h6 class="modal-title" id="exampleModalLabel">Edit Consortia Member</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -63,12 +67,35 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            {{Form::label('name', 'Consortia Member Name', ['class' => 'col-form-label'])}}
+                            {{Form::label('name', 'Consortia Member Name', ['class' => 'col-form-label required'])}}
                             {{Form::text('name', $consortia_member->name, ['class' => 'form-control', 'placeholder' => 'Add member name'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('acronym', 'Consortia Member Acronym', ['class' => 'col-form-label'])}}
+                            {{Form::label('acronym', 'Consortia Member Acronym', ['class' => 'col-form-label required'])}}
                             {{Form::text('acronym', $consortia_member->acronym, ['class' => 'form-control', 'placeholder' => 'Add acronym'])}}
+                        </div>
+                        <div class="form-group">
+                            <div class="mt-3">
+                                {{Form::label('image', 'Consortia Logo', ['class' => 'col-form-label required'])}}
+                                <br>
+                                @if($consortia_member->thumbnail!=null)
+                                <img src="/storage/page_images/{{$consortia_member->thumbnail}}" class="card-img-top" style="object-fit: cover;overflow:hidden;height:250px;width:250px;border:1px solid rgba(100,100,100,0.25)" >
+                                @else
+                                <div class="card-img-top center-vertically px-3" style="height:250px; width:250px; background-color: rgb(227, 227, 227);">
+                                    <span class="font-weight-bold" style="font-size: 17px;line-height: 1.5em;color: #2b2b2b;">
+                                        Upload a 250x250px logo for the consortia.
+                                    </span>
+                                </div>
+                                @endif 
+                                {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
+                                <style>
+                                    .center-vertically{
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    }
+                                </style>
+                            </div> 
                         </div>
                         <div class="form-group">
                             {{Form::label('profile', 'Profile', ['class' => 'col-form-label'])}}
@@ -105,7 +132,7 @@
         <div class="modal fade" id="deleteConsortiaMemberModal-{{$consortia_member->id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="{{ route('deleteConsortia', $consortia_member->id) }}" id="deleteForm" method="POST">
+                    <form action="{{ route('deleteConsortiaMember', $consortia_member->id) }}" id="deleteForm" method="POST">
                     <div class="modal-header">
                         <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

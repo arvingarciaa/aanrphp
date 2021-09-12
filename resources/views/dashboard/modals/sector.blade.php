@@ -12,11 +12,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {{Form::label('industry', 'Industry')}}
+                        {{Form::label('industry', 'Industry', ['class' => 'col-form-label required'])}}
                         {{Form::select('industry', $industries, null,['class' => 'form-control', 'placeholder' => 'Select Industry']) }}
                     </div>
                     <div class="form-group">
-                        {{Form::label('name', 'Sector Name', ['class' => 'col-form-label'])}}
+                        {{Form::label('name', 'Sector Name', ['class' => 'col-form-label required'])}}
                         {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                     </div>
                 </div>
@@ -44,11 +44,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            {{Form::label('industry', 'Industry')}}
+                            {{Form::label('industry', 'Industry', ['class' => 'col-form-label required'])}}
                             {{Form::select('industry', $industries, $sector->industry_id,['class' => 'form-control', 'placeholder' => 'Select Industry']) }}
                         </div>
                         <div class="form-group">
-                            {{Form::label('name', 'Sector Name', ['class' => 'col-form-label'])}}
+                            {{Form::label('name', 'Sector Name', ['class' => 'col-form-label required'])}}
                             {{Form::text('name', $sector->name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
                         </div>
                     </div>

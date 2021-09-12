@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Content;
+use App\Log;
 
 class ContentController extends Controller
 {
@@ -32,10 +34,10 @@ class ContentController extends Controller
         return redirect()->back()->with('success','Content Updated.'); 
     }
 
-    public function deleteContent($content_id, Request $request){
-        $content = Content::find($content_id);
-        $content->delete();
+    public function deleteContent(Request $request){
+        
+        $content = Content::whereIn('id', $request->input('content_type_check'))->delete();
 
-        return redirect()->back()->with('success','Content Deleted.'); 
+        return redirect()->back()->with('success','Selected Content Type Deleted.'); 
     }
 }

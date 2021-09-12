@@ -30,7 +30,7 @@
     -->
     
     <script src="{{ asset('js/lightbox.js') }}" defer></script>
-    
+    <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
     
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
@@ -40,6 +40,9 @@
     <script src="{{ asset('js/bootstrap-editable.js') }}"></script>
 
     <script src="{{ asset('js/popper.min.js') }}"></script>
+
+    <!-- chartjs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- bootstrap toggle -->
     <link href="{{ asset('css/bootstrap4-toggle.min.css') }}" rel="stylesheet">  
@@ -58,6 +61,7 @@
     <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script> 
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
 
     @yield('top_scripts')
 
@@ -65,13 +69,14 @@
 </head>
 <body style="background-color:white">
     <div id="app">
-        <div class="icon-bar" style="z-index:5">
-            <a href="#" class="sarai"><img src="https://i.imgur.com/TRr6O4s.png" height="30" width="30"></a> 
-            <a target="_blank" data-toggle="tooltip" title="Visit our Facebook"href="#" class="facebook"><i class="fab fa-facebook"></i></a> 
-            <a target="_blank" data-toggle="tooltip" title="Visit our Twitter" href="#" class="twitter"><i class="fab fa-twitter"></i></a> 
-            <a target="_blank" data-toggle="tooltip" title="Send us an email" href="#" class="email"><i class="fas fa-envelope"></i></a>
-            <a target="_blank" data-toggle="tooltip" title="Visit our YouTube" href="#" class="youtube"><i class="fab fa-youtube"></i></a> 
-            <a target="_blank" data-toggle="tooltip" title="Click to see feedback form" href="https://docs.google.com/forms/d/e/1FAIpQLSccdMrmX86mEkXGzui_hgqwpUaVPWln6lNsN8d4afQHp7c1oQ/viewform?usp=sf_link" class="feedback"><i class="far fa-comment-dots"></i></a> 
+        <div class="icon-bar" style="z-index:500">
+            <a target="_blank" href="http://www.pcaarrd.dost.gov.ph/home/portal/" class="sarai"><img src="/storage/page_images/TRr6O4s.png" height="30" width="30"></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Facebook"href="https://www.facebook.com/PCAARRD/" class="facebook"><i class="fab fa-facebook"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Twitter" href="https://twitter.com/dostpcaarrd" class="twitter"><i class="fab fa-twitter"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Instagram" href="https://instagram.com/dostpcaarrd" class="instagram"><i class="fab fa-instagram"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Send us an email" href="mailto:a.cabrera@pcaarrd.dost.gov.ph" class="email"><i class="fas fa-envelope"></i></a>
+            <a target="_blank" data-toggle="tooltip" title="Visit our YouTube" href="https://www.youtube.com/c/DOSTPCAARRD/videos" class="youtube"><i class="fab fa-youtube"></i></a> 
+            <a target="_blank" data-toggle="popover" data-trigger="focus" data-placement="right" data-content="Please help us make this website better" title="Click to see feedback form" href="https://docs.google.com/forms/d/e/1FAIpQLSccdMrmX86mEkXGzui_hgqwpUaVPWln6lNsN8d4afQHp7c1oQ/viewform?usp=sf_link" class="feedback"><i class="far fa-comment-dots"></i></a>
         </div>
         <section class="sticky-top">
             @include('layouts.navbar')
@@ -97,12 +102,15 @@
                             @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }} <span class="caret"></span>
+                                        Welcome, {{ Auth::user()->first_name }} <span class="caret"></span>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-right" style="display:none" aria-labelledby="navbarDropdown">
-                                        @if(auth()->user()->role != 0)
-                                            <a href="/dashboard" class="dropdown-item">Dashboard</a>
-                                            body             @endif                                        
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        @if(auth()->user()->role == 5)
+                                            <a href="/dashboard/manage" class="dropdown-item">Manage Dashboard</a>
+                                        @else
+                                            <a href="/dashboard/userDashboard" class="dropdown-item">Manage Dashboard</a>
+                                        @endif
+                                        
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
@@ -127,4 +135,6 @@
 </body>
     
     @yield('scripts')
+  
+
 </html>

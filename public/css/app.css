@@ -115,7 +115,12 @@
 }
 
 .feedback {
-  background: #4f3c6d;
+  background: #007a27;
+  color: white;
+}
+
+.instagram {
+  background: #D62976;
   color: white;
 }
 
@@ -628,6 +633,19 @@
   content: "";
   display: block;
   padding-bottom: 66.6%;
+}
+
+.required:after {
+  content: " *";
+  color: red;
+}
+
+.edit-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  transform: translate(0%);
+  z-index: 10000;
 }
 
 /*!
