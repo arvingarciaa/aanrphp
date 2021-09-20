@@ -19,7 +19,9 @@ use App\Consortia;
 use App\Subscriber;
 use App\Agrisyunaryo;
 use App\SearchQuery;
+use App\PageViews;
 use Auth;
+use DB;
 use Redirect;
 use Stevebauman\Location\Facades\Location;
 
@@ -40,6 +42,22 @@ class PagesController extends Controller
     public function searchAnalytics(){
         return view('analytics.search');
     }
+
+    public function getLandingPage(){
+        $pageView = new PageViews;
+        $pageView->session_id = \Request::getSession()->getId();
+        if(Auth::user()){
+            $pageView->user_id = \Auth::user()->id;
+        } else {
+            $pageView->user_id = 0;
+        }
+        $pageView->ip = \Request::getClientIp();
+        $pageView->agent = \Request::header('User-Agent');
+        $pageView->save();
+        return view('pages.index');
+    }
+
+
 
     public function contentEdit($content_id){
 
@@ -68,7 +86,7 @@ class PagesController extends Controller
             if($locationData->countryCode == 'PH'){
                 $search_query->location = $locationData->regionName;
             } else {
-                $search_query->location = $locationData->countryName;
+                $search_query->location = null;
             }
         }
         $search_query->save();

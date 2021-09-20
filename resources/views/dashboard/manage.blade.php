@@ -144,6 +144,7 @@
     @include('dashboard.modals.contentSubtype')
     @include('dashboard.modals.advertisement')
     @include('dashboard.modals.agendas')
+    @include('dashboard.modals.apientries')
     @include('dashboard.modals.announcements')
     @include('dashboard.modals.users')
     <div class="container-fluid">
@@ -334,6 +335,7 @@
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Artifact</h6>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Artifacts'])}}">AANR Content</a>
+                                    <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'API'])}}">API Upload</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Content'])}}">Content Type</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Content_Subtype'])}}">Content Subtype</a>
                                     <div class="dropdown-divider"></div>
@@ -728,7 +730,48 @@
                                 </div>
                                 </form>
                             </div>
-                        @elseif(request()->asset == 'Content')
+                            @elseif(request()->asset == 'API')
+                            <div class="card shadow mb-5 mt-0 ml-0">
+                                <form action="{{ route('deleteContent')}}" id="deleteForm" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="_method" value="delete">
+                                <div class="card-header px-5 pt-4">
+                                    <h2 class="text-primary" >
+                                        API Upload
+                                    <span class="float-right">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createAPIEntryModal"><i class="fas fa-plus"></i> Add API</button>
+                                    </span></h2>
+                                </div>
+                                <div class="card-body px-5">
+                                    <table class="table data-table tech-table table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%">ID</th>
+                                                    <th width="45%">Description</th>
+                                                    <th width="30%">Link</th>
+                                                    <th width="10%">Frequency</th>
+                                                    <th width="10%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach(App\APIEntries::all() as $api_entry)
+                                                    <tr>
+                                                        <td>{{$api_entry->id}}</td>
+                                                        <td>{{$api_entry->description}}</td>
+                                                        <td>{{$api_entry->link}}</td>
+                                                        <td>Every {{$api_entry->frequency}} hours</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAPIEntryModal-{{$api_entry->id}}"><i class="fas fa-edit"></i> Edit Details</button>
+                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteAPIEntryModal-{{$api_entry->id}}"><i class="fas fa-trash"></i> Delete Entry</button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                    </table>
+                                </div>
+                                </form>
+                            </div>
+                            @elseif(request()->asset == 'Content')
                             <div class="card shadow mb-5 mt-0 ml-0">
                                 <form action="{{ route('deleteContent')}}" id="deleteForm" method="POST">
                                 {{ csrf_field() }}
@@ -756,7 +799,7 @@
                                                         <td>{{$content->type}}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editContentTypeModal-{{$content->id}}"><i class="fas fa-edit"></i> Edit Details</button>
-                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteContentTypeModal-{{$content->id}}"><i class="fas fa-edit"></i> Delete Entry</button>
+                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteContentTypeModal-{{$content->id}}"><i class="fas fa-trash"></i> Delete Entry</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -795,7 +838,7 @@
                                                         <td>{{$content_subtype->content->type}}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editContentSubtypeModal-{{$content_subtype->id}}"><i class="fas fa-edit"></i> Edit Details</button>
-                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteContentSubtypeModal-{{$content_subtype->id}}"><i class="fas fa-edit"></i> Delete Entry</button>
+                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteContentSubtypeModal-{{$content_subtype->id}}"><i class="fas fa-trash"></i> Delete Entry</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -1040,7 +1083,7 @@
                                                     <td><a href="{{$headline->link}}">Link</a></td>
                                                     <td class="text-center">
                                                         <button class="btn btn-primary pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#editHeadlineModal-{{$headline->id}}"><i class="fas fa-edit"></i> Edit Details</button>
-                                                        <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteHeadlineModal-{{$headline->id}}"><i class="fas fa-minus"></i> Delete</button>
+                                                        <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteHeadlineModal-{{$headline->id}}"><i class="fas fa-trash"></i> Delete</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -1085,7 +1128,7 @@
                                                     <td>{{$slider->is_consortia == 0 ? 'AANR' : $slider->consortia->short_name}}</td>
                                                     <td class="text-center">
                                                         <button class="btn btn-primary pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#editSliderModal-{{$slider->id}}"><i class="fas fa-edit"></i> Edit Details</button>
-                                                        <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteSliderModal-{{$slider->id}}"><i class="fas fa-minus"></i> Delete</button>
+                                                        <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteSliderModal-{{$slider->id}}"><i class="fas fa-trash"></i> Delete</button>
                                                     </td>
                                                 </tr>
                                             @endforeach

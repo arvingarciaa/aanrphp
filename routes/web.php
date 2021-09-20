@@ -10,11 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('pages.index');
-})->name('getLandingPage');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -46,6 +41,7 @@ Route::post('manage/editAgrisyunaryoSearchBanner', 'LandingPageElementsControlle
 
 
 //Pages Controller
+Route::get('/', 'PagesController@getLandingPage')->name('getLandingPage');
 Route::get('aanr-industry-profile/{id}', 'PagesController@industryProfileView')->name('industryProfileView');
 Route::get('about', 'PagesController@aboutUs')->name('aboutUs');
 Route::get('usefulLinks', 'PagesController@usefulLinks')->name('usefulLinks');
@@ -145,6 +141,7 @@ Route::delete('headlines/{id}/deleteAnnouncement', 'AnnouncementsController@dele
 
 //ArtifactAANR
 Route::post('headlines/addArtifact', 'ArtifactAANRController@addArtifact')->name('addArtifact');
+Route::post('headlines/addView', 'ArtifactAANRController@addView')->name('addView');
 Route::post('headlines/{id}/editArtifact', 'ArtifactAANRController@editArtifact')->name('editArtifact');
 Route::delete('headlines/deleteArtifact', 'ArtifactAANRController@deleteArtifact')->name('deleteArtifact');
 Route::post('headlines/uploadPDFArtifact', 'ArtifactAANRController@uploadPDFArtifact')->name('uploadPDFArtifact');
@@ -152,6 +149,9 @@ Route::post('dashboard/manage/fetchConsortiaMemberDependent', 'ArtifactAANRContr
 Route::post('dashboard/manage/fetchContentSubtypeDependent', 'ArtifactAANRController@fetchContentSubtypeDependent')->name('fetchContentSubtypeDependent');
 Route::post('dashboard/manage/fetchCommodityDependent', 'ArtifactAANRController@fetchCommodityDependent')->name('fetchCommodityDependent');
 Route::get('dashboard/manage/content/{id}/edit', 'PagesController@contentEdit')->name('contentEdit');
+Route::post('headlines/createArtifactViewLog', 'ArtifactAANRViewsController@createArtifactViewLog')->name('createArtifactViewLog');
+Route::post('headlines/createISPViewLog', 'ISPViewsController@createISPViewLog')->name('createISPViewLog');
+Route::post('headlines/createCommodityViewLog', 'CommodityViewsController@createCommodityViewLog')->name('createCommodityViewLog');
 
 //Content
 Route::post('headlines/addContent', 'ContentController@addContent')->name('addContent');
@@ -194,3 +194,8 @@ Route::get('email/confirm', 'MailController@confirm')->name('confirm');
 Route::get('email/digest', 'MailController@digest')->name('digest');
 Route::get('email/unsub', 'MailController@unsub')->name('unsub');
 Route::get('email/unsubsuccess', 'MailController@unsubsuccess')->name('unsubsuccess');
+
+//API Entry
+Route::post('headlines/addAPIEntry', 'APIEntriesController@addAPIEntry')->name('addAPIEntry');
+Route::post('headlines/{id}/editAPIEntry', 'APIEntriesController@editAPIEntry')->name('editAPIEntry');
+Route::delete('headlines/{id}/deleteAPIEntry', 'APIEntriesController@deleteAPIEntry')->name('deleteAPIEntry');

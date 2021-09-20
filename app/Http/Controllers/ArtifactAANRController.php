@@ -8,6 +8,7 @@ use App\Consortia;
 use App\Content;
 use App\ContentSubtype;
 use App\ConsortiaMember;
+use Session;
 
 class ArtifactAANRController extends Controller
 {
@@ -34,6 +35,13 @@ class ArtifactAANRController extends Controller
         return redirect()->back()->with('success', 'File Uploaded!');
     }
 
+    public function addView(Request $request){
+        $artifact_key = $request->get('content_id');
+        if (!Session::has($artifact_key)) {
+            ArtifactAANR::find($artifact_key)->increment('views');
+            Session::put($artifact_key, 1);
+        } 
+    }
 
     public function addArtifact(Request $request){
         $user = auth()->user();

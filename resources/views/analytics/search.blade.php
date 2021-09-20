@@ -23,35 +23,95 @@
 <?php 
     $landing_page = App\LandingPageElement::find(1);
     $aanrPage = App\AANRPage::first();
+    $totalContent = App\ArtifactAANR::all();
+
+    //Total search for the month
+    $totalSearchCurrentMonth = App\SearchQuery::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
+    $totalSearchLastMonth = App\SearchQuery::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', date('Y'))->count();
+    if($totalSearchLastMonth == 0){
+        $totalSearchIncreasePercent = 100;
+    } else {
+        $totalSearchIncreasePercent = (1 - $totalSearchLastMonth/$totalSearchCurrentMonth) * 100;
+        $totalSearchIncreasePercent = sprintf("%.2f", $totalSearchIncreasePercent);
+    }
+
+    //Average search for the last 15 days
+    $averageSearchCurrentHalfMonth = sprintf("%.2f", App\SearchQuery::whereBetween('created_at', [Carbon::now()->subdays(15),Carbon::now()])->count()/15);
+    $averageSearchLastHalfMonth = sprintf("%.2f", App\SearchQuery::whereBetween('created_at', [Carbon::now()->subdays(30),Carbon::now()->subdays(15)])->count()/15);
+    if($averageSearchLastHalfMonth == 0){
+        $averageSearchIncreasePercent = 100;
+    } else {
+        $averageSearchIncreasePercent = (1 - $averageSearchLastHalfMonth/$averageSearchCurrentHalfMonth) * 100;
+        $averageSearchIncreasePercent = sprintf("%.2f", $averageSearchIncreasePercent);
+    }
+
+    //Most search topics in the last 15 days
+    $search_query_freq_array = array();
+    $search_query_freq_array[0] = array();
+    $search_query_freq_array[1] = array();
+    foreach(App\SearchQuery::whereBetween('created_at', [Carbon::now()->subdays(15),Carbon::now()])->select('query', DB::raw('count(*) as total'))->groupBy('query')->orderByDesc('total')->get()->take(5) as $item){
+        array_push($search_query_freq_array[0], $item->query);
+        array_push($search_query_freq_array[1], $item->total);
+    }
+
+    //AANR content with the most total views
+    $contentMostViews = App\ArtifactAANRViews::select('title', DB::raw('count(*) as total'))->groupBy('title')->orderByDesc('total')->get()->take(5);
+
+    //Commodities with the most views
+    $commodity_views_freq_array = array();
+    $commodity_views_freq_array[0] = array();
+    $commodity_views_freq_array[1] = array();
+    foreach(App\CommodityViews::select('id_commodity', DB::raw('count(*) as total'))->groupBy('id_commodity')->orderByDesc('total')->get()->take(5) as $item){
+        array_push($commodity_views_freq_array[0], App\Commodity::find($item->id_commodity)->name);
+        array_push($commodity_views_freq_array[1], $item->total);
+    }
+
+    //ISP with the most views
+    $isp_views_freq_array = array();
+    $isp_views_freq_array[0] = array();
+    $isp_views_freq_array[1] = array();
+    foreach(App\ISPViews::select('id_isp', DB::raw('count(*) as total'))->groupBy('id_isp')->orderByDesc('total')->get()->take(5) as $item){
+        array_push($isp_views_freq_array[0], App\ISP::find($item->id_isp)->name);
+        array_push($isp_views_freq_array[1], $item->total);
+    }
+
+     //Number of daily users for the last 15 days
+    $page_visitors_freq_array = array();
+    $page_visitors_freq_array[0] = array();
+    $page_visitors_freq_array[1] = array();
+    for ($i = 14; $i >= 0; $i--) {
+        array_push($page_visitors_freq_array[1], App\PageViews::whereDate('created_at', Carbon::now()->subDays($i))->count());
+        array_push($page_visitors_freq_array[0], Carbon::now()->subDays($i)->format('F d'));
+    }
 ?>
 <div class="container-fluid mb-5 px-5">
     <div class="row">
         <div class="col-sm-2">
             <div class="card text-center">
                 <div class="card-header" style="text-align:left;background-color:white !important" >
-                    <span><i class="fas fa-search"></i> SEARCH</span><br>
+                    <span><i class="fas fa-search"></i> TOTAL SEARCH</span><br>
                     <small class="text-muted">Total number of searches made this month</small>
                 </div>
                 <div class="card-body" style="height:150px">
                     <span style="font-size:3.5rem; color:rgb(59,155,207)">
-                        5,029
+                        {{$totalSearchCurrentMonth}}
                     </span><br>
-                    <h5 class="" style="color:rgb(83,186,139)">
-                        <i class="fas fa-caret-up"></i> 501 / +120% 
+                    <h5 class="" style="{{$totalSearchIncreasePercent >= 0 ? 'color:rgb(83,186,139)' : 'color:rgb(243,23,0)'}}">
+                        <i class="fas {{$totalSearchIncreasePercent >= 0 ? 'fa-caret-up' : 'fa-caret-down'}}"></i> {{$totalSearchCurrentMonth - $totalSearchLastMonth}} / {{$totalSearchIncreasePercent}}% 
                     </h5>
                 </div>
             </div>
             <div class="card text-center">
               <div class="card-header" style="text-align:left;background-color:white !important" >
-                  <span><i class="fas fa-search"></i> SEARCH</span><br>
+                  <span><i class="fas fa-search"></i> SEARCH PER DAY</span><br>
                   <small class="text-muted">Average daily search for the last 15 days</small>
               </div>
               <div class="card-body" style="height:150px">
                   <span style="font-size:3.5rem; color:rgb(59,155,207)">
-                      386
+                      {{$averageSearchCurrentHalfMonth}}
                   </span><br>
-                  <h5 class="" style="color:rgb(243,23,0)">
-                      <i class="fas fa-caret-down"></i> 15 / - 3% 
+                  <h5 class="" style="{{$averageSearchIncreasePercent >= 0 ? 'color:rgb(83,186,139)' : 'color:rgb(243,23,0)'}}">
+                      <i class="fas {{$averageSearchIncreasePercent >= 0 ? 'fa-caret-up' : 'fa-caret-down'}}"></i> {{$averageSearchCurrentHalfMonth - $averageSearchLastHalfMonth}} / {{$averageSearchIncreasePercent}}% 
                   </h5>
               </div>
             </div>
@@ -83,31 +143,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($contentMostViews as $contentMostView)
                             <tr>
-                                <td>1</td>
-                                <td>Cacao Online: Cacao farm establishment and maintenance</td>
-                                <td>74</td>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$contentMostView->title}}</td>
+                                <td>{{$contentMostView->total}}</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Farmers' Participatory Seed Production of IPB-Bred Varieties in Relation to Climate Change Adaptation</td>
-                                <td>68</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Stray Voltage Problems in Dairy Farms and Effects on Animal Behavior</td>
-                                <td>54</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>[RESEARCH NOTE] Molecular Detection of Cryptosporidium from Animal Hosts in the Philippines</td>
-                                <td>53</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Use of Parthenium Weed as Green Manure for Maize and Mungbean Production</td>
-                                <td>48</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -144,8 +186,8 @@
                             <small class="text-muted">Total number of AANR Content</small>
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(40,109,158)">
-                            <span style="font-size:5.5rem; color:white; line-height:1">
-                                <b>3127</b>
+                            <span style="font-size:4.5rem; color:white; line-height:1">
+                                <b>{{$totalContent->count()}}</b>
                             </span>
                             <h4 class="text-white" style="">
                                 AANR Content
@@ -160,8 +202,8 @@
                             <small class="text-muted">Total number of Agricultural Technologies</small>
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(247,186,6)">
-                            <span style="font-size:3.5rem;color:white">
-                                <b>21</b>
+                            <span style="font-size:4.5rem;color:white; line-height:1">
+                                <b>32</b>
                             </span>
                             <h4 class="text-white">
                                 Agricultural Technologies
@@ -176,7 +218,7 @@
                             <small class="text-muted">Total number of Aquatic Resources</small>
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(58,136,235)">
-                            <span style="font-size:3.5rem;color:white">
+                            <span style="font-size:4.5rem;color:white; line-height:1">
                                 <b>18</b>
                             </span>
                             <h4 class="text-white">
@@ -192,7 +234,7 @@
                             <small class="text-muted">Total number of Natural Resources</small>
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(60,193,114)">
-                            <span style="font-size:3.5rem; color:white">
+                            <span style="font-size:5.5rem; color:white; line-height:1">
                                 <b>9</b>
                             </span>
                             <h4 class="text-white">
@@ -223,10 +265,10 @@
     let daily_visitors = new Chart(document.getElementById('daily_visitors').getContext('2d'), {
         type:'bar',
         data:{
-            labels: ['August 3', 'August 4', 'August 5', 'August 6', 'August 7', 'August 8', 'August 9', 'August 10', 'August 11', 'August 12', 'August 13', 'August 14', 'August 15', 'August 16', 'August 17', ],
+            labels: @php echo json_encode($page_visitors_freq_array[0]); @endphp,
             datasets:[{
                 label: 'No. of site visitors',
-                data: [100, 75, 23, 36, 82, 45, 17, 3, 62, 11, 23, 41, 17, 35, 17],
+                data: @php echo json_encode($page_visitors_freq_array[1]); @endphp,
                 backgroundColor:[
                     'rgb(59,155,207)'
                 ],
@@ -254,9 +296,9 @@
     let most_popular_commodities = new Chart(document.getElementById('most_popular_commodities').getContext('2d'), {
         type:'pie',
         data:{
-            labels: ['Sea Cucumber', 'Sea Urchin', 'Corn', 'Coconut', 'Rubber'],
+            labels: @php echo json_encode($commodity_views_freq_array[0]); @endphp,
             datasets:[{
-                data: [100, 75, 23, 37, 86],
+                data: @php echo json_encode($commodity_views_freq_array[1]); @endphp,
                 backgroundColor:[
                     'rgba(20,99,20,1)',
                     'rgba(54,38,195,1)',
@@ -279,9 +321,9 @@
     let most_popular_isps = new Chart(document.getElementById('most_popular_isps').getContext('2d'), {
         type:'pie',
         data:{
-            labels: ['Sweet Potato', 'Tuna', 'Watershed', 'Soybean', 'Shrimp'],
+            labels: @php echo json_encode($isp_views_freq_array[0]); @endphp,
             datasets:[{
-                data: [100, 75, 23, 37, 86],
+                data:  @php echo json_encode($isp_views_freq_array[1]); @endphp,
                 backgroundColor:[
                     'rgba(8,99,132,1)',
                     'rgba(54,38,8,1)',
@@ -304,9 +346,9 @@
     let most_popular_topics = new Chart(document.getElementById('most_popular_topics').getContext('2d'), {
         type:'bar',
         data:{
-            labels: ['corn syrup', 'coral reefs', 'publications', 'food security', 'farmer'],
+            labels: @php echo json_encode($search_query_freq_array[0]); @endphp,
             datasets:[{
-                data: [100, 86, 72, 37, 22],
+                data: <?php echo json_encode($search_query_freq_array[1]);?>,
                 backgroundColor:[
                     'rgba(89, 233, 112, 1)',
                     'rgba(123, 155, 76, 1)',
@@ -332,7 +374,7 @@
             },
             plugins: {
                 legend: {
-                    display: false
+                    display: false,
                 },
                 title: {
                     display: true,

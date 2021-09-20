@@ -119,7 +119,9 @@
                             $descriptionHighlighted = highlight($result->description, $query);
                         ?>
                         @if($result->is_agrisyunaryo == 0)
-                        <a data-toggle="modal" data-target="#resultModal-{{$result->id}}">
+                        <a class="result-modal" data-toggle="modal" data-id="{{$result->id}}" data-target="#resultModal-{{$result->id}}" style="text-decoration: none;
+                            color: black;
+                            cursor: pointer;">
                             <div class="card front-card rounded">
                                 <div class="card-horizontal">
                                     <div class="card-body">
@@ -205,7 +207,7 @@
                 Search
             </button>
             </form>
-
+            <?php $searchRegions = App\SearchQuery::where('query', '=', $query)->where('location', '!=', null)->select('location', DB::raw('count(*) as total'))->groupBy('location')->orderByDesc('total')->get()->take(5); ?>
             <h4 class="mt-5">Search Analytics</h4>
             <div class="mb-3">
                 <b>Interest over time for <i>"{{$query}}"</i></b>
@@ -221,40 +223,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($searchRegions as $searchRegion)
                     <tr>
-                        <td>1</td>
-                        <td>Eastern Visayas</td>
-                        <td>100</td>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$searchRegion->location}}</td>
+                        <td>{{$searchRegion->total}}</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Caraga</td>
-                        <td>87</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Northern Mindanao</td>
-                        <td>77</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Western Visayas</td>
-                        <td>76</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Cordillera Administrative Region</td>
-                        <td>75</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
             <div class="mb-3 mt-4">
-                <b>Most searched topics</b> 
+                <b>Trending topics</b> 
                 <canvas id="most_popular_topics"></canvas>
-            </div>
-            <div class="mb-3 mt-4">
-               <b>Most popular commodities</b> 
-               <canvas id="most_popular_commodities"></canvas>
             </div>
             <div class="card">
                 <div class="card-body">
@@ -591,7 +571,6 @@
         padding-top:5rem;
         padding-bottom:5rem;
     }
-
 </style>
 @endsection
 @section('scripts')
@@ -602,19 +581,69 @@
     $tillDate_1 = Carbon::now()->subMonths(2)->endOfMonth()->toDateString();
     $fromDate_2 = Carbon::now()->subMonth()->startOfMonth()->toDateString();
     $tillDate_2 = Carbon::now()->subMonth()->endOfMonth()->toDateString();
-    $search_queries_1 = App\SearchQuery::whereBetween(DB::raw('date(created_at)'), [$fromDate_1, $tillDate_1])->whereYear('created_at', Carbon::now()->year)->count();
-    $search_queries_2 = App\SearchQuery::whereBetween(DB::raw('date(created_at)'), [$fromDate_2, $tillDate_2])->whereYear('created_at', Carbon::now()->year)->count();
-    $search_queries_3 = App\SearchQuery::where('created_at', '>=', Carbon::now()->startOfMonth())->whereYear('created_at', Carbon::now()->year)->count();
+    $search_query_date_1 = App\SearchQuery::whereBetween(DB::raw('date(created_at)'), [$fromDate_1, $tillDate_1])->whereYear('created_at', Carbon::now()->year)->count();
+    $search_query_date_2 = App\SearchQuery::whereBetween(DB::raw('date(created_at)'), [$fromDate_2, $tillDate_2])->whereYear('created_at', Carbon::now()->year)->count();
+    $search_query_date_3 = App\SearchQuery::where('created_at', '>=', Carbon::now()->startOfMonth())->whereYear('created_at', Carbon::now()->year)->count();
+    
+    $search_query_freq_array = array();
+    $search_query_freq_array[0] = array();
+    $search_query_freq_array[1] = array();
+    foreach(App\SearchQuery::select('query', DB::raw('count(*) as total'))->groupBy('query')->orderByDesc('total')->get()->take(5) as $item){
+        array_push($search_query_freq_array[0], $item->query);
+        array_push($search_query_freq_array[1], $item->total);
+    }
+    //$search_query_freq_compiled = "'" . $search_query_freq_1->query . "','" . $search_query_freq_2->query . "','" . $search_query_freq_3->query . "','" . $search_query_freq_4->query . "','" . $search_query_freq_5->query . "'";
 ?>
 
 <script>
+    $(document).on("click", ".result-modal", function (){
+        var content_id = $(this).data('id');
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url:"{{ route('createArtifactViewLog') }}",
+            method:"POST",
+            data:{content_id:content_id, _token:_token},
+            success: function (data) {
+                //console.log('success:', content_id);
+            },
+            error: function(xhr, status, error,data) {
+                //console.log('error:', content_id);
+                //alert(xhr.responseText);
+            }
+        })
+        $.ajax({
+            url:"{{ route('createISPViewLog') }}",
+            method:"POST",
+            data:{content_id:content_id, _token:_token},
+            success: function (data) {
+                //console.log('success:', content_id);
+            },
+            error: function(xhr, status, error,data) {
+                //console.log('error:', content_id);
+                //alert(xhr.responseText);
+            }
+        })
+        $.ajax({
+            url:"{{ route('createCommodityViewLog') }}",
+            method:"POST",
+            data:{content_id:content_id, _token:_token},
+            success: function (data) {
+                //console.log('success:', content_id);
+            },
+            error: function(xhr, status, error,data) {
+                //console.log('error:', content_id);
+                //alert(xhr.responseText);
+            }
+        })
+    });
+
     let interest_over_time = new Chart(document.getElementById('interest_over_time').getContext('2d'), {
         type:'line',
         data:{
-            labels: ['June', 'July', 'August'],
+            labels: [@php echo "'" . Carbon::now()->subMonths(2)->format('F') . "','" . Carbon::now()->subMonths()->format('F') . "','" . Carbon::now()->format('F') . "'";@endphp],
             datasets:[{
                 label: 'No. of times searched',
-                data: [<?php echo $search_queries_1 . ',' . $search_queries_2 . ',' . $search_queries_3;?>],
+                data: [@php echo $search_query_date_1 . ',' . $search_query_date_2 . ',' . $search_query_date_3;@endphp],
                 backgroundColor:[
                     'rgba(20,99,20,1)'
                 ],
@@ -638,42 +667,12 @@
             }
         }
     });
-    let most_popular_commodities = new Chart(document.getElementById('most_popular_commodities').getContext('2d'), {
-        type:'pie',
-        data:{
-            labels: ['Sea Cucumber', 'Sea Urchin', 'Corn', 'Coconut', 'Rubber'],
-            datasets:[{
-                data: [100, 75, 23, 37, 86],
-                backgroundColor:[
-                    'rgba(20,99,20,1)',
-                    'rgba(54,38,195,1)',
-                    'rgba(108,21,105,1)',
-                    'rgba(169,201,51,1)',
-                    'rgba(20,21,20,1)',
-                ],
-                hoverBorderWidth:3,
-                hoverBorderColor:'rgb(0,0,0)'
-            }]
-        },
-        options:{
-            legend: {
-                display: false
-            },
-            plugins: {
-                legend: {
-                    display: true,
-                    align: 'start'
-                },
-            },
-            responsive:true,
-        }
-    });
     let most_popular_topics = new Chart(document.getElementById('most_popular_topics').getContext('2d'), {
         type:'doughnut',
         data:{
-            labels: ['corn syrup', 'coral reefs', 'publications', 'food security', 'farmer'],
+            labels: @php echo json_encode($search_query_freq_array[0]);@endphp,
             datasets:[{
-                data: [100, 75, 23, 37, 86],
+                data: @php echo json_encode($search_query_freq_array[1]);@endphp,
                 backgroundColor: [
                     'rgba(89, 233, 112, 1)',
                     'rgba(123, 155, 76, 1)',
