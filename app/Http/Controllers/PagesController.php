@@ -78,20 +78,22 @@ class PagesController extends Controller
     }
 
     public function search(Request $request){
-        $search_query = new SearchQuery;
-        $search_query->query = $request->search;
-        $userIp = $request->ip();
-        $locationData = \Location::get($userIp);
-        if($locationData){
-            if($locationData->countryCode == 'PH'){
-                $search_query->location = $locationData->regionName;
-            } else {
-                $search_query->location = null;
-            }
-        }
-        $search_query->save();
-
         $query = $request->search;
+
+        if($query != null){
+            $search_query = new SearchQuery;
+            $search_query->query = $request->search;
+            $userIp = $request->ip();
+            $locationData = \Location::get($userIp);
+            if($locationData){
+                if($locationData->countryCode == 'PH'){
+                    $search_query->location = $locationData->regionName;
+                } else {
+                    $search_query->location = null;
+                }
+            }
+            $search_query->save();
+        }
         $content_type = $request->content_type;
         $consortia = $request->consortia;
         $year_published = $request->year_published;

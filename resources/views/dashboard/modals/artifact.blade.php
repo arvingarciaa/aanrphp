@@ -21,9 +21,6 @@
                             <a class="nav-link active" data-toggle="tab" href="#file-upload" role="tab" aria-controls="home" aria-selected="true">Manual Upload</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#api-link" role="tab" aria-controls="contact" aria-selected="false">API</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#csv-upload" role="tab" aria-controls="contact" aria-selected="false">CSV</a>
                         </li>
                     </ul>
@@ -89,8 +86,12 @@
                                 {{ Form::file('manual_file', ['class' => 'form-control mb-3 pt-1'])}}
                             </div>
                             <div class="form-group">
-                                {{Form::label('link', 'Link', ['class' => 'col-form-label'])}}
+                                {{Form::label('link', 'Redirect Link', ['class' => 'col-form-label'])}}
                                 {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                            </div>
+                            <div class="form-group">
+                                {{Form::label('embed_link', 'Embed Link', ['class' => 'col-form-label'])}}
+                                {{Form::text('embed_link', '', ['class' => 'form-control', 'placeholder' => 'Add a link to embed to the content modal'])}}
                             </div>
                             <div class="form-group">
                                 {{Form::label('keywords', 'Search keywords', ['class' => 'col-form-label'])}}
@@ -102,12 +103,6 @@
                                     <label class="mr-2 radio-inline"><input type="radio" name="is_gad" value="1"> Yes</label>
                                     <label class="mx-2 radio-inline"><input type="radio" name="is_gad" value="0" checked> No</label>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="api-link" role="tabpanel" aria-labelledby="direct-link">
-                            <div class="form-group">
-                                {{Form::label('api_link', 'API Link', ['class' => 'col-form-label required'])}}
-                                {{Form::text('api_link', '', ['class' => 'form-control', 'placeholder' => 'Add API link'])}}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="csv-upload" role="tabpanel" aria-labelledby="csv-upload">

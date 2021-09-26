@@ -130,7 +130,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mt-4">
-                                    <h3 class="mt-5 mb-3 font-weight-bold">File and Link</h3>
+                                    <h3 class="mt-5 mb-3 font-weight-bold">File and Links</h3>
                                     <div class="dropdown-divider mb-3"></div>
                                     @if($artifact->file)
                                     <div class="form-group row">
@@ -153,8 +153,14 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-4">
-                                            {{Form::label('link', 'Link', ['class' => 'col-form-label'])}}
-                                            {{Form::text('link', $artifact->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                                            {{Form::label('link', 'Redirect Link', ['class' => 'col-form-label'])}}
+                                            {{Form::text('link', $artifact->link, ['class' => 'form-control mb-3 pt-1', 'placeholder' => 'Add an external link to redirect to'])}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            {{Form::label('embed_link', 'Embed Link', ['class' => 'col-form-label'])}}
+                                            {{Form::text('embed_link', $artifact->embed_link, ['class' => 'form-control', 'placeholder' => 'Add a link to embed to the content modal'])}}
                                         </div>
                                     </div>
                                 </div>

@@ -150,6 +150,7 @@ class ArtifactAANRController extends Controller
                 $artifactaanr->consortia_member_id = $request->consortia_member;
                 $artifactaanr->contentsubtype_id = $request->subcontent_type;
                 $artifactaanr->link = $request->link;
+                $artifactaanr->embed_link = $request->embed_link;
                 $artifactaanr->author = $request->author;
                 $artifactaanr->author_institution = $request->author_institution;
                 $artifactaanr->keywords = $request->keywords;
@@ -189,6 +190,7 @@ class ArtifactAANRController extends Controller
         $artifactaanr->consortia_member_id = $request->consortia_member;
         $artifactaanr->link = $request->link;
         $artifactaanr->author = $request->author;
+        $artifactaanr->embed_link = $request->embed_link;
         $artifactaanr->author_institution = $request->author_institution;
         $artifactaanr->keywords = $request->keywords;
         $artifactaanr->gad = $request->gad;

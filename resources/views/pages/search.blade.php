@@ -434,6 +434,12 @@
                         <b>Author Institution</b><br>
                         <span>{{$result->author_institution}}</span>
                         @endif
+
+                        @if($result->embed_link)
+                        <div class="dropdown-divider mt-3"></div>
+                        <b>Content Website</b><br>
+                        <iframe src="{{$result->embed_link}}" width="100%" height="500"></iframe>
+                        @endif
                         
                         @if($result->file)
                         <div class="dropdown-divider mt-3"></div>
@@ -581,9 +587,9 @@
     $tillDate_1 = Carbon::now()->subMonths(2)->endOfMonth()->toDateString();
     $fromDate_2 = Carbon::now()->subMonth()->startOfMonth()->toDateString();
     $tillDate_2 = Carbon::now()->subMonth()->endOfMonth()->toDateString();
-    $search_query_date_1 = App\SearchQuery::whereBetween(DB::raw('date(created_at)'), [$fromDate_1, $tillDate_1])->whereYear('created_at', Carbon::now()->year)->count();
-    $search_query_date_2 = App\SearchQuery::whereBetween(DB::raw('date(created_at)'), [$fromDate_2, $tillDate_2])->whereYear('created_at', Carbon::now()->year)->count();
-    $search_query_date_3 = App\SearchQuery::where('created_at', '>=', Carbon::now()->startOfMonth())->whereYear('created_at', Carbon::now()->year)->count();
+    $search_query_date_1 = App\SearchQuery::where('query', '=', $query)->whereBetween(DB::raw('date(created_at)'), [$fromDate_1, $tillDate_1])->whereYear('created_at', Carbon::now()->year)->count();
+    $search_query_date_2 = App\SearchQuery::where('query', '=', $query)->whereBetween(DB::raw('date(created_at)'), [$fromDate_2, $tillDate_2])->whereYear('created_at', Carbon::now()->year)->count();
+    $search_query_date_3 = App\SearchQuery::where('query', '=', $query)->where('created_at', '>=', Carbon::now()->startOfMonth())->whereYear('created_at', Carbon::now()->year)->count();
     
     $search_query_freq_array = array();
     $search_query_freq_array[0] = array();
