@@ -29,7 +29,6 @@ Route::post('manage/updateConsortiaBanner', ['uses' => 'LandingPageElementsContr
 Route::post('manage/updateHeaderLogo', ['uses' => 'LandingPageElementsController@updateHeaderLogo', 'as' => 'landing.updateHeaderLogo']);
 Route::post('manage/updateLandingPageItems', ['uses' => 'LandingPageElementsController@updateLandingPageItems', 'as' => 'pages.updateLandingPageItems']);
 Route::post('manage/updateLandingPageViews', ['uses' => 'LandingPageElementsController@updateLandingPageViews', 'as' => 'l.updateLandingPageViews']);
-
 Route::post('manage/editIndustryProfileSection', 'LandingPageElementsController@editIndustryProfileSection')->name('editIndustryProfileSection');
 Route::post('manage/editLatestAANRSection', 'LandingPageElementsController@editLatestAANRSection')->name('editLatestAANRSection');
 Route::post('manage/editUserTypeRecommendationSection', 'LandingPageElementsController@editUserTypeRecommendationSection')->name('editUserTypeRecommendationSection');
@@ -38,11 +37,12 @@ Route::post('manage/editFeaturedVideosSection', 'LandingPageElementsController@e
 Route::post('manage/editRecommendedForYouSection', 'LandingPageElementsController@editRecommendedForYouSection')->name('editRecommendedForYouSection');
 Route::post('manage/editConsortiaMembersSection', 'LandingPageElementsController@editConsortiaMembersSection')->name('editConsortiaMembersSection');
 Route::post('manage/editAgrisyunaryoSearchBanner', 'LandingPageElementsController@editAgrisyunaryoSearchBanner')->name('editAgrisyunaryoSearchBanner');
+Route::post('manage/editIndustryProfile', 'LandingPageElementsController@editIndustryProfile')->name('editIndustryProfile');
 
 
 //Pages Controller
 Route::get('/', 'PagesController@getLandingPage')->name('getLandingPage');
-Route::get('aanr-industry-profile/{id}', 'PagesController@industryProfileView')->name('industryProfileView');
+Route::get('aanr-industry-profile', 'PagesController@industryProfileView')->name('industryProfileView');
 Route::get('about', 'PagesController@aboutUs')->name('aboutUs');
 Route::get('usefulLinks', 'PagesController@usefulLinks')->name('usefulLinks');
 Route::get('search', 'PagesController@search')->name('search');

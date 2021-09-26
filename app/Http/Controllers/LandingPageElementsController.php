@@ -271,6 +271,23 @@ class LandingPageElementsController extends Controller
         return redirect('/?edit=1')->with('success', 'Landing Page Consortia Members Section Updated');
     }
 
+    public function editIndustryProfile(Request $request){
+        $page = LandingPageElement::find(1);
+        if($request->profile_1){
+            $page->agriculture_profile = $request->profile_1;
+            $page->save();
+            return redirect('/aanr-industry-profile?edit=1&industry=1')->with('success', 'Profile Updated');
+        } elseif($request->profile_2){
+            $page->aquatic_profile = $request->profile_2;
+            $page->save();
+            return redirect('/aanr-industry-profile?edit=1&industry=2')->with('success', 'Profile Updated');
+        } elseif($request->profile_3){
+            $page->natural_profile = $request->profile_3;
+            $page->save();
+            return redirect('/aanr-industry-profile?edit=1&industry=3')->with('success', 'Profile Updated');
+        }
+    }
+
     public function editAgrisyunaryoSearchBanner(Request $request){
         $page = LandingPageElement::find(1);
         if($request->hasFile('image')){

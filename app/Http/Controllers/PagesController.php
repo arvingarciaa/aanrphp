@@ -27,7 +27,7 @@ use Stevebauman\Location\Facades\Location;
 
 class PagesController extends Controller
 {
-    public function industryProfileView($industry_id){
+    public function industryProfileView(){
         return view('pages.industryProfile');
     }
 
@@ -42,6 +42,8 @@ class PagesController extends Controller
     public function searchAnalytics(){
         return view('analytics.search');
     }
+
+    
 
     public function getLandingPage(){
         $pageView = new PageViews;

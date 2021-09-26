@@ -199,7 +199,7 @@
                     <img src="/storage/page_images/{{$landing_page->industry_profile_agri_icon}}" class="card-img-top" height="160" style="object-fit:contain">
                     <h4 class="card-title text-center">Agriculture</h4>
                 </div>
-                <a href="/aanr-industry-profile/1" class="stretched-link"></a>
+                <a href="/aanr-industry-profile?industry=1" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-sm-4">
@@ -209,7 +209,7 @@
                     <img src="/storage/page_images/{{$landing_page->industry_profile_aqua_icon}}" class="card-img-top" height="160" style="object-fit:contain">
                     <h4 class="card-title text-center">Aquatic Resources</h4>
                 </div>
-                <a href="/posts/76" class="stretched-link"></a>
+                <a href="/aanr-industry-profile?industry=2" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-sm-4">
@@ -219,7 +219,7 @@
                     <img src="/storage/page_images/{{$landing_page->industry_profile_natural_icon}}" class="card-img-top" height="160" style="object-fit:contain">
                     <h4 class="card-title text-center">Environmental and Natural Resources</h4>
                 </div>
-                <a href="/posts/76" class="stretched-link"></a>
+                <a href="/aanr-industry-profile?industry=3" class="stretched-link"></a>
             </div>
         </div>
     </div>
