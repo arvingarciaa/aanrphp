@@ -81,11 +81,11 @@ class PagesController extends Controller
 
     public function search(Request $request){
         $query = $request->search;
-
+        dd($_SERVER['REMOTE_ADDR']);
         if($query != null){
             $search_query = new SearchQuery;
             $search_query->query = $request->search;
-            $userIp = $request->ip();
+            $userIp = $_SERVER['REMOTE_ADDR'];
             $locationData = \Location::get($userIp);
             if($locationData){
                 if($locationData->countryCode == 'PH'){
