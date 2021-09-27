@@ -133,17 +133,17 @@
                                     <h3 class="mt-5 mb-3 font-weight-bold">File and Links</h3>
                                     <div class="dropdown-divider mb-3"></div>
                                     @if($artifact->file)
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <b>PDF Preview</b><br>
-                                            <iframe 
-                                                class="mt-2"
-                                                src="{{asset('/storage/files/' . $artifact->file)}}" 
-                                                style="width:100%; height:500px;" 
-                                                frameborder="0">
-                                            </iframe>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <b>PDF Preview</b><br>
+                                                <iframe 
+                                                    class="mt-2"
+                                                    src="{{$artifact->file_type == 'pdf_link' ? $artifact->file : asset('/storage/files/' . $artifact->file)}}" 
+                                                    style="width:100%; height:500px;" 
+                                                    frameborder="0">
+                                                </iframe>
+                                            </div>
                                         </div>
-                                    </div>
                                     @endif
                                     <div class="form-group row">
                                         <div class="col-sm-4">
@@ -157,6 +157,14 @@
                                             {{Form::text('link', $artifact->link, ['class' => 'form-control mb-3 pt-1', 'placeholder' => 'Add an external link to redirect to'])}}
                                         </div>
                                     </div>
+                                    @if($artifact->embed_link)
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <b>Embed Link Preview</b><br>
+                                                <iframe src="{{$artifact->embed_link}}" width="100%" height="500"></iframe>
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="form-group row">
                                         <div class="col-sm-4">
                                             {{Form::label('embed_link', 'Embed Link', ['class' => 'col-form-label'])}}
