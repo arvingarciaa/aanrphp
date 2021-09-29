@@ -1177,9 +1177,6 @@
                                     <div class="text-primary" style="margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;">
                                         <span style="font-size:1.8rem;"> Social Media Icons </span>
                                         <span class="text-muted"><i>Edit sticky social media icons.</i></span>
-                                        <span class="float-right">
-                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addStickyModal"><i class="fas fa-plus"></i> Add Sticky</button>
-                                        </span>
                                     </div>
                                 </div>
                                 <div class="card-body px-5">
