@@ -213,6 +213,7 @@
                 <b>Interest over time for <i>"{{$query}}"</i></b>
                 <canvas id="interest_over_time"></canvas>
              </div>
+            @if($searchRegions == null)
             <table class="table data-table tech-table table-hover" style="width:100%">
                 <thead>
                     <b>Interest by region for <i>"{{$query}}"</i></b>
@@ -232,6 +233,7 @@
                     @endforeach
                 </tbody>
             </table>
+            @endif
             <div class="mb-3 mt-4">
                 <b>Trending topics</b> 
                 <canvas id="most_popular_topics"></canvas>
