@@ -70,13 +70,14 @@
 <body style="background-color:white">
     <div id="app">
         <div class="icon-bar" style="z-index:500">
-            <a target="_blank" href="http://www.pcaarrd.dost.gov.ph/home/portal/" class="sarai"><img src="/storage/page_images/TRr6O4s.png" height="30" width="30"></a> 
-            <a target="_blank" data-toggle="tooltip" title="Visit our Facebook"href="https://www.facebook.com/PCAARRD/" class="facebook"><i class="fab fa-facebook"></i></a> 
-            <a target="_blank" data-toggle="tooltip" title="Visit our Twitter" href="https://twitter.com/dostpcaarrd" class="twitter"><i class="fab fa-twitter"></i></a> 
+            <?php $sticky = App\SocialMediaSticky::all()?>
+            <a target="_blank" href="{{$sticky->where('name', '=', 'PCAARRD')->first()->link}}" class="sarai"><img src="/storage/page_images/TRr6O4s.png" height="30" width="30"></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Facebook"href="{{$sticky->where('name', '=', 'Facebook')->first()->link}}" class="facebook"><i class="fab fa-facebook"></i></a> 
+            <a target="_blank" data-toggle="tooltip" title="Visit our Twitter" href="{{$sticky->where('name', '=', 'Twitter')->first()->link}}" class="twitter"><i class="fab fa-twitter"></i></a> 
             <a target="_blank" data-toggle="tooltip" title="Visit our Instagram" href="https://instagram.com/dostpcaarrd" class="instagram"><i class="fab fa-instagram"></i></a> 
-            <a target="_blank" data-toggle="tooltip" title="Send us an email" href="mailto:a.cabrera@pcaarrd.dost.gov.ph" class="email"><i class="fas fa-envelope"></i></a>
-            <a target="_blank" data-toggle="tooltip" title="Visit our YouTube" href="https://www.youtube.com/c/DOSTPCAARRD/videos" class="youtube"><i class="fab fa-youtube"></i></a> 
-            <a target="_blank" data-toggle="popover" data-trigger="focus" data-placement="right" data-content="Please help us make this website better" title="Click to see feedback form" href="https://docs.google.com/forms/d/e/1FAIpQLSccdMrmX86mEkXGzui_hgqwpUaVPWln6lNsN8d4afQHp7c1oQ/viewform?usp=sf_link" class="feedback"><i class="far fa-comment-dots"></i></a>
+            <a target="_blank" data-toggle="tooltip" title="Send us an email" href="mailto:{{$sticky->where('name', '=', 'Email')->first()->link}}" class="email"><i class="fas fa-envelope"></i></a>
+            <a target="_blank" data-toggle="tooltip" title="Visit our YouTube" href="{{$sticky->where('name', '=', 'YouTube')->first()->link}}" class="youtube"><i class="fab fa-youtube"></i></a> 
+            <a target="_blank" data-toggle="popover" data-trigger="focus" data-placement="right" data-content="Please help us make this website better" title="Click to see feedback form" href="{{$sticky->where('name', '=', 'Survey Form')->first()->link}}" class="feedback"><i class="far fa-comment-dots"></i></a>
         </div>
         <section class="sticky-top">
             @include('layouts.navbar')

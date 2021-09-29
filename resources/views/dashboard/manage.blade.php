@@ -1177,6 +1177,9 @@
                                     <div class="text-primary" style="margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;">
                                         <span style="font-size:1.8rem;"> Social Media Icons </span>
                                         <span class="text-muted"><i>Edit sticky social media icons.</i></span>
+                                        <span class="float-right">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addStickyModal"><i class="fas fa-plus"></i> Add Sticky</button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="card-body px-5">
@@ -1502,6 +1505,34 @@
                         <!-- END of Headline modals-->
                     
                         <!-- Social Media Modals -->
+                            <div class="modal fade" id="addStickyModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-l" role="document">
+                                    <div class="modal-content">
+                                        {{ Form::open(['action' => ['SocialMediaStickyController@addSocial'], 'method' => 'POST']) }}
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="exampleModalLabel">Edit Sticky</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
+                                                {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('link', 'Link to social', ['class' => 'col-form-label'])}}
+                                                {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            {{Form::submit('Save Changes', ['class' => 'btn btn-success'])}}
+                                        </div>
+                                        {{Form::close()}}
+                                    </div>
+                                </div>
+                            </div>
                             @foreach($social_media as $social)
                                 <!-- Modal for EDIT Headline -->
                                     <div class="modal fade" id="editStickyModal-{{$social->id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1517,7 +1548,7 @@
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
-                                                        {{Form::text('name', $social->name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
+                                                        {{Form::text('name', $social->name, ['class' => 'form-control', 'disabled' => true, 'placeholder' => 'Add a name'])}}
                                                     </div>
                                                     <div class="form-group">
                                                         {{Form::label('link', 'Link to social', ['class' => 'col-form-label'])}}

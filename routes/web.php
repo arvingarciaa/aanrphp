@@ -55,6 +55,7 @@ Route::get('agrisyunaryo', 'PagesController@agrisyunaryo')->name('agrisyunaryo')
 Route::get('analytics/search', 'PagesController@searchAnalytics')->name('searchAnalytics');
 
 //Social Media
+Route::post('headlines/addSocial', 'SocialMediaStickyController@addSocial')->name('addSocial');
 Route::post('headlines/{id}/editSocial', 'SocialMediaStickyController@editSocial')->name('editSocial');
 
 //Header Links
