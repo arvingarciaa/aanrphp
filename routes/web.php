@@ -59,6 +59,8 @@ Route::post('headlines/{id}/editSocial', 'SocialMediaStickyController@editSocial
 
 //Header Links
 Route::post('headlines/{id}/editHeaderLink', 'HeaderLinksController@editHeaderLink')->name('editHeaderLink');
+Route::post('headlines/addHeaderLink', 'HeaderLinksController@addHeaderLink')->name('addHeaderLink');
+Route::post('headlines/{id}/deleteHeaderLink', 'HeaderLinksController@deleteHeaderLink')->name('deleteHeaderLink');
 
 //AANR Page
 Route::post('headlines/{id}/editAANRPage', 'AANRPageController@editAANRPage')->name('editAANRPage');

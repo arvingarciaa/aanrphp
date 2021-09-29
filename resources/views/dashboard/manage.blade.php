@@ -353,7 +353,7 @@
                             <span class="text-white mr-3">Manage Resources: </span>
                             <div class="dropdown" style="display:initial">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <b>{!!request()->asset ? request()->asset : 'Industries'!!}</b>
+                                    <b>{!!request()->asset ? str_replace('_',' ',request()->asset) : 'Industries'!!}</b>
                                 </button>
                                 <div class="dropdown-menu">
                                     <h6 class="dropdown-header">ISPs</h6>
@@ -671,7 +671,7 @@
                                                     <td>{{$agenda->sector_id}}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAgendaModal-{{$agenda->id}}"><i class="fas fa-edit"></i>  Edit Details</button>
-                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteAgendaModal-{{$agenda->id}}"><i class="fas fa-trash"></i> Delete Checked</button>
+                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteAgendaModal-{{$agenda->id}}"><i class="fas fa-trash"></i> Delete</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -719,7 +719,7 @@
                                     </span></h2>
                                 </div>
                                 <div class="card-body px-5">
-                                    <table class="table data-table tech-table table-hover" style="width:100%">
+                                    <table class="table data-table-options tech-table table-hover" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th style="width:5%"></th>
@@ -952,7 +952,7 @@
                                     </span></h2>
                                 </div>
                                 <div class="card-body px-5">
-                                    <table class="table data-table tech-table table-hover" style="width:100%">
+                                    <table class="table data-table-options tech-table table-hover" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th width="5%"></th>
@@ -991,11 +991,11 @@
                             <span class="text-white mr-3">Manage Landing Page Items</span>
                             <div class="dropdown" style="display:initial">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <b>{!!request()->landing_page ? request()->landing_page : 'Header Logo'!!}</b>
+                                    <b>{!!request()->landing_page ? str_replace('_',' ',request()->landing_page) : 'Header Logo'!!}</b>
                                 </button>
                                 <div class="dropdown-menu">
                                     <h6 class="dropdown-header">Header</h6>
-                                    <a class="dropdown-item active" href="{{route('dashboardManage', ['landing_page' => 'Header_Logo'])}}">Header Logo</a>
+                                    <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Header_Logo'])}}">Header Logo</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Header_Links'])}}">Header Links</a>
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Others</h6>
@@ -1005,12 +1005,12 @@
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Landing Page</h6>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Sliders'])}}">Sliders</a>
-                                    <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Featured_Videos'])}}">Featured Videos</a>
+                                   <!-- <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Featured_Videos'])}}">Featured Videos</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Featured_Publications'])}}">Featured Publications</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Industry_Profile'])}}">Industry Profile</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'AANR_Latest'])}}">AANR Latest</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'User_Type_Recommendation'])}}">User Type Recommendation</a>
-                                    <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Recommended_For_You'])}}">Recommended For You</a>
+                                    <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Recommended_For_You'])}}">Recommended For You</a> -->
                                 </div>
                             </div>
                         </div>
@@ -1055,6 +1055,10 @@
                                     <div class="text-primary" style="margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;">
                                         <span style="font-size:1.8rem;"> Header Links </span>
                                         <span class="text-muted"><i>Edit header links.</i></span>
+
+                                        <span class="float-right">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addHeaderLinkModal"><i class="fas fa-plus"></i> Add Header Link</button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="card-body px-5">
@@ -1069,7 +1073,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($header_links as $header_link)
+                                            @foreach(App\HeaderLink::all() as $header_link)
                                             <tr>
                                                 <td><span class="text-muted">{{$header_link->id}}</span></td>
                                                 <td><span class="text-muted">{{$header_link->name}}</span></td>
@@ -1077,6 +1081,7 @@
                                                 <td><span class="text-muted">{{$header_link->link}}</span></td>
                                                 <td class="">
                                                     <button class="btn btn-primary pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#editHeaderLinkModal-{{$header_link->id}}"><i class="fas fa-edit"></i> Edit Details</button>
+                                                    <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteHeaderLinkModal-{{$header_link->id}}"><i class="fas fa-trash"></i> Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -1090,6 +1095,10 @@
                                     <div class="text-primary" style="margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;">
                                         <span style="font-size:1.8rem;"> Headlines </span>
                                         <span class="text-muted"><i>Add a headline topic.</i></span>
+
+                                        <span class="float-right">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addHeadlineModal"><i class="fas fa-plus"></i> Add Headline</button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="card-body px-5">
@@ -1103,14 +1112,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><span class="text-muted">-</span></td>
-                                                <td><span class="text-muted">-</span></td>
-                                                <td><span class="text-muted">-</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-success px-3 py-1" data-toggle="modal" data-target="#addHeadlineModal"><i class="fas fa-plus"></i></button>
-                                                </td>
-                                            </tr>
                                             <?php 
                                                 $count = 1;
                                             ?>
@@ -1135,6 +1136,10 @@
                                     <div class="text-primary" style="margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;">
                                         <span style="font-size:1.8rem;"> Slider Content </span>
                                         <span class="text-muted"><i>Add a carousel entry.</i></span>
+
+                                        <span class="float-right">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addSliderModal"><i class="fas fa-plus"></i> Add Slider</button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="card-body px-5">
@@ -1148,18 +1153,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><span class="text-muted">-</span></td>
-                                                <td><span class="text-muted">-</span></td>
-                                                <td><span class="text-muted">-</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-success px-3 py-1" data-toggle="modal" data-target="#addSliderModal"><i class="fas fa-plus"></i></button>
-                                                </td>
-                                            </tr>
                                             <?php 
                                                 $count = 1;
                                             ?>
-                                            @foreach($sliders as $slider)
+                                            @foreach(App\LandingPageSlider::all()->sortBy('id') as $slider)
                                                 <tr>
                                                     <td>{{$count++}}</td>
                                                     <td>{{$slider->title}}</td>
@@ -1539,14 +1536,48 @@
                         <!-- END of Social Media Modals -->
 
                         <!-- Header Links Modals -->
+                            <!-- Modal for ADD Header link -->
+                                <div class="modal fade" id="addHeaderLinkModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-l" role="document">
+                                        <div class="modal-content">
+                                            {{ Form::open(['action' => ['HeaderLinksController@addHeaderLink'], 'method' => 'POST']) }}
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="exampleModalLabel">Add Header Link</h6>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
+                                                    {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{Form::label('link', 'Link to header', ['class' => 'col-form-label'])}}
+                                                    {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{Form::label('weight', 'Position weight (lowest to highest, from left to right)', ['class' => 'col-form-label'])}}
+                                                    {{Form::text('weight', '', ['class' => 'form-control', 'placeholder' => 'Add a number'])}}
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                {{Form::submit('Save Changes', ['class' => 'btn btn-success'])}}
+                                            </div>
+                                            {{Form::close()}}
+                                        </div>
+                                    </div>
+                                </div>
+                            
                             @foreach($header_links as $header)
-                            <!-- Modal for EDIT Headline -->
+                            <!-- Modal for EDIT header link -->
                                 <div class="modal fade" id="editHeaderLinkModal-{{$header->id}}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-l" role="document">
                                         <div class="modal-content">
                                             {{ Form::open(['action' => ['HeaderLinksController@editHeaderLink', $header->id], 'method' => 'POST']) }}
                                             <div class="modal-header">
-                                                <h6 class="modal-title" id="exampleModalLabel">Edit Sticky</h6>
+                                                <h6 class="modal-title" id="exampleModalLabel">Edit Header Links</h6>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -1560,6 +1591,10 @@
                                                     {{Form::label('link', 'Link to header', ['class' => 'col-form-label'])}}
                                                     {{Form::text('link', $header->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
                                                 </div>
+                                                <div class="form-group">
+                                                    {{Form::label('weight', 'Position weight (lowest to highest, from left to right)', ['class' => 'col-form-label'])}}
+                                                    {{Form::text('weight', $header->position, ['class' => 'form-control', 'placeholder' => 'Add a number'])}}
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -1569,6 +1604,33 @@
                                         </div>
                                     </div>
                                 </div>
+
+                            <!-- Modal for DELETE header link -->
+                            <div class="modal fade" id="deleteHeaderLinkModal-{{$header->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form action="{{ route('deleteHeaderLink', $header->id) }}" id="deleteForm" method="POST">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <span>
+                                                Are you sure you want to delete: <b>{{$header->name}}</b>?</br></br>
+                                            </span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                            <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             @endforeach
                         <!-- END of Header Links Modals -->
 
@@ -1773,7 +1835,7 @@
                             <span class="text-white mr-3">Manage Users: </span>
                             <div class="dropdown" style="display:initial;">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="{{$consortiaAdminRequests != 0 ? 'background-color:rgb(255, 228, 156)' : ''}}">
-                                    <b style="text-transform: capitalize">{!!request()->user ? request()->user : 'All'!!}</b>
+                                    <b style="text-transform: capitalize">{!!request()->user ? str_replace('_',' ',request()->user) : 'All'!!}</b>
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['user' => 'all'])}}">All Users</a>
@@ -1941,6 +2003,9 @@
         $(document).ready(function() {
             // init datatable on #example table
             $('.data-table').DataTable({
+                "order": [[ 0, "desc" ]],
+            });
+            $('.data-table-options').DataTable({
                 "order": [[ 1, "desc" ]],
             });
             $('select[name$="is_video_create"]').click(function() {

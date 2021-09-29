@@ -16,24 +16,11 @@
         
         <div class="collapse navbar-collapse" i d="navbarSupportedContent">
             <ul class="navbar-nav ml-auto upper-nav">
-                <li class="nav-item">
-                    <a class="nav-links active" href="{{route('getLandingPage')}}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-links" href="{{route('aboutUs')}}">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-links" href="{{route('usefulLinks')}}">Useful Links</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-links" href="http://aanr.ph">Technology</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-links" href="http://167.71.210.45:8080">Community</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-links" href="{{route('agrisyunaryo')}}">Agrisyunaryo</a>
-                </li>
+                @foreach(App\HeaderLink::all()->sortBy('position') as $header_link)
+                    <li class="nav-item">
+                        <a class="nav-links" href="{{$header_link->link}}">{{$header_link->name}}</a>
+                    </li>
+                @endforeach
             </ul>
         </div>
         

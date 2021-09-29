@@ -320,7 +320,7 @@
                             <span class="text-white mr-3">Manage Consortia</span>
                             <div class="dropdown" style="display:initial">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <b>{!!request()->asset ? request()->asset : 'Consortia'!!}</b>
+                                    <b>{!!request()->asset ? str_replace('_',' ',request()->asset) : 'Consortia'!!}</b>
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{route('userDashboard', ['asset' => 'Consortia'])}}" data-placement="top" rel="tooltip" title="Edit information in the consortium about page">Consortia</a>
