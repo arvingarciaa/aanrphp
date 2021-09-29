@@ -197,8 +197,10 @@
                                     Edit Account Details
                                 </h2>
                             </div>
-                            <div class="card-body px-5 col-lg-6 col-md-12">
-                                {{ Form::open(['action' => ['UsersController@editUser', auth()->user()->id], 'method' => 'POST']) }}
+
+                            {{ Form::open(['action' => ['UsersController@editUser', auth()->user()->id], 'method' => 'POST']) }}
+                            <div class="row card-body px-5">
+                                <div class="col-sm-6">
                                     @csrf
                                     <div class="form-group" style="margin-bottom:0.2rem">
                                         <label for="name" class="col-form-label font-weight-bold required">{{ __('Full Name') }}</label>
@@ -231,6 +233,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                        <label class="checkbox-inline mt-2"><input type="checkbox" name="subscribe" {{auth()->user()->subscribed == 1 ? 'checked' : ''}} value="1"> Get emails and latest updates from us</label>
                                     </div>
                                     <div class="form-group">
                                         {{Form::label('gender', 'Gender', ['class' => 'col-form-label font-weight-bold'])}}
@@ -303,11 +306,46 @@
                                             {{ Form::text('contact_number', auth()->user()->contact_number,['class' => 'form-control']) }}
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group" style="margin-bottom:0.2rem">
+                                        <?php 
+                                            $user_interests = '[]';
+                                            if(auth()->user()->interest){
+                                                $user_interests = auth()->user()->interest;
+                                            }
+                                        ?>
+                                        {{Form::label('interests', 'Topics of Interest', ['class' => 'col-form-label font-weight-bold'])}}
+                                        <div class="btn-group-toggle" data-toggle="buttons">
+                                            @foreach(App\Consortia::all() as $consortium)
+                                            <label class="btn btn-outline-primary {{in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'active' : ''  }}">
+                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($consortium->short_name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$consortium->short_name}}"> {{$consortium->short_name}}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                        <div class="btn-group-toggle mt-3" data-toggle="buttons">
+                                            @foreach(App\ISP::groupBy('name')->get() as $isp)
+                                            <label class="btn btn-outline-primary" {{in_array($isp->name, json_decode($user_interests)) == true  ? 'active' : ''  }}>
+                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($isp->name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$isp->name}}"> {{$isp->name}}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                        <div class="btn-group-toggle mt-3" data-toggle="buttons">
+                                            @foreach(App\Commodity::groupBy('name')->get() as $commodity)
+                                            <label class="btn btn-outline-primary" {{in_array($commodity->name, json_decode($user_interests)) == true  ? 'active' : ''  }}>
+                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($commodity->name, json_decode($user_interests)) == true ? 'checked' : ''  }} value="{{$commodity->name}}"> {{$commodity->name}}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
                                     <div class="form-group mt-3 float-right">
                                         {{Form::submit('Save Changes', ['class' => 'btn btn-primary'])}}
                                     </div>
-                                {{Form::close()}}
+                                </div>
                             </div>
+                            {{Form::close()}}
+                            
                         </div>
                     </div>
                     <div class="tab-pane fade" id="artifacts">
@@ -457,7 +495,6 @@
                                         Commodities
                                     <span class="float-right">
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createCommodityModal"><i class="fas fa-plus"></i> Add Commoddity</button>
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteCommodityModal"><i class="fas fa-trash"></i> Delete Checked</button>
                                     </span></h2>
                                 </div>
                                 <div class="card-body px-5">
@@ -478,6 +515,7 @@
                                                         <td>{{$commodity->isp->name}}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editCommodityModal-{{$commodity->id}}"><i class="fas fa-edit"></i> Edit Details</button>
+                                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteCommodityModal-{{$commodity->id}}"><i class="fas fa-trash"></i> Delete Entry</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -609,7 +647,6 @@
                                         Agenda
                                     <span class="float-right">
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createAgendaModal"><i class="fas fa-plus"></i> Add Agenda</button>
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteAgendaModal"><i class="fas fa-trash"></i> Delete Checked</button>
                                     </span></h2>
                                 </div>
                                 <div class="card-body px-5">
@@ -634,6 +671,7 @@
                                                     <td>{{$agenda->sector_id}}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAgendaModal-{{$agenda->id}}"><i class="fas fa-edit"></i>  Edit Details</button>
+                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteAgendaModal-{{$agenda->id}}"><i class="fas fa-trash"></i> Delete Checked</button>
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -18,7 +18,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/dropzone.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/lightbox.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/lightbox.css') }}" rel="stylesheet"> -->
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/storage/page_images/favicon-32x32.png" sizes="32x32" />

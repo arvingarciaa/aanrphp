@@ -199,3 +199,6 @@ Route::get('email/unsubsuccess', 'MailController@unsubsuccess')->name('unsubsucc
 Route::post('headlines/addAPIEntry', 'APIEntriesController@addAPIEntry')->name('addAPIEntry');
 Route::post('headlines/{id}/editAPIEntry', 'APIEntriesController@editAPIEntry')->name('editAPIEntry');
 Route::delete('headlines/{id}/deleteAPIEntry', 'APIEntriesController@deleteAPIEntry')->name('deleteAPIEntry');
+
+//CK Editor
+Route::post('ckeditor/upload', 'App\Http\Controllers\CKEditorController@store')->name('ckeditor.upload');

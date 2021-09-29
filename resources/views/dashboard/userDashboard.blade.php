@@ -165,8 +165,9 @@
                                     Edit Account Details
                                 </h2>
                             </div>
-                            <div class="card-body px-5 col-lg-6 col-md-12">
-                                {{ Form::open(['action' => ['UsersController@editUser', auth()->user()->id], 'method' => 'POST']) }}
+                            {{ Form::open(['action' => ['UsersController@editUser', auth()->user()->id], 'method' => 'POST']) }}
+                            <div class="row card-body px-5">
+                                <div class="col-sm-6">
                                     @csrf
                                     <div class="form-group" style="margin-bottom:0.2rem">
                                         <label for="name" class="col-form-label font-weight-bold required">{{ __('Full Name') }}</label>
@@ -199,6 +200,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                        <label class="checkbox-inline mt-2"><input type="checkbox" name="subscribe" {{auth()->user()->subscribed == 1 ? 'checked' : ''}} value="1"> Get emails and latest updates from us</label>
                                     </div>
                                     <div class="form-group">
                                         {{Form::label('gender', 'Gender', ['class' => 'col-form-label font-weight-bold'])}}
@@ -207,8 +209,6 @@
                                         {{ Form::radio('gender', 'female' , auth()->user()->gender == 'female' ? 'checked' : '', ['class' => 'ml-3']) }} Female
                                     </div>
                                     <div class="form-group">
-                                       <!-- {{Form::label('birthdate', 'Date of Birth', ['class' => 'col-form-label font-weight-bold'])}}
-                                        {{ Form::date('birthdate', auth()->user()->birthdate,['class' => 'form-control']) }} -->
                                         {{Form::label('age_range', 'Age Range', ['class' => 'col-form-label'])}}
                                         {{Form::select('age_range', ['1' => '15-18', 
                                                                     '2' => '19-22', 
@@ -222,10 +222,11 @@
                                     </div>
                                     <div class="form-group">
                                         {{Form::label('organization', 'Organization', ['class' => 'col-form-label font-weight-bold required'])}}   
+                                        
                                         <select class="form-control" data-live-search="true" name="select_org" id="select_org">
                                             <option disabled selected>Select Organization</option>
-                                            @foreach(App\Consortia::all() as $consortium)
-                                                <option value="{{$consortium->short_name}}" {{auth()->user()->organization == $consortium->short_name  ? 'selected' : ''}}>{{$consortium->short_name}}</option>
+                                            @foreach(App\Consortia::all() as $consortium_account_details)
+                                                <option value="{{$consortium_account_details->short_name}}" {{auth()->user()->organization == $consortium_account_details->short_name  ? 'selected' : ''}}>{{$consortium_account_details->short_name}}</option>
                                             @endforeach
                                             <option value="PCAARRD" {{auth()->user()->organization == 'PCAARRD'  ? 'selected' : ''}}>PCAARRD</option>
                                             <option value='other' {{auth()->user()->is_organization_other == 1  ? 'selected' : ''}}>Other</option>
@@ -234,6 +235,7 @@
                                             {{Form::label('others_org', 'If Other, please specify', ['class' => 'col-form-label'])}}
                                             {{Form::text('others_org', auth()->user()->is_organization_other == 1 ? auth()->user()->organization : '', ['class' => 'form-control'])}}
                                         </div>
+                                        
                                     </div>
                                     <div class="form-group">
                                         {{Form::label('account_type', 'User Account Type', ['class' => 'col-form-label font-weight-bold'])}}
@@ -271,11 +273,45 @@
                                             {{ Form::text('contact_number', auth()->user()->contact_number,['class' => 'form-control']) }}
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group" style="margin-bottom:0.2rem">
+                                        <?php 
+                                            $user_interests = '[]';
+                                            if(auth()->user()->interest){
+                                                $user_interests = auth()->user()->interest;
+                                            }
+                                        ?>
+                                        {{Form::label('interests', 'Topics of Interest', ['class' => 'col-form-label font-weight-bold'])}}
+                                        <div class="btn-group-toggle" data-toggle="buttons">
+                                            @foreach(App\Consortia::all() as $consortium)
+                                            <label class="btn btn-outline-primary {{in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'active' : ''  }}">
+                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($consortium->short_name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$consortium->short_name}}"> {{$consortium->short_name}}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                        <div class="btn-group-toggle mt-3" data-toggle="buttons">
+                                            @foreach(App\ISP::groupBy('name')->get() as $isp)
+                                            <label class="btn btn-outline-primary" {{in_array($isp->name, json_decode($user_interests)) == true  ? 'active' : ''  }}>
+                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($isp->name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$isp->name}}"> {{$isp->name}}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                        <div class="btn-group-toggle mt-3" data-toggle="buttons">
+                                            @foreach(App\Commodity::groupBy('name')->get() as $commodity)
+                                            <label class="btn btn-outline-primary" {{in_array($commodity->name, json_decode($user_interests)) == true  ? 'active' : ''  }}>
+                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($commodity->name, json_decode($user_interests)) == true ? 'checked' : ''  }} value="{{$commodity->name}}"> {{$commodity->name}}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
                                     <div class="form-group mt-3 float-right">
                                         {{Form::submit('Save Changes', ['class' => 'btn btn-primary'])}}
                                     </div>
-                                {{Form::close()}}
+                                </div>
                             </div>
+                            {{Form::close()}}
                         </div>
                     </div>
                     @if(auth()->user()->consortia_admin_request == 2)

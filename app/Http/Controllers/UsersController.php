@@ -55,6 +55,8 @@ class UsersController extends Controller
         $user->contact_number = $request->contact_number;
         $user->age_range = $request->age_range;
         $user->gender = $request->gender;
+        $user->subscribed = $request->subscribe;
+        $user->interest = json_encode($request->interest);
         if($request->select_org == 'other'){
             $user->is_organization_other = 1;
             $user->organization = $request->others_org;
