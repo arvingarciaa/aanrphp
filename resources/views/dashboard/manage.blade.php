@@ -1065,9 +1065,8 @@
                                     <table class="table data-table tech-table table-hover" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th width="10%">#</th>
-                                                <th width="40%">Name</th>
-                                                <th width="10%">Position</th>
+                                                <th width="45%">Name</th>
+                                                <th width="15%">Position</th>
                                                 <th width="25%">Link</th>
                                                 <th width="15%">Actions</th>
                                             </tr>
@@ -1075,7 +1074,6 @@
                                         <tbody>
                                             @foreach(App\HeaderLink::all() as $header_link)
                                             <tr>
-                                                <td><span class="text-muted">{{$header_link->id}}</span></td>
                                                 <td><span class="text-muted">{{$header_link->name}}</span></td>
                                                 <td><span class="text-muted">{{$header_link->position}}</span></td>
                                                 <td><span class="text-muted">{{$header_link->link}}</span></td>
@@ -1633,34 +1631,34 @@
                                     </div>
                                 </div>
 
-                            <!-- Modal for DELETE header link -->
-                            <div class="modal fade" id="deleteHeaderLinkModal-{{$header->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <form action="{{ route('deleteHeaderLink', $header->id) }}" id="deleteForm" method="POST">
-                                        <div class="modal-header">
-                                            <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                <!-- Modal for DELETE header link -->
+                                <div class="modal fade" id="deleteHeaderLinkModal-{{$header->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <form action="{{ route('deleteHeaderLink', $header->id) }}" id="deleteForm" method="POST">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <span>
+                                                    Are you sure you want to delete: <b>{{$header->name}}</b>?</br></br>
+                                                </span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                                <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                                            </div>
+                                            </form>
                                         </div>
-                                        <div class="modal-body">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <span>
-                                                Are you sure you want to delete: <b>{{$header->name}}</b>?</br></br>
-                                            </span>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                                            <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                                        </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
-                        <!-- END of Header Links Modals -->
+                            <!-- END of Header Links Modals -->
 
                         <!-- Slider modals-->
                             <!-- Modal for add Slider -->

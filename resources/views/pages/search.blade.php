@@ -392,6 +392,19 @@
     @endif
     </div>
 </div>
+<style>
+    #fullscreeniframe {
+        opacity: 0.3;
+        position:relative;
+        float: right;
+        right:25px;
+        bottom:60px;
+        transition: 0.5s;
+    }
+    #fullscreeniframe {
+        opacity: 1;
+    }  
+</style>
 @foreach($results as $result)
     <?php 
     $titleHighlighted = highlight($result->title, $query);
@@ -399,7 +412,7 @@
     ?>
     @if($result->is_agrisyunaryo == 0)
     <div class="modal fade" id="resultModal-{{$result->id}}" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog {{$result->embed_link ? 'modal-xl' : 'modal-lg'}}">
             <div class="modal-content pl-0 pr-0 pl-0">
                 <div class="inner-modal pl-3 pr-3"> 
                     <div class="modal-header" style="padding-bottom:8px">
@@ -412,8 +425,10 @@
                         </small>
                     </div>
                     <div class="modal-body">
+                        @if($result->description)
                         <b>Description</b><br>
                         <span>{!!$descriptionHighlighted!!}</span>
+                        @endif
 
                         @if($result->imglink != null)
                         <div class="dropdown-divider mt-3"></div>
@@ -423,13 +438,18 @@
                         </span>
                         @endif
                             
+
+                        @if($result->consortia)
                         <div class="dropdown-divider mt-3"></div>
                         <b>Consortia Resource</b><br>
                         <span>{{$result->consortia->short_name}}</span>
+                        @endif
                         
+                        @if($result->author)
                         <div class="dropdown-divider mt-3"></div>
                         <b>Author</b><br>
                         <span>{{$result->author}}</span>
+                        @endif
 
                         @if($result->author_institution)
                         <div class="dropdown-divider mt-3"></div>
@@ -440,8 +460,10 @@
                         @if($result->embed_link)
                         <div class="dropdown-divider mt-3"></div>
                         <b>Content Website</b><br>
-                        <iframe src="{{$result->embed_link}}" width="100%" height="500"></iframe>
+                        <iframe allowfullscreen src="{{$result->embed_link}}" width="100%" height="500"></iframe>
+                        <button id="fullscreeniframe" title="view in full screen" class="button btn btn-light"><i class="fas fa-expand"></i> View in fullscreen</button>
                         @endif
+                        
                         
                         @if($result->file)
                         <div class="dropdown-divider mt-3"></div>
@@ -602,7 +624,6 @@
     }
     //$search_query_freq_compiled = "'" . $search_query_freq_1->query . "','" . $search_query_freq_2->query . "','" . $search_query_freq_3->query . "','" . $search_query_freq_4->query . "','" . $search_query_freq_5->query . "'";
 ?>
-
 <script>
     $(document).on("click", ".result-modal", function (){
         var content_id = $(this).data('id');
@@ -705,5 +726,43 @@
             responsive:true,
         }
     });
+    (function(window, document){
+        var $ = function(selector,context){return(context||document).querySelector(selector)};
+
+        var iframe = $("iframe"),
+            domPrefixes = 'Webkit Moz O ms Khtml'.split(' ');
+
+        var fullscreen = function(elem) {
+            var prefix;
+            // Mozilla and webkit intialise fullscreen slightly differently
+            for ( var i = -1, len = domPrefixes.length; ++i < len; ) {
+              prefix = domPrefixes[i].toLowerCase();
+
+              if ( elem[prefix + 'EnterFullScreen'] ) {
+                // Webkit uses EnterFullScreen for video
+                return prefix + 'EnterFullScreen';
+                break;
+              } else if( elem[prefix + 'RequestFullScreen'] ) {
+                // Mozilla uses RequestFullScreen for all elements and webkit uses it for non video elements
+                return prefix + 'RequestFullScreen';
+                break;
+              }
+            }
+
+            return false;
+        };              
+        // Webkit uses "requestFullScreen" for non video elements
+        var fullscreenother = fullscreen(document.createElement("iframe"));
+
+        if(!fullscreen) {
+            alert("Fullscreen won't work, please make sure you're using a browser that supports it and you have enabled the feature");
+            return;
+        }
+
+        $("#fullscreeniframe").addEventListener("click", function(){
+            // iframe fullscreen and non video elements in webkit use request over enter
+            iframe[fullscreenother]();
+        }, false);
+    })(this, this.document);  
 </script>
 @endsection

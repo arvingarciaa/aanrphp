@@ -21,7 +21,7 @@
                         <a class="nav-links" href="{{$header_link->link}}">{{$header_link->name}}</a>
                     </li>
                 @endforeach
-            </ul>
+            </ul>   
         </div>
         
         <style>
