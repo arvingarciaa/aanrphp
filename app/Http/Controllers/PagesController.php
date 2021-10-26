@@ -100,8 +100,6 @@ class PagesController extends Controller
         $consortia = $request->consortia;
         $start = $request->start;
         $end = $request->end;
-        $startDate = Carbon::createFromFormat('d/m/Y', '01/01/'.$request->start);
-        $endDate = Carbon::createFromFormat('d/m/Y', '06/01/'.$request->end);
         $is_gad = $request->is_gad;
         /*if($request->consortium){
             $artifacts = $artifacts->where('consortia_id', '=', $request->consortium)->where('title','LIKE','%'.$query.'%');
@@ -121,6 +119,8 @@ class PagesController extends Controller
         }
 
         if($start && $end){
+            $startDate = Carbon::createFromFormat('d/m/Y', '01/01/'.$request->start);
+            $endDate = Carbon::createFromFormat('d/m/Y', '06/01/'.$request->end);
             $results = $results->whereBetween('date_published', array($startDate, $endDate));
         }
 
