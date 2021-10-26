@@ -31,21 +31,21 @@ class HeaderLinksSeeder extends Seeder
         ]);
         DB::table('header_links')->insert([
             'name' => 'FIESTA',
-            'link' => 'http://167.71.210.45/',
+            'link' => 'fiesta.aanr.ph',
             'position' => 3,
             'created_at' => Carbon::now(), # new \Datetime()
             'updated_at' => Carbon::now(),
         ]);
         DB::table('header_links')->insert([
             'name' => 'Technology',
-            'link' => 'http://167.71.210.45:8082/',
+            'link' => 'techdashboard.aanr.ph',
             'position' => 4,
             'created_at' => Carbon::now(), # new \Datetime()
             'updated_at' => Carbon::now(),
         ]);
         DB::table('header_links')->insert([
             'name' => 'Community',
-            'link' => 'http://167.71.210.45:8080/',
+            'link' => 'community.aanr.ph',
             'position' => 5,
             'created_at' => Carbon::now(), # new \Datetime()
             'updated_at' => Carbon::now(),

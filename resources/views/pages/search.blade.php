@@ -193,8 +193,12 @@
                                     ], '',['class' => 'form-control', 'placeholder' => '------------']) }}
             </div>-->
             <div class="form-group">
-                {{Form::label('year_published', 'Year Published', ['class' => 'col-form-label'])}}
-                {{ Form::selectYear('year_published', 1970, date('Y'), isset($year_search_query) ? request()->year_published : '', ['class' => 'form-control', 'placeholder' => '------------']) }}
+                {{Form::label('year_published', 'Year Published', ['class' => 'col-form-label mb-3'])}}
+                <div class="px-3">
+                    <div class="slider-styled slider-round mt-4" id="slider"></div>
+                </div>
+                {{ Form::hidden('start', '', array('id' => 'form-year-start')) }}
+                {{ Form::hidden('end', '', array('id' => 'form-year-end')) }}
             </div>
             <div class="form-group">
                 {{Form::label('gad', 'GAD Focus', ['class' => 'col-form-label' ])}}
@@ -202,9 +206,9 @@
                                     'No' => 'No', 
                                     ], 'No',['class' => 'form-control']) }}
             </div>
-            <button type="submit" class="btn btn-outline-secondary" style="font-size:1rem;color:white;#ced4da;background-color:rgb(33,109,158)">
+            <button type="submit" class="btn btn-outline-secondary" style="font-size:1rem;color:white;#ced4da;background-color:rgb(23,162,184)">
                 <i class="fas fa-search" style="color:white;width:1.5rem"></i>
-                Search
+                Advanced Search
             </button>
             </form>
             <?php $searchRegions = App\SearchQuery::where('query', '=', $query)->where('location', '!=', null)->select('location', DB::raw('count(*) as total'))->groupBy('location')->orderByDesc('total')->get()->take(5); ?>
@@ -581,8 +585,6 @@
         transition: .5s ease;
     }
 
-    .overlay-container:hover .hover-overlay, .overlay-container:hover .hover-overlay-text{
-        opacity: 1;
     }
     .last-section{
         background: rgb(33,109,158);
@@ -600,6 +602,36 @@
     .consortia-section{
         padding-top:5rem;
         padding-bottom:5rem;
+    }
+    .slider-styled .noUi-handle .noUi-touch-area {
+        border: 1px solid transparent;
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        width: auto;
+        height: auto;
+    }
+
+    /* Show a border when hovering the area the handle responds to */
+    .slider-styled .noUi-handle:hover .noUi-touch-area {
+        border: 1px dashed #7f7f7f;
+    }
+    .slider-round {
+        height: 10px;
+    }
+
+    .slider-round .noUi-connect {
+        background: #3FB8AF;
+    }
+
+    .slider-round .noUi-handle {
+        height: 18px;
+        width: 18px;
+        top: -5px;
+        right: -9px; /* half the width */
+        border-radius: 9px;
     }
 </style>
 @endsection
@@ -625,6 +657,104 @@
     //$search_query_freq_compiled = "'" . $search_query_freq_1->query . "','" . $search_query_freq_2->query . "','" . $search_query_freq_3->query . "','" . $search_query_freq_4->query . "','" . $search_query_freq_5->query . "'";
 ?>
 <script>
+    var slider = document.getElementById('slider');
+    function mergeTooltips(slider, threshold, separator) {
+        var textIsRtl = getComputedStyle(slider).direction === 'rtl';
+        var isRtl = slider.noUiSlider.options.direction === 'rtl';
+        var isVertical = slider.noUiSlider.options.orientation === 'vertical';
+        var tooltips = slider.noUiSlider.getTooltips();
+        var origins = slider.noUiSlider.getOrigins();
+
+        // Move tooltips into the origin element. The default stylesheet handles this.
+        tooltips.forEach(function (tooltip, index) {
+            if (tooltip) {
+                origins[index].appendChild(tooltip);
+            }
+        });
+
+        slider.noUiSlider.on('update', function (values, handle, unencoded, tap, positions) {
+            document.getElementById('form-year-start').setAttribute('value', values[0]);
+            document.getElementById('form-year-end').setAttribute('value', values[1]);
+
+            var pools = [[]];
+            var poolPositions = [[]];
+            var poolValues = [[]];
+            var atPool = 0;
+
+            // Assign the first tooltip to the first pool, if the tooltip is configured
+            if (tooltips[0]) {
+                pools[0][0] = 0;
+                poolPositions[0][0] = positions[0];
+                poolValues[0][0] = values[0];
+            }
+
+            for (var i = 1; i < positions.length; i++) {
+                if (!tooltips[i] || (positions[i] - positions[i - 1]) > threshold) {
+                    atPool++;
+                    pools[atPool] = [];
+                    poolValues[atPool] = [];
+                    poolPositions[atPool] = [];
+                }
+
+                if (tooltips[i]) {
+                    pools[atPool].push(i);
+                    poolValues[atPool].push(values[i]);
+                    poolPositions[atPool].push(positions[i]);
+                }
+            }
+
+            pools.forEach(function (pool, poolIndex) {
+                var handlesInPool = pool.length;
+
+                for (var j = 0; j < handlesInPool; j++) {
+                    var handleNumber = pool[j];
+
+                    if (j === handlesInPool - 1) {
+                        var offset = 0;
+
+                        poolPositions[poolIndex].forEach(function (value) {
+                            offset += 1000 - value;
+                        });
+
+                        var direction = isVertical ? 'bottom' : 'right';
+                        var last = isRtl ? 0 : handlesInPool - 1;
+                        var lastOffset = 1000 - poolPositions[poolIndex][last];
+                        offset = (textIsRtl && !isVertical ? 100 : 0) + (offset / handlesInPool) - lastOffset;
+
+                        // Center this tooltip over the affected handles
+                        tooltips[handleNumber].innerHTML = poolValues[poolIndex].join(separator);
+                        tooltips[handleNumber].style.display = 'block';
+                        tooltips[handleNumber].style[direction] = offset + '%';
+                    } else {
+                        // Hide this tooltip
+                        tooltips[handleNumber].style.display = 'none';
+                    }
+                }
+            });
+        });
+    }
+    noUiSlider.create(slider, {
+        range: {
+            'min': [1970],
+            'max': [2021]
+        },
+        start: ['1970', '2021'],
+        format: {
+            from: function(value) {
+                return parseInt(value);
+            },
+            to: function(value) {
+                return parseInt(value);
+            }
+        },
+        connect: true,
+        tooltips: [true, true],
+    });
+    var url = new URL(window.location.href);
+    var start = url.searchParams.get("start");
+    var end = url.searchParams.get("end");
+    slider.noUiSlider.set([start, end]);
+    mergeTooltips(slider, 15, ' - ');
     $(document).on("click", ".result-modal", function (){
         var content_id = $(this).data('id');
         var _token = $('input[name="_token"]').val();
@@ -687,13 +817,12 @@
             responsive:true,
             scales: {
                 yAxes: [{
-                    display: true,
                     ticks: {
-                        beginAtZero: true,
-                        stepSize: 1
+                        beginAtZero:true
                     }
                 }]
             }
+
         }
     });
     let most_popular_topics = new Chart(document.getElementById('most_popular_topics').getContext('2d'), {

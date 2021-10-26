@@ -131,9 +131,6 @@
         <div class="input-group">
             <input type="text" class="form-control" style="font-size:1.25rem;height:4rem" name="search" placeholder="Input keywords or topics on AANR" value={{ isset($results) ? $query : ''}}> 
             <span class="input-group-append">
-                <button type="submit" class="btn btn-outline-secondary" style="font-size:1.25rem;color:white;#ced4da;height:100%;background-color:rgb(23,162,184)">
-                    Advanced Search
-                </button>
                 <button type="submit" class="btn btn-outline-secondary" style="font-size:1.25rem;color:white;#ced4da;height:100%;background-color:rgb(33,109,158)">
                     <i class="fas fa-search" style="color:white;width:3rem"></i>
                     Search

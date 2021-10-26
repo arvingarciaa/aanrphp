@@ -23,6 +23,7 @@ use App\PageViews;
 use Auth;
 use DB;
 use Redirect;
+use Carbon\Carbon;
 use Stevebauman\Location\Facades\Location;
 
 class PagesController extends Controller
@@ -97,7 +98,10 @@ class PagesController extends Controller
         }
         $content_type = $request->content_type;
         $consortia = $request->consortia;
-        $year_published = $request->year_published;
+        $start = $request->start;
+        $end = $request->end;
+        $startDate = Carbon::createFromFormat('d/m/Y', '01/01/'.$request->start);
+        $endDate = Carbon::createFromFormat('d/m/Y', '06/01/'.$request->end);
         $is_gad = $request->is_gad;
         /*if($request->consortium){
             $artifacts = $artifacts->where('consortia_id', '=', $request->consortium)->where('title','LIKE','%'.$query.'%');
@@ -116,8 +120,8 @@ class PagesController extends Controller
             $results = $results->where('consortia_id', $consortia);
         }
 
-        if($year_published){
-            $results = $results->whereYear('date_published', '=', $year_published);
+        if($start && $end){
+            $results = $results->whereBetween('date_published', array($startDate, $endDate));
         }
 
         if($is_gad){
