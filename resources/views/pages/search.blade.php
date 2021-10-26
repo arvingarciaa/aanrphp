@@ -63,9 +63,10 @@
         </div>
     @endif
 </div>
+<a id="search-anchor" style="bottom:12rem;position:relative"></a>
 
 <div class="container" style="margin-bottom:5rem; margin-top:2rem">
-    <form action="/search" method="GET" role="search" class="mb-4 w-80">
+    <form action="/search#search-anchor" method="GET" role="search" class="mb-4 w-80">
         {{ csrf_field() }}
         <div class="input-group">
             <input type="text" class="form-control" style="font-size:1.25rem;height:4rem" name="search" placeholder="Input keywords or topics on {{request()->consortium ? $consortium_search : 'AANR'}}" value="{{ isset($results) ? $query : ''}}"> 
@@ -170,7 +171,7 @@
         </div>
         </div>
         <div class="col-lg-3 col-sm-12">
-            <form action="/search" method="GET" role="search" class="">
+            <form action="/search#search-anchor" method="GET" role="search" class="">
             <h4>Advanced Search Options</h4>
             <div class="form-group">
                 {{Form::label('search', 'Include keyword/s', ['class' => 'col-form-label required'])}}
