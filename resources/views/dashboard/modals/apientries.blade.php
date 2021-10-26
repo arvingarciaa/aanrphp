@@ -30,6 +30,34 @@
                                                 '168' => 'Every 7 days', 
                                                 ], '',['class' => 'form-control']) }}
                     </div>
+                    <div class="form-group">
+                        {{Form::label('time', 'Upload Time', ['class' => 'col-form-label required'])}}
+                        {{Form::select('time', ['00:00' => '12MN', 
+                                                '01:00' => '1AM', 
+                                                '02:00' => '2AM', 
+                                                '03:00' => '3AM', 
+                                                '04:00' => '4AM', 
+                                                '05:00' => '5AM', 
+                                                '06:00' => '6AM', 
+                                                '07:00' => '7AM', 
+                                                '08:00' => '8AM', 
+                                                '09:00' => '9AM', 
+                                                '10:00' => '10AM', 
+                                                '11:00' => '11AM', 
+                                                '12:00' => '12NN', 
+                                                '13:00' => '1PM', 
+                                                '14:00' => '2PM', 
+                                                '15:00' => '3PM', 
+                                                '16:00' => '4PM', 
+                                                '17:00' => '5PM', 
+                                                '18:00' => '6PM', 
+                                                '19:00' => '7PM', 
+                                                '20:00' => '8PM', 
+                                                '21:00' => '9PM', 
+                                                '22:00' => '10PM', 
+                                                '23:00' => '11PM',
+                                                ], '',['class' => 'form-control']) }}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -72,6 +100,34 @@
                                                     '144' => 'Every 6 days', 
                                                     '168' => 'Every 7 days', 
                                                     ], $api_entry->frequency,['class' => 'form-control', 'placeholder' => '------------']) }}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('time', 'Upload Time', ['class' => 'col-form-label required'])}}
+                            {{Form::select('time', ['00:00' => '12MN', 
+                                                    '01:00' => '1AM', 
+                                                    '02:00' => '2AM', 
+                                                    '03:00' => '3AM', 
+                                                    '04:00' => '4AM', 
+                                                    '05:00' => '5AM', 
+                                                    '06:00' => '6AM', 
+                                                    '07:00' => '7AM', 
+                                                    '08:00' => '8AM', 
+                                                    '09:00' => '9AM', 
+                                                    '10:00' => '10AM', 
+                                                    '11:00' => '11AM', 
+                                                    '12:00' => '12NN', 
+                                                    '13:00' => '1PM', 
+                                                    '14:00' => '2PM', 
+                                                    '15:00' => '3PM', 
+                                                    '16:00' => '4PM', 
+                                                    '17:00' => '5PM', 
+                                                    '18:00' => '6PM', 
+                                                    '19:00' => '7PM', 
+                                                    '20:00' => '8PM', 
+                                                    '21:00' => '9PM', 
+                                                    '22:00' => '10PM', 
+                                                    '23:00' => '11PM',
+                                                    ], Carbon::parse($api_entry->time)->format('H:i'),['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="modal-footer">

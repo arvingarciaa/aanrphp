@@ -785,9 +785,11 @@
                                             <thead>
                                                 <tr>
                                                     <th width="5%">ID</th>
-                                                    <th width="45%">Description</th>
-                                                    <th width="30%">Link</th>
+                                                    <th width="20%">Description</th>
+                                                    <th width="25%">Link</th>
                                                     <th width="10%">Frequency</th>
+                                                    <th width="15%">Time</th>
+                                                    <th width="15%">Next Upload</th>
                                                     <th width="10%">Action</th>
                                                 </tr>
                                             </thead>
@@ -798,6 +800,8 @@
                                                         <td>{{$api_entry->description}}</td>
                                                         <td>{{$api_entry->link}}</td>
                                                         <td>Every {{$api_entry->frequency}} hours</td>
+                                                        <td>{{Carbon::parse($api_entry->time)->format('h:i A')}} </td>
+                                                        <td>-</td>
                                                         <td>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAPIEntryModal-{{$api_entry->id}}"><i class="fas fa-edit"></i> Edit Details</button>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteAPIEntryModal-{{$api_entry->id}}"><i class="fas fa-trash"></i> Delete Entry</button>

@@ -13,6 +13,7 @@ class APIEntriesController extends Controller
         $entry->link = $request->link;
         $entry->description = $request->description;
         $entry->frequency = $request->frequency;
+        $entry->time = $request->time;
         $entry->save();
 
         return redirect()->back()->with('success','API Added.'); 
@@ -24,7 +25,8 @@ class APIEntriesController extends Controller
         $entry->link = $request->link;
         $entry->description = $request->description;
         $entry->frequency = $request->frequency;
-        $article->save();
+        $entry->time = $request->time;
+        $entry->save();
 
         return redirect()->back()->with('success','API Updated.'); 
     }
