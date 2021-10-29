@@ -227,7 +227,7 @@
     @endif
 </div>
 
-@if(App\ArtifactAANR::where('imglink', '!=', null)->where('is_agrisyunaryo', '=', 0)->count() != 0)
+@if(App\ArtifactAANR::where('imglink', '!=', null)->count() != 0)
 @if($landing_page->latest_aanr_bg_type == 1)
 <div class="parallax-section pb-2 pt-1 {{request()->edit == '1' ? 'overlay-container' : ''}}" style="background: {{$landing_page->latest_aanr_bg}});">
 @else
@@ -237,10 +237,10 @@
         <h2 class="mb-2 font-weight-bold" style="color:rgb(220,220,220)">{{$landing_page->latest_aanr_header}}</h2>
         <h5 class="mb-0" style="color:rgb(48, 152, 197)">{{$landing_page->latest_aanr_subheader}}</h5>
         <div class="row w-100">
-            @foreach(App\ArtifactAANR::where('imglink', '!=', null)->where('is_agrisyunaryo', '=', 0)->take(3)->get() as $artifact)
+            @foreach(App\ArtifactAANR::where('imglink', '!=', null)->take(3)->get() as $artifact)
             <div class="col-sm-4">
                 <div class="card front-card h-auto shadow rounded">
-                    <img src="{{$artifact->imglink}}" class="card-img-top" height="175" style="object-fit: cover;">
+                    <img src="{{$artifact->imglink}}" class="card-img-top" height="200" style="object-fit: cover;">
                     <div class="card-body">
                         <h4 class="card-title trail-end">{{$artifact->title}}</h4>
                         <div class="card-text trail-end" style="line-height: 120%;">
@@ -444,6 +444,70 @@
     @endif
 </div>
 
+<?php
+    if($user != null){
+        $compiled_featured_artifacts = collect();
+        if($user->organization != null){
+            $user_consortia_id = App\Consortia::where('short_name', '=', $user->organization)->first()->id;
+            $organization_artifacts = App\ArtifactAANR::where('consortia_id', '=', $user_consortia_id)->get();
+            foreach($organization_artifacts as $organization_artifact){
+                $compiled_featured_artifacts->push($organization_artifact);
+            }
+        }
+        if($user->interest != null){
+            //get all relevant consortia from the user's interest
+            $all_consortia_interest = App\Consortia::whereIn('short_name', json_decode($user->interest))->get();
+            $consortia_interest_array = array();
+            foreach($all_consortia_interest as $consortium_interest){
+                array_push($consortia_interest_array, $consortium_interest->id);
+            }
+            $consortia_interest_artifacts = App\ArtifactAANR::whereIn('consortia_id',$consortia_interest_array)->get();
+            foreach($consortia_interest_artifacts as $consortia_interest_artifact){
+                $compiled_featured_artifacts->push($consortia_interest_artifact);
+            }
+
+            //get all relevant commodities from the user's interest
+            $all_commodities_interest = App\Commodity::whereIn('name', json_decode($user->interest))->get();
+            $commodity_interest_array = array();
+            foreach($all_commodities_interest as $commodity_interest){
+                array_push($commodity_interest_array, $commodity_interest->id);
+            }
+            $all_artifactaanr_commodity_query = DB::table('artifactaanr_commodity')->whereIn('commodity_id', $commodity_interest_array)->get();
+            $all_artifactaanr_commodity_idarray = array();
+            foreach($all_artifactaanr_commodity_query as $artifactaanr_commodity_query){
+                array_push($all_artifactaanr_commodity_idarray, $artifactaanr_commodity_query->artifactaanr_id);
+            }
+            $commodity_interest_artifacts = App\ArtifactAANR::whereIn('id',$all_artifactaanr_commodity_idarray)->get();
+            foreach($commodity_interest_artifacts as $commodity_interest_artifact){
+                $compiled_featured_artifacts->push($commodity_interest_artifact);
+            }
+
+            //get all relevant ISP from the user's interest
+            $all_isps_interest = App\ISP::whereIn('name', json_decode($user->interest))->get();
+            $isp_interest_array = array();
+            foreach($all_isps_interest as $isp_interest){
+                array_push($isp_interest_array, $isp_interest->id);
+            }
+            $all_artifactaanr_isp_query = DB::table('artifactaanr_isp')->whereIn('isp_id', $isp_interest_array)->get();
+            $all_artifactaanr_isp_idarray = array();
+            foreach($all_artifactaanr_isp_query as $artifactaanr_isp_query){
+                array_push($all_artifactaanr_isp_idarray, $artifactaanr_isp_query->artifactaanr_id);
+            }
+            $isp_interest_artifacts = App\ArtifactAANR::whereIn('id',$all_artifactaanr_isp_idarray)->get();
+            foreach($isp_interest_artifacts as $isp_interest_artifact){
+                $compiled_featured_artifacts->push($isp_interest_artifact);
+            }
+        }
+
+        $compiled_featured_artifacts = $compiled_featured_artifacts->shuffle()->take(3)->all();
+        if($compiled_featured_artifacts == null){
+            $compiled_featured_artifacts = App\ArtifactAANR::inRandomOrder()->limit(3)->get();
+        }
+    } else {
+        $recommended_artifacts_not_logged_in = App\ArtifactAANR::inRandomOrder()->limit(3)->get();
+    }
+?>
+
 @if($landing_page->recommended_for_you_bg_type == 1)
 <div class="recommended-section {{request()->edit == '1' ? 'overlay-container' : ''}}" style="background: {{$landing_page->recommended_for_you_bg}};">
 @else
@@ -452,79 +516,58 @@
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:white">{{$landing_page->recommended_for_you_header}}</h2>
         <h5 class="mb-0" style="color:rgb(48, 152, 197)">{{$landing_page->recommended_for_you_subheader}}</h5>
-        <div class="row w-100">
-            <div class="col-sm-4">
-                <div class="card front-card h-auto shadow rounded">
-                    <img src="https://www.agriculture.com.ph/wp-content/uploads/2020/10/Photo-by-Kristi-Evans-from-Pexels-759x500.jpeg" class="card-img-top" height="175" style="object-fit: cover;">
-                    <div class="card-body">
-                        <h4 class="card-title trail-end">Itik production and management, part 2: Proper feeds and housing requirements</h4>
-                        <div class="card-text trail-end" style="line-height: 120%;">
-                            <p class="mb-2"><b>November 11-13, 2019</b></p>
-                            <small>Region 10 · Robinson's Place, Valencia City, Bukidnon<br>
-                                                                                    
-                                        ILAARRDEC 
-                                    
-                                                                                                                                            · SMAARRDEC
-                                    
-                                                                                                                                            · CVAARRDEC
-                                    
-                                                                                                                                            · NOMCAARRD
-                                    
-                                                                                <br>
-                                                                            </small>
+        <div id="techCards" class="row w-100">
+            @if($user!=null)
+                @foreach($compiled_featured_artifacts as $compiled_featured_artifact)
+                    <div class="col-sm-4 tech-card-container">
+                        <div class="card front-card h-auto shadow rounded">
+                            @if($compiled_featured_artifact->imglink == null)
+                            <div class="card-img-top center-vertically px-3 tech-card-color" style="height:200px">
+                                <span class="font-weight-bold" style="font-size: 17px;line-height: 1.5em;color: #2b2b2b;">
+                                    {{$compiled_featured_artifact->title}}
+                                </span>
+                            </div>
+                            @else
+                            <img src="{{$compiled_featured_artifact->imglink}}" class="card-img-top" height="175" style="object-fit: cover;">
+                            @endif
+                            <div class="card-body">
+                                <h4 class="card-title trail-end">{{$compiled_featured_artifact->title}}</h4>
+                                <div class="card-text trail-end" style="line-height: 120%;">
+                                    <p class="mb-2"><b>{{$compiled_featured_artifact->author}}</b></p>
+                                    <small>{{$compiled_featured_artifact->consortia->short_name}}<br>           
+                                                {{$compiled_featured_artifact->content->type}} <br> </small>
+                                </div>
+                            </div>
+                            <a href="{{$compiled_featured_artifact->link}}" target="_blank" class="stretched-link"></a>
                         </div>
                     </div>
-                    <a href="/posts/76" class="stretched-link"></a>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card front-card h-auto shadow rounded">
-                    <img src="https://www.agriculture.com.ph/wp-content/uploads/2020/10/File-photo-agriculture.com_.ph_.jpg" class="card-img-top" height="175" style="object-fit: cover;">
-                    <div class="card-body">
-                        <h4 class="card-title trail-end">Itik Production and Management, Part 1: Benefits of Integrated Rice-Duck Farming</h4>
-                        <div class="card-text trail-end" style="line-height: 120%;">
-                            <p class="mb-2"><b>November 11-13, 2019</b></p>
-                            <small>Region 10 · Robinson's Place, Valencia City, Bukidnon<br>
-                                                                                    
-                                        ILAARRDEC 
-                                    
-                                                                                                                                            · SMAARRDEC
-                                    
-                                                                                                                                            · CVAARRDEC
-                                    
-                                                                                                                                            · NOMCAARRD
-                                    
-                                                                                <br>
-                                                                            </small>
+                @endforeach
+            @else
+                @foreach($recommended_artifacts_not_logged_in as $recommended_artifact_not_logged_in)
+                    <div class="col-sm-4 tech-card-container">
+                        <div class="card front-card h-auto shadow rounded">
+                            @if($recommended_artifact_not_logged_in->imglink == null)
+                            <div class="card-img-top center-vertically px-3 tech-card-color" style="height:200px">
+                                <span class="font-weight-bold" style="font-size: 17px;line-height: 1.5em;color: #2b2b2b;">
+                                    {{$recommended_artifact_not_logged_in->title}}
+                                </span>
+                            </div>
+                            @else
+                            <img src="{{$recommended_artifact_not_logged_in->imglink}}" class="card-img-top" height="200" style="object-fit: cover;">
+                            @endif
+                            <div class="card-body">
+                                <h4 class="card-title trail-end">{{$recommended_artifact_not_logged_in->title}}</h4>
+                                <div class="card-text trail-end" style="line-height: 120%;">
+                                    <p class="mb-2"><b>{{$recommended_artifact_not_logged_in->author}}</b></p>
+                                    <small>{{$recommended_artifact_not_logged_in->consortia->short_name}}<br>           
+                                                {{$recommended_artifact_not_logged_in->content->type}} <br> </small>
+                                </div>
+                            </div>
+                            <a href="{{$recommended_artifact_not_logged_in->link}}" target="_blank" class="stretched-link"></a>
                         </div>
                     </div>
-                    <a href="/posts/76" class="stretched-link"></a>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card front-card h-auto shadow rounded">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/06659jfCandaba_Pampanga_Fields_Duck_Farming_Bahay_Pare_Dulong_Ilog_Bulacanfvf_35.JPG" class="card-img-top" height="175" style="object-fit: cover;">
-                    <div class="card-body">
-                        <h4 class="card-title trail-end">Itik production and management, part 2: Proper feeds and housing requirements</h4>
-                        <div class="card-text trail-end" style="line-height: 120%;">
-                            <p class="mb-2"><b>November 11-13, 2019</b></p>
-                            <small>Region 10 · Robinson's Place, Valencia City, Bukidnon<br>
-                                                                                    
-                                        ILAARRDEC 
-                                    
-                                                                                                                                            · SMAARRDEC
-                                    
-                                                                                                                                            · CVAARRDEC
-                                    
-                                                                                                                                            · NOMCAARRD
-                                    
-                                                                                <br>
-                                                                            </small>
-                        </div>
-                    </div>
-                    <a href="/posts/76" class="stretched-link"></a>
-                </div>
-            </div>
+                @endforeach
+            @endif
         </div>
         @if(request()->edit == 1)
             <div class="hover-overlay" style="width:100%">    
@@ -533,6 +576,18 @@
         @endif
     </div>
 </div>
+
+<style>
+    #techCards .tech-card-container:nth-child(3n+1) div .tech-card-color{
+        background-color: rgb(1, 197, 237);
+    }
+    #techCards .tech-card-container:nth-child(3n+2) div .tech-card-color {
+        background-color: rgb(255, 206, 16);
+    }
+    #techCards .tech-card-container:nth-child(3n+3) div .tech-card-color {
+        background-color: rgb(241, 86, 64);
+    }
+</style>
 
 <div class="consortia-section container section-margin text-center {{request()->edit == '1' ? 'overlay-container' : ''}}" id="consortiaGroup">
     <h1 class="mb-2 font-weight-bold">{{$landing_page->consortia_members_header}}</h1>
