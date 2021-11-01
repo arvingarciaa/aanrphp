@@ -52,13 +52,22 @@
                     <li data-target="#featuredBanner" data-slide-to={{$loop->index}} class={{$loop->first ? "active" : ""}}></li>
                 @endforeach
             </ol>
-            
-            <div class="carousel-inner text-center" style="height:550px">
+            <style>
+                @media only screen and (max-width: 600px) {
+                    .mobile-50 {
+                        height:40vh !important
+                    }
+                    .section-margin {
+                        margin-top:2.5rem !important;
+                    }
+                }
+            </style>
+            <div class="carousel-inner text-center mobile-50" style="height:550px">
                 @foreach($sliders as $slider)
-                    @if($slider->is_video ==     0)
-                        <div class="carousel-item {{$count == 0 ? 'active' : ''}}" style="height:550px;">
-                           <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100 fill-background" alt="Carousel Image">
-                            <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100" alt="Carousel Image" width="100%" style="object-fit: contain; height:550px; z-index:10;">
+                    @if($slider->is_video == 0)
+                        <div class="carousel-item mobile-50 {{$count == 0 ? 'active' : ''}}" style="height:550px;">
+                            <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100 fill-background" alt="Carousel Image">
+                            <img src="/storage/cover_images/{{$slider->image}}" class="d-block w-100 mobile-50" alt="Carousel Image" width="100%" style="object-fit: contain; height:550px; z-index:10;">
                             @if($slider->textcard_enable == 'yes')
                             <div class="carousel-caption d-none d-md-block px-4 carousel-caption-align-{{$slider->caption_align}}" style="bottom:6%">
                                 <h1 style="font-weight:600">{{$slider->title}}</h1>
@@ -68,7 +77,7 @@
                             @endif
                         </div>
                     @else
-                        <div class="carousel-item {{$count == 0 ? 'active' : ''}}" style="height:550px;">
+                        <div class="carousel-item mobile-50 {{$count == 0 ? 'active' : ''}}" style="height:550px;">
                             <iframe src="{{$slider->video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen height="100%" width="100%">
                             </iframe>
                         </div>
@@ -188,7 +197,7 @@
 <div class="container section-margin {{request()->edit == '1' ? 'overlay-container' : ''}}">
     <h2 class="mb-2 font-weight-bold">{{$landing_page->industry_profile_header}}</h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)">{{$landing_page->industry_profile_subheader}}</h5>
-    <div class="row w-100">
+    <div class="row">
         <div class="col-sm-4">
             <div class="card h-auto text-white">
                 <img src="/storage/page_images/{{$landing_page->industry_profile_agri_bg}}" class="card-img-top" height="250" style="object-fit: cover;">
@@ -236,7 +245,7 @@
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:rgb(220,220,220)">{{$landing_page->latest_aanr_header}}</h2>
         <h5 class="mb-0" style="color:rgb(48, 152, 197)">{{$landing_page->latest_aanr_subheader}}</h5>
-        <div class="row w-100">
+        <div class="row">
             @foreach(App\ArtifactAANR::where('imglink', '!=', null)->take(3)->get() as $artifact)
             <div class="col-sm-4">
                 <div class="card front-card h-auto shadow rounded">
@@ -516,7 +525,7 @@
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:white">{{$landing_page->recommended_for_you_header}}</h2>
         <h5 class="mb-0" style="color:rgb(48, 152, 197)">{{$landing_page->recommended_for_you_subheader}}</h5>
-        <div id="techCards" class="row w-100">
+        <div id="techCards" class="row">
             @if($user!=null)
                 @foreach($compiled_featured_artifacts as $compiled_featured_artifact)
                     <div class="col-sm-4 tech-card-container">

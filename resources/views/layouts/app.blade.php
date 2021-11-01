@@ -74,7 +74,7 @@
 </head>
 <body style="background-color:white">
     <div id="app">
-        <div class="icon-bar" style="z-index:500">
+        <div class="icon-bar hide-when-mobile" style="z-index:500">
             <?php $sticky = App\SocialMediaSticky::all()?>
             <a target="_blank" href="{{$sticky->where('name', '=', 'PCAARRD')->first()->link}}" class="sarai"><img src="/storage/page_images/TRr6O4s.png" height="30" width="30"></a> 
             <a target="_blank" data-toggle="tooltip" title="Visit our Facebook"href="{{$sticky->where('name', '=', 'Facebook')->first()->link}}" class="facebook"><i class="fab fa-facebook"></i></a> 
@@ -138,6 +138,13 @@
        @include('layouts.footer')
        
     </div>
+    <style>
+        @media only screen and (max-width: 600px) {
+            .hide-when-mobile {
+                display:none !important
+            }
+        }
+    </style>
 </body>
     
     @yield('scripts')
