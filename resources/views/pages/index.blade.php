@@ -194,7 +194,7 @@
     });
 </script>
 
-<div class="container section-margin {{request()->edit == '1' ? 'overlay-container' : ''}}">
+<div class="container section-margin {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
     <h2 class="mb-2 font-weight-bold">{{$landing_page->industry_profile_header}}</h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)">{{$landing_page->industry_profile_subheader}}</h5>
     <div class="row">
@@ -238,9 +238,9 @@
 
 @if(App\ArtifactAANR::where('imglink', '!=', null)->count() != 0)
 @if($landing_page->latest_aanr_bg_type == 1)
-<div class="parallax-section pb-2 pt-1 {{request()->edit == '1' ? 'overlay-container' : ''}}" style="background: {{$landing_page->latest_aanr_bg}});">
+<div class="parallax-section pb-2 pt-1 {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}" style="background: {{$landing_page->latest_aanr_bg}});">
 @else
-<div class="parallax-section pb-2 pt-1 {{request()->edit == '1' ? 'overlay-container' : ''}}" style="background-image: url('/storage/page_images/{{$landing_page->latest_aanr_bg}}');">
+<div class="parallax-section pb-2 pt-1 {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}" style="background-image: url('/storage/page_images/{{$landing_page->latest_aanr_bg}}');">
 @endif
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:rgb(220,220,220)">{{$landing_page->latest_aanr_header}}</h2>
@@ -271,7 +271,7 @@
     @endif
 </div>
 @endif
-<div class="container section-margin {{request()->edit == '1' ? 'overlay-container' : ''}}">
+<div class="container section-margin {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
     <h2 class="mb-2 font-weight-bold">{{$landing_page->user_type_recommendation_header}}</h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)">{{$landing_page->user_type_recommendation_subheader}}</h5>
     <div class="row">
@@ -313,7 +313,7 @@
     @endif
 </div>
 
-<div class="container section-margin {{request()->edit == '1' ? 'overlay-container' : ''}}">
+<div class="container section-margin {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
     <?php
         $url = "https://elibrary.pcaarrd.dost.gov.ph/km-api/";
         $data = @file_get_contents($url);
@@ -412,7 +412,7 @@
     }
 ?>
 
-<div class="container section-margin {{request()->edit == '1' ? 'overlay-container' : ''}}">
+<div class="container section-margin {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
     <h2 class="mb-2 font-weight-bold">{{$landing_page->featured_videos_header}}</h2>
     <h5 class="mb-4" style="color:rgb(23, 135, 184)">{{$landing_page->featured_videos_subheader}}</h5>
     <div id="featuredVideo" style="" class="carousel slide" data-ride="carousel">
@@ -518,9 +518,9 @@
 ?>
 
 @if($landing_page->recommended_for_you_bg_type == 1)
-<div class="recommended-section {{request()->edit == '1' ? 'overlay-container' : ''}}" style="background: {{$landing_page->recommended_for_you_bg}};">
+<div class="recommended-section {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}" style="background: {{$landing_page->recommended_for_you_bg}};">
 @else
-<div class="recommended-section parallax-section {{request()->edit == '1' ? 'overlay-container' : ''}}" style="background-image: url('/storage/page_images/{{$landing_page->recommended_for_you_bg}}');">
+<div class="recommended-section parallax-section {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}" style="background-image: url('/storage/page_images/{{$landing_page->recommended_for_you_bg}}');">
 @endif
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:white">{{$landing_page->recommended_for_you_header}}</h2>
@@ -598,7 +598,7 @@
     }
 </style>
 
-<div class="consortia-section container section-margin text-center {{request()->edit == '1' ? 'overlay-container' : ''}}" id="consortiaGroup">
+<div class="consortia-section container section-margin text-center {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}" id="consortiaGroup">
     <h1 class="mb-2 font-weight-bold">{{$landing_page->consortia_members_header}}</h1>
     <h5 class="mb-4" style="color:rgb(23, 135, 184)">{{$landing_page->consortia_members_subheader}}</h5>
     @foreach(App\Consortia::all() as $consortium)
