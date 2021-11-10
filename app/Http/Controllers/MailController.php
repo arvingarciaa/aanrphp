@@ -8,6 +8,7 @@ use App\Mail\ConfirmRegistrationMail;
 use App\Mail\DigestMail;
 use App\Mail\UnsubscribeMail;
 use App\Mail\UnsubscribeSuccessMail;
+use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
@@ -22,6 +23,7 @@ class MailController extends Controller
     }
 
     public function digest(){
+        Mail::to('info@ajgarcia.com')->send(new DigestMail());
         return new DigestMail();
     }
 

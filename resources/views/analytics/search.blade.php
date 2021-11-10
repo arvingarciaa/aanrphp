@@ -27,6 +27,9 @@
 
     //Total search for the month
     $totalSearchCurrentMonth = App\SearchQuery::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
+    if($totalSearchCurrentMonth <= 0){
+        $totalSearchCurrentMonth = 1;
+    }
     $totalSearchLastMonth = App\SearchQuery::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', date('Y'))->count();
     if($totalSearchLastMonth == 0){
         $totalSearchIncreasePercent = 100;
@@ -37,6 +40,9 @@
 
     //Average search for the last 15 days
     $averageSearchCurrentHalfMonth = sprintf("%.2f", App\SearchQuery::whereBetween('created_at', [Carbon::now()->subdays(15),Carbon::now()])->count()/15);
+    if($averageSearchCurrentHalfMonth <= 0){
+        $averageSearchCurrentHalfMonth = 1;
+    }
     $averageSearchLastHalfMonth = sprintf("%.2f", App\SearchQuery::whereBetween('created_at', [Carbon::now()->subdays(30),Carbon::now()->subdays(15)])->count()/15);
     if($averageSearchLastHalfMonth == 0){
         $averageSearchIncreasePercent = 100;
