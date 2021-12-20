@@ -154,6 +154,7 @@
                     <a class="list-group-item active" data-toggle="tab" href="#user_profile" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-user" style="margin-right:0.8rem"></i> User Profile</span>
                     </a>
+                    @if(auth()->user()->role == 5 || ((auth()->user()->role == 1 || auth()->user()->role == 2) && auth()->user()->consortia_admin_id != null))
                     <a class="list-group-item" data-toggle="tab" href="#landing_page" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-home" style="margin-right:0.8rem"></i> Manage Landing Page</span>
                     </a>
@@ -166,6 +167,7 @@
                     <a class="list-group-item" data-toggle="tab" href="#logs" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-clipboard-list" style="margin-right:0.8rem"></i> Activity Logs</span>
                     </a>
+                    @endif
                     <a class="list-group-item" href="/analytics/search" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-chart-line" style="margin-right:0.8rem"></i> Dashboard</span>
                     </a>
@@ -275,7 +277,7 @@
                                         <br>  
                                         @if(auth()->user()->role == 5)
                                             <span class="badge bg-success px-3 pt-2 "><h5 class="text-white">Superadmin</h5></span>
-                                        @elseif(auth()->user()->role == 2)
+                                        @elseif(auth()->user()->role == 2 || auth()->user()->role == 1)
                                             <span class="badge bg-success px-3 pt-2"><h5 class="text-white">Consortia Admin</h5></span>
                                         @else
                                             <span class="badge bg-success px-3 pt-2"><h5 class="text-white">Regular User</h5></span>
@@ -1887,33 +1889,42 @@
                                     <table class="table data-table tech-table table-hover" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th width="5%">ID</th>
-                                                    <th width="25%">Email</th>
-                                                    <th width="25%">First Name</th>
-                                                    <th width="25%">Last Name</th>
-                                                    <th width="10%">Role</th>
-                                                    <th width="10%">Action</th>
+                                                    <th style="width:5%">ID</th>
+                                                    <th style="width:15%">Email</th>
+                                                    <th style="width:10%">First Name</th>
+                                                    <th style="width:10%">Last Name</th>
+                                                    <th style="width:15%">Organization</th>
+                                                    <th style="width:15%">Role</th>
+                                                    <th style="width:30%">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             @foreach(App\User::all() as $user)
                                                 <tr>
-                                                    <td>{{$user->id}}</td>
-                                                    <td>{{$user->email}}</td>
-                                                    <td>{{$user->first_name}}</td>
-                                                    <td>{{$user->last_name}}</td>
-                                                    <td>
+                                                    <td style="width:5%">{{$user->id}}</td>
+                                                    <td style="width:15%">{{$user->email}}</td>
+                                                    <td style="width:10%">{{$user->first_name}}</td>
+                                                    <td style="width:10%">{{$user->last_name}}</td>
+                                                    <td style="width:15%">{{$user->organization}}</td>
+                                                    <td style="width:15%">
                                                         @if($user->role == 5)
                                                             Superadmin
-                                                        @elseif($user->role == 1 && $user->consortia_admin_id != null)
+                                                        @elseif(($user->role == 1 || $user->role == 2) && $user->consortia_admin_id != null)
                                                             {{App\Consortia::find($user->consortia_admin_id)->short_name}} Manager
                                                         @else
                                                             Standard User
                                                         @endif
                                                     </td>
-                                                    <td>
+                                                    <td style="width:30%">
+                                                        @if((auth()->user()->role == 1 || auth()->user()->role == 2))
+                                                            @if($user->role == 0 || ($user->consortia_admin_id == auth()->user()->consortia_admin_id && $user->role != 5) )
+                                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#setConsortiaAdminModal-{{$user->id}}"><i class="fas fa-edit"></i> Set as Consortia Admin</button>
+                                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteUserModal-{{$user->id}}"><i class="fas fa-trash"></i> Delete</button>
+                                                            @endif
+                                                        @elseif(auth()->user()->role == 5)
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#setConsortiaAdminModal-{{$user->id}}"><i class="fas fa-edit"></i> Set as Consortia Admin</button>
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteUserModal-{{$user->id}}"><i class="fas fa-trash"></i> Delete</button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

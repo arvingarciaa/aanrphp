@@ -654,8 +654,6 @@
 </div>
 
 
-
-
 <div class="last-section">
     <div class="container text-center px-5">
         <h1 class="font-weight-bold">Never miss an update</h1>

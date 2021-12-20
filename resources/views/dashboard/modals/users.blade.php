@@ -12,11 +12,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                    {{Form::label('consortia_admin_id', 'Set user role', ['class' => 'col-form-label'])}} 
-                        {{Form::select('user_role', ['0' => 'Regular User', 
-                        '1' => 'Consortia Admin', 
-                        '5' => 'Superadmin',
-                        ], $user->role,['class' => 'form-control', 'name' => 'user_role']) }}
+                        {{Form::label('consortia_admin_id', 'Set user role', ['class' => 'col-form-label'])}} 
+                        <select class="form-control" name="user_role" id="user_role">
+                            <option value="0" {{$user->role == 0 ? 'selected' : ''}}>Regular User</option>
+                            <option value="1" {{$user->role == 1 ? 'selected' : ''}}>Consortia Admin</option>
+                            @if(auth()->user()->role == 5)
+                            <option value="5" {{$user->role == 5 ? 'selected' : ''}}>Superadmin</option>
+                            @endif
+                        </select>
                     </div>
                     <div class="form-group consortia-user-choice" style="{{$user->role == 1 ? '' : 'display:none'}}">
                         {{Form::label('consortia_admin_id', 'Choose consortia', ['class' => 'col-form-label'])}} 
