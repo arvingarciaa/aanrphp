@@ -52,6 +52,7 @@ class PagesController extends Controller
         $file = Browsershot::url('http://aanr.ph/analytics/search')
             ->landscape()
             ->showBrowserHeaderAndFooter()
+            ->windowSize(1920, 1080)
             ->scale(0.75)
             ->pdf();
         $headers = [
