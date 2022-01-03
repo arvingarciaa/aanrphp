@@ -263,6 +263,9 @@
              </div>
         </div>
     </div>
+    <div class="text-center mt-3">
+        <a href="{{ url('/analytics/search/save') }}" class="btn btn-info">Save Page as PDF</a>
+    </div>  
 </div>
 
 @endsection

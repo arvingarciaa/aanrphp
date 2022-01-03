@@ -25,6 +25,8 @@ use DB;
 use Redirect;
 use Carbon\Carbon;
 use Stevebauman\Location\Facades\Location;
+use Spatie\Browsershot\Browsershot;
+
 
 class PagesController extends Controller
 {
@@ -44,6 +46,23 @@ class PagesController extends Controller
         return view('analytics.search');
     }
 
+    public function saveAnalytics(){
+        $now = Carbon::now();
+        $file_name = 'aanr_analytics'. $now->format('dmy').'.pdf';
+        $file = Browsershot::url('http://aanr.ph/analytics/search')
+            ->landscape()
+            ->showBrowserHeaderAndFooter()
+            ->scale(0.75)
+            ->pdf();
+        $headers = [
+            'Content-Type' => 'pdf',
+            'Content-Disposition' => 'attachment; filename='.$file_name,
+        ];
+        
+        return response()->stream(function() use ($file) {
+            echo $file;
+        }, 200, $headers); 
+    }
     
 
     public function getLandingPage(){
