@@ -50,6 +50,7 @@ class PagesController extends Controller
         $now = Carbon::now();
         $file_name = 'aanr_analytics'. $now->format('dmy').'.pdf';
         $file = Browsershot::url('http://aanr.ph/analytics/search')
+            ->noSandbox()
             ->landscape()
             ->showBrowserHeaderAndFooter()
             ->windowSize(1920, 1080)
