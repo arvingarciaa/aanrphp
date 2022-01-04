@@ -160,12 +160,12 @@ Route::post('headlines/createCommodityViewLog', 'CommodityViewsController@create
 //Content
 Route::post('headlines/addContent', 'ContentController@addContent')->name('addContent');
 Route::post('headlines/{id}/editContent', 'ContentController@editContent')->name('editContent');
-Route::delete('headlines/deleteContent', 'ContentController@deleteContent')->name('deleteContent');
+Route::delete('headlines/{id}/deleteContent', 'ContentController@deleteContent')->name('deleteContent');
 
 //ContentSubtype
 Route::post('headlines/addContentSubtype', 'ContentSubtypesController@addContentSubtype')->name('addContentSubtype');
 Route::post('headlines/{id}/editContentSubtype', 'ContentSubtypesController@editContentSubtype')->name('editContentSubtype');
-Route::delete('headlines/deleteContentSubtype', 'ContentSubtypesController@deleteContentSubtype')->name('deleteContentSubtype');
+Route::delete('headlines/{id}/deleteContentSubtype', 'ContentSubtypesController@deleteContentSubtype')->name('deleteContentSubtype');
 
 //Contributors
 Route::post('headlines/addContributor', 'ContributorsController@addContributor')->name('addContributor');

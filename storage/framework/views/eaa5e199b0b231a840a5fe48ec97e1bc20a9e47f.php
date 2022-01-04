@@ -81,12 +81,25 @@
                         <?php echo e(method_field('DELETE')); ?>
 
                         <span>
-                            Are you sure you want to delete: <b><?php echo e($content->type); ?></b>?</br></br>
+                            <?php $content_with_subtype = App\Content::with('content_subtypes')->find($content->id); ?>
+                            <?php if($content_with_subtype->content_subtypes->count() > 0): ?>
+                                You cannot delete: <b><?php echo e($content->type); ?></b></br></br>
+                                The following content subtypes needs to be deleted before deleting this content type:
+                                <ul>
+                                    <?php $__currentLoopData = $content_with_subtype->content_subtypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $content_subtype): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li><?php echo e($content_subtype->name); ?></li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ul>
+                            <?php else: ?>
+                                Are you sure you want to delete: <b><?php echo e($content->type); ?></b>?</br></br>
+                            <?php endif; ?>
                         </span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                        <?php if($content_with_subtype->content_subtypes->count() == 0): ?>
                         <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                        <?php endif; ?>
                     </div>
                     </form>
                 </div>

@@ -817,9 +817,6 @@
                             </div>
                             @elseif(request()->asset == 'Content')
                             <div class="card shadow mb-5 mt-0 ml-0">
-                                <form action="{{ route('deleteContent')}}" id="deleteForm" method="POST">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="_method" value="delete">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
                                         Content Type
@@ -850,13 +847,9 @@
                                             </tbody>
                                     </table>
                                 </div>
-                                </form>
                             </div>
                         @elseif(request()->asset == 'Content_Subtype')
                             <div class="card shadow mb-5 mt-0 ml-0">
-                                <form action="{{ route('deleteContentSubtype')}}" id="deleteForm" method="POST">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="_method" value="delete">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
                                         Content Subtype
@@ -889,7 +882,6 @@
                                             </tbody>
                                     </table>
                                 </div>
-                                </form>
                             </div>
                         @elseif(request()->asset == 'Contributors')
                             <div class="card shadow mb-5 mt-0 ml-0">

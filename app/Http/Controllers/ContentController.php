@@ -34,10 +34,9 @@ class ContentController extends Controller
         return redirect()->back()->with('success','Content Updated.'); 
     }
 
-    public function deleteContent(Request $request){
-        
-        $content = Content::whereIn('id', $request->input('content_type_check'))->delete();
-
-        return redirect()->back()->with('success','Selected Content Type Deleted.'); 
+    public function deleteContent(Request $request, $content_id){
+        $content = Content::find($content_id);
+        $content->delete();
+        return redirect()->back()->with('success','Content Type Deleted.'); 
     }
 }

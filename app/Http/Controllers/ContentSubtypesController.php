@@ -18,7 +18,7 @@ class ContentSubtypesController extends Controller
         $content_subtype->content_id = $request->content;
         $content_subtype->save();
 
-        return redirect()->back()->with('success','ContentSubtype Added.'); 
+        return redirect()->back()->with('success','Content Subtype Added.'); 
     }
     
     public function editContentSubtype(Request $request, $content_subtype_id){
@@ -32,11 +32,12 @@ class ContentSubtypesController extends Controller
         $content_subtype->content_id = $request->content;
         $content_subtype->save();
 
-        return redirect()->back()->with('success','ContentSubtype Updated.'); 
+        return redirect()->back()->with('success','Content Subtype Updated.'); 
     }
 
-    public function deleteContentSubtype(Request $request){
-        $content = ContentSubtype::whereIn('id', $request->input('content_subtype_check'))->delete();
-        return redirect()->back()->with('success','Selected Content Subtype Deleted.'); 
+    public function deleteContentSubtype(Request $request, $content_subtype_id){
+        $content_subtype = ContentSubtype::find($content_subtype_id);
+        $content_subtype->delete();
+        return redirect()->back()->with('success','Content Subtype Deleted.'); 
     }
 }

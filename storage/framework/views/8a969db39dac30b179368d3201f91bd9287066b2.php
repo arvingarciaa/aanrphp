@@ -867,10 +867,6 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                             <?php elseif(request()->asset == 'Content'): ?>
                             <div class="card shadow mb-5 mt-0 ml-0">
-                                <form action="<?php echo e(route('deleteContent')); ?>" id="deleteForm" method="POST">
-                                <?php echo e(csrf_field()); ?>
-
-                                <input type="hidden" name="_method" value="delete">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
                                         Content Type
@@ -901,14 +897,9 @@ unset($__errorArgs, $__bag); ?>
                                             </tbody>
                                     </table>
                                 </div>
-                                </form>
                             </div>
                         <?php elseif(request()->asset == 'Content_Subtype'): ?>
                             <div class="card shadow mb-5 mt-0 ml-0">
-                                <form action="<?php echo e(route('deleteContentSubtype')); ?>" id="deleteForm" method="POST">
-                                <?php echo e(csrf_field()); ?>
-
-                                <input type="hidden" name="_method" value="delete">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
                                         Content Subtype
@@ -941,7 +932,6 @@ unset($__errorArgs, $__bag); ?>
                                             </tbody>
                                     </table>
                                 </div>
-                                </form>
                             </div>
                         <?php elseif(request()->asset == 'Contributors'): ?>
                             <div class="card shadow mb-5 mt-0 ml-0">

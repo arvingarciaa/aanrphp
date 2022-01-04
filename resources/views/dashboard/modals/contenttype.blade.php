@@ -69,12 +69,25 @@
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                         <span>
-                            Are you sure you want to delete: <b>{{$content->type}}</b>?</br></br>
+                            <?php $content_with_subtype = App\Content::with('content_subtypes')->find($content->id); ?>
+                            @if($content_with_subtype->content_subtypes->count() > 0)
+                                You cannot delete: <b>{{$content->type}}</b></br></br>
+                                The following content subtypes needs to be deleted before deleting this content type:
+                                <ul>
+                                    @foreach($content_with_subtype->content_subtypes as $content_subtype)
+                                        <li>{{$content_subtype->name}}</li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                Are you sure you want to delete: <b>{{$content->type}}</b>?</br></br>
+                            @endif
                         </span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                        @if($content_with_subtype->content_subtypes->count() == 0)
                         <input class="btn btn-danger" type="submit" value="Yes, Delete">
+                        @endif
                     </div>
                     </form>
                 </div>
