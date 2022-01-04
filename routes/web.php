@@ -206,3 +206,6 @@ Route::delete('headlines/{id}/deleteAPIEntry', 'APIEntriesController@deleteAPIEn
 
 //CK Editor
 Route::post('ckeditor/upload', 'App\Http\Controllers\CKEditorController@store')->name('ckeditor.upload');
+
+//Logs
+Route::get('logs/download', 'LogsController@exportLogs')->name('exportLogs');

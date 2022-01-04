@@ -1990,7 +1990,7 @@
                                 <h2 class="text-primary" >
                                     Activity Logs
                                 <span class="float-right">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createGeneratorModal"><i class="fas fa-plus"></i> Download Excel</button>
+                                    <a href="{{ url('/logs/download') }}" type="button" class="btn btn-default"> <i class="fas fa-plus"></i> Download Excel</a>
                                 </span></h2>
                             </div>
                             <div class="card-body">
