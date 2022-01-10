@@ -548,7 +548,7 @@
                                                 <?php echo e($compiled_featured_artifact->content->type); ?> <br> </small>
                                 </div>
                             </div>
-                            <a href="<?php echo e($compiled_featured_artifact->link); ?>" target="_blank" class="stretched-link"></a>
+                            <a href="<?php echo e($compiled_featured_artifact->link != null ? $compiled_featured_artifact->link : '/search?search='.$compiled_featured_artifact->title.'#search-anchor'); ?>" target="_blank" class="stretched-link"></a>
                         </div>
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -574,7 +574,7 @@
                                                 <?php echo e($recommended_artifact_not_logged_in->content->type); ?> <br> </small>
                                 </div>
                             </div>
-                            <a href="<?php echo e($recommended_artifact_not_logged_in->link); ?>" target="_blank" class="stretched-link"></a>
+                            <a href="/search?search=<?php echo e($recommended_artifact_not_logged_in->link != null ? $recommended_artifact_not_logged_in->link : '/search?search='.$recommended_artifact_not_logged_in->title.'#search-anchor'); ?>" target="_blank" class="stretched-link"></a>
                         </div>
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -659,22 +659,18 @@
 
 
 <div class="last-section">
-    <div class="container text-center px-5">
+    <div class="container text-cente
+    r px-5">
         <h1 class="font-weight-bold">Never miss an update</h1>
         <p style="font-size:120%">Get recommendations straight in your inbox. Keep up-to-date with the latest research and development in agriculture, aquatic and natural resources here in the Philippines. Let us know what topics you are interested in!</p>
-        
-        <form action="/search" method="GET" role="search" class="mb-4 w-80">
-            <?php echo e(csrf_field()); ?>
-
-            <div class="input-group" style="font-size:2.5rem">
-                <input type="text" class="form-control" style="height:2.5rem" name="email"
-                    placeholder="Input your email address" value=<?php echo e(isset($results) ? $query : ''); ?>> <span class="input-group-btn">
-                    <button type="submit" class="btn btn-outline-secondary" style="color:white;border:1px solid #ced4da;height:100%;background-color:rgb(40,109,158)">
-                        Subscribe and sign up
-                    </button>
-                </span>
-            </div>
-        </form>
+        <div class="input-group" style="font-size:2.5rem">
+            <input type="text" class="form-control" style="height:2.5rem" name="email"
+                placeholder="Input your email address"> <span class="input-group-btn">
+                <a href="/register" class="btn btn-outline-secondary" style="color:white;border:1px solid #ced4da;height:100%;background-color:rgb(40,109,158)">
+                    Subscribe and sign up
+                </a>
+            </span>
+        </div>
         <p class="" style="font-size:80%; padding-left:5rem; padding-right:5rem">
         By checking this box, you confirm that you have read and are agreeing to our terms of use regarding the storage of the data submitted through this form. To know more about how we handle your data, read our privacy policy here.
         </p>

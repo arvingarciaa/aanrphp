@@ -122,15 +122,7 @@ class PagesController extends Controller
         $start = $request->start;
         $end = $request->end;
         $is_gad = $request->is_gad;
-        /*if($request->consortium){
-            $artifacts = $artifacts->where('consortia_id', '=', $request->consortium)->where('title','LIKE','%'.$query.'%');
-        } else{
-            $artifacts = $artifacts->where('title','LIKE','%'.$query.'%');
-        } */
-
-        
         $results = ArtifactAANR::query();
-        
         if($content_type && $content_type != 'all'){
             $results = $results->where('content_id', $content_type);
         }
@@ -148,9 +140,7 @@ class PagesController extends Controller
         if($is_gad){
             $results->where('is_gad', '=', 1);
         }
-        
         $results = $results->search($query)->paginate(10);
-
         return view('pages.search')
             ->withQuery($query)
             ->withResults($results);

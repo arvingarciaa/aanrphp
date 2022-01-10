@@ -151,10 +151,11 @@
                     <a class="list-group-item active" data-toggle="tab" href="#user_profile" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-user" style="margin-right:0.8rem"></i> User Profile</span>
                     </a>
-                    <?php if(auth()->user()->role == 5 || ((auth()->user()->role == 1 || auth()->user()->role == 2) && auth()->user()->consortia_admin_id != null)): ?>
+                    <?php if(auth()->user()->role == 5): ?>
                     <a class="list-group-item" data-toggle="tab" href="#landing_page" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-home" style="margin-right:0.8rem"></i> Manage Landing Page</span>
                     </a>
+                    <?php endif; ?>
                     <a class="list-group-item" data-toggle="tab" href="#artifacts" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-database" style="margin-right:0.8rem"></i> Manage Resources</span>
                     </a>
@@ -164,7 +165,6 @@
                     <a class="list-group-item" data-toggle="tab" href="#logs" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-clipboard-list" style="margin-right:0.8rem"></i> Activity Logs</span>
                     </a>
-                    <?php endif; ?>
                     <a class="list-group-item" href="/analytics/search" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-chart-line" style="margin-right:0.8rem"></i> Dashboard</span>
                     </a>
@@ -407,30 +407,38 @@ unset($__errorArgs, $__bag); ?>
                                 </button>
                                 <div class="dropdown-menu">
                                     <h6 class="dropdown-header">ISPs</h6>
+                                    <?php if(auth()->user()->role == 5): ?>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Industries'])); ?>">Industries</a>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Sectors'])); ?>">Sectors</a>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'ISP'])); ?>">ISP</a>
+                                    <?php endif; ?>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Commodities'])); ?>">Commodities</a>
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Consortia</h6>
+                                    <?php if(auth()->user()->role == 5): ?>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Consortia'])); ?>">Consortia</a>
+                                    <?php endif; ?>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Consortia_Members'])); ?>">Consortia Members</a>
+                                    <?php if(auth()->user()->role == 5): ?>
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Advertisments</h6>
-                                    <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Advertisements'])); ?>">Advertisements</a>
-                                    <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Agenda'])); ?>">Agenda</a>
-                                    <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Announcements'])); ?>">Announcements</a>
+                                    <a class="dropdown-item disabled" href="<?php echo e(route('dashboardManage', ['asset' => 'Advertisements'])); ?>">Advertisements</a>
+                                    <a class="dropdown-item disabled" href="<?php echo e(route('dashboardManage', ['asset' => 'Agenda'])); ?>">Agenda</a>
+                                    <a class="dropdown-item disabled" href="<?php echo e(route('dashboardManage', ['asset' => 'Announcements'])); ?>">Announcements</a>
+                                    <?php endif; ?>
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Artifact</h6>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Artifacts'])); ?>">AANR Content</a>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'API'])); ?>">API Upload</a>
+                                    <?php if(auth()->user()->role == 5): ?>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Content'])); ?>">Content Type</a>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Content_Subtype'])); ?>">Content Subtype</a>
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Others</h6>
-                                    <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Contributors'])); ?>">Contributors</a>
-                                    <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Subscribers'])); ?>">Subscribers</a>
+                                    <a class="dropdown-item disabled" href="<?php echo e(route('dashboardManage', ['asset' => 'Contributors'])); ?>">Contributors</a>
+                                    <a class="dropdown-item disabled" href="<?php echo e(route('dashboardManage', ['asset' => 'Subscribers'])); ?>">Subscribers</a>
                                     <a class="dropdown-item" href="<?php echo e(route('dashboardManage', ['asset' => 'Agrisyunaryo'])); ?>">Agrisyunaryo</a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -821,9 +829,6 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                             <?php elseif(request()->asset == 'API'): ?>
                             <div class="card shadow mb-5 mt-0 ml-0">
-                                <form action="<?php echo e(route('deleteContent')); ?>" id="deleteForm" method="POST">
-                                <?php echo e(csrf_field()); ?>
-
                                 <input type="hidden" name="_method" value="delete">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
@@ -863,7 +868,6 @@ unset($__errorArgs, $__bag); ?>
                                             </tbody>
                                     </table>
                                 </div>
-                                </form>
                             </div>
                             <?php elseif(request()->asset == 'Content'): ?>
                             <div class="card shadow mb-5 mt-0 ml-0">
