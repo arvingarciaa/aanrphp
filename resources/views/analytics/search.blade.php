@@ -183,6 +183,13 @@
                 </div>
             </div>
         </div>
+        <?php
+            $merged_artifact_industry = DB::table(DB::raw('(SELECT artifactaanr_id, industry_id FROM artifactaanr_isp UNION ALL SELECT artifactaanr_id, industry_id FROM artifactaanr_commodity GROUP BY artifactaanr_id, industry_id) as artifact_industries'))
+                ->select(DB::raw('industry_id, count(artifactaanr_id) as total'))
+                ->groupBy('industry_id')
+                ->orderBy('industry_id')
+                ->get();
+        ?>
         <div class="col-sm-6">
             <div class="row">
                 <div class="col-sm-6">
@@ -209,7 +216,7 @@
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(247,186,6)">
                             <span style="font-size:4.5rem;color:white; line-height:1">
-                                <b>32</b>
+                                <b>{{$merged_artifact_industry[0]->total}}</b>
                             </span>
                             <h4 class="text-white">
                                 Agricultural Technologies
@@ -225,7 +232,7 @@
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(58,136,235)">
                             <span style="font-size:4.5rem;color:white; line-height:1">
-                                <b>18</b>
+                                <b>{{$merged_artifact_industry[1]->total}}</b>
                             </span>
                             <h4 class="text-white">
                                 Aquatic Resources
@@ -241,7 +248,7 @@
                         </div>
                         <div class="card-body" style="height:150px; background-color:rgb(60,193,114)">
                             <span style="font-size:5.5rem; color:white; line-height:1">
-                                <b>9</b>
+                                <b>{{$merged_artifact_industry[2]->total}}</b>
                             </span>
                             <h4 class="text-white">
                                 Natural Resources
@@ -301,7 +308,7 @@
                 }]
             }
         }
-    });
+    }); 
     let most_popular_commodities = new Chart(document.getElementById('most_popular_commodities').getContext('2d'), {
         type:'pie',
         data:{

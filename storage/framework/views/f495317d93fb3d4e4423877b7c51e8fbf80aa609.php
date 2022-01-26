@@ -659,8 +659,7 @@
 
 
 <div class="last-section">
-    <div class="container text-cente
-    r px-5">
+    <div class="container text-center px-5">
         <h1 class="font-weight-bold">Never miss an update</h1>
         <p style="font-size:120%">Get recommendations straight in your inbox. Keep up-to-date with the latest research and development in agriculture, aquatic and natural resources here in the Philippines. Let us know what topics you are interested in!</p>
         <div class="input-group" style="font-size:2.5rem">

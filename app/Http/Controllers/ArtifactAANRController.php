@@ -8,6 +8,7 @@ use App\Consortia;
 use App\Content;
 use App\ContentSubtype;
 use App\ConsortiaMember;
+use Illuminate\Support\Facades\DB;
 use Session;
 
 class ArtifactAANRController extends Controller
@@ -167,6 +168,18 @@ class ArtifactAANRController extends Controller
                 $artifactaanrobject = ArtifactAANR::find($artifactaanr->id);
                 $artifactaanrobject->isp()->sync($request->isp);
                 $artifactaanrobject->commodities()->sync($request->commodities);
+                foreach(DB::table('artifactaanr_isp')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
+                    $temp_sector_id = DB::table('isp')->where('id', '=', $entry->isp_id)->first()->sector_id;
+                    $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
+                    DB::table('artifactaanr_isp')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
+                }
+                foreach(DB::table('artifactaanr_commodity')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
+                    $temp_isp_id = DB::table('commodities')->where('id', '=', $entry->commodity_id)->first()->isp_id;
+                    $temp_sector_id = DB::table('isp')->where('id', '=', $temp_isp_id)->first()->sector_id;
+                    $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
+                    DB::table('artifactaanr_commodity')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
+                }
+                
                 $artifactaanrobject->save();
             }
         }
@@ -206,8 +219,26 @@ class ArtifactAANRController extends Controller
             $artifactaanr->file_type = pathinfo(storage_path().'/storage/files/'.$pdfName, PATHINFO_EXTENSION);
         }
         $artifactaanr->save();
-
+        foreach(DB::table('artifactaanr_isp')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
+            $temp_sector_id = DB::table('isp')->where('id', '=', $entry->isp_id)->first()->sector_id;
+            $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
+            DB::table('artifactaanr_isp')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
+        }
+        foreach(DB::table('artifactaanr_commodity')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
+            $temp_isp_id = DB::table('commodities')->where('id', '=', $entry->commodity_id)->first()->isp_id;
+            $temp_sector_id = DB::table('isp')->where('id', '=', $temp_isp_id)->first()->sector_id;
+            $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
+            DB::table('artifactaanr_commodity')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
+        }
         return redirect()->back()->with('success','ArtifactAANR Updated.'); 
+    }
+
+    public function addISPIndustryID(Request $request){
+        foreach(DB::table('artifactaanr_isp')->all() as $entry){
+            $temp_sector_industry_id = DB::table('isp')->where('id', '=', $entry->isp_id)->first()->industry_id;
+            $entry->industry_id = DB::table('industry')->where('id', '=', $temp_sector_industry_id)->id;
+        }
+        return redirect()->back()->with('success','Artifact ISP Industry ID added.'); 
     }
 
     public function deleteArtifact(Request $request){

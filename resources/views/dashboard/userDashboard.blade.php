@@ -285,23 +285,23 @@
                                         {{Form::label('interests', 'Topics of Interest', ['class' => 'col-form-label font-weight-bold'])}}
                                         <div class="btn-group-toggle" data-toggle="buttons">
                                             @foreach(App\Consortia::all() as $consortium)
-                                            <label class="btn btn-outline-primary {{in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'active' : ''  }}">
-                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($consortium->short_name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$consortium->short_name}}"> {{$consortium->short_name}}
-                                            </label>
+                                                <label class="btn btn-outline-primary {{is_array(json_decode($user_interests)) && in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'active' : ''  }}">
+                                                    <input type="checkbox" name="interest[]" autocomplete="off" {{is_array(json_decode($user_interests)) && in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'checked' : ''  }}  value="{{$consortium->short_name}}"> {{$consortium->short_name}}
+                                                </label>
                                             @endforeach
                                         </div>
                                         <div class="btn-group-toggle mt-3" data-toggle="buttons">
                                             @foreach(App\ISP::groupBy('name')->get() as $isp)
-                                            <label class="btn btn-outline-primary" {{in_array($isp->name, json_decode($user_interests)) == true  ? 'active' : ''  }}>
-                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($isp->name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$isp->name}}"> {{$isp->name}}
-                                            </label>
+                                                <label class="btn btn-outline-primary {{is_array(json_decode($user_interests)) && in_array($isp->name, json_decode($user_interests)) == true  ? 'active' : ''  }}">
+                                                    <input type="checkbox" name="interest[]" autocomplete="off" {{is_array(json_decode($user_interests)) && in_array($isp->name, json_decode($user_interests)) == true ? 'checked' : ''  }}  value="{{$isp->name}}"> {{$isp->name}}
+                                                </label>
                                             @endforeach
                                         </div>
                                         <div class="btn-group-toggle mt-3" data-toggle="buttons">
                                             @foreach(App\Commodity::groupBy('name')->get() as $commodity)
-                                            <label class="btn btn-outline-primary" {{in_array($commodity->name, json_decode($user_interests)) == true  ? 'active' : ''  }}>
-                                                <input type="checkbox" name="interest[]" autocomplete="off" {{in_array($commodity->name, json_decode($user_interests)) == true ? 'checked' : ''  }} value="{{$commodity->name}}"> {{$commodity->name}}
-                                            </label>
+                                                <label class="btn btn-outline-primary {{is_array(json_decode($user_interests)) && in_array($commodity->name, json_decode($user_interests)) == true  ? 'active' : ''  }}">
+                                                    <input type="checkbox" name="interest[]" autocomplete="off" {{is_array(json_decode($user_interests)) && in_array($commodity->name, json_decode($user_interests)) == true ? 'checked' : ''  }} value="{{$commodity->name}}"> {{$commodity->name}}
+                                                </label>
                                             @endforeach
                                         </div>
                                     </div>

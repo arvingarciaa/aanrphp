@@ -176,6 +176,7 @@ Route::delete('headlines/{id}/deleteContributor', 'ContributorsController@delete
 Route::post('headlines/addISP', 'ISPController@addISP')->name('addISP');
 Route::post('headlines/{id}/editISP', 'ISPController@editISP')->name('editISP');
 Route::delete('headlines/{id}/deleteISP', 'ISPController@deleteISP')->name('deleteISP');
+Route::post('headlines/addISPIndustryID', 'ArtifactAANRController@addISPIndustryID')->name('addISPIndustryID');
 
 //Sectors
 Route::post('headlines/addSector', 'SectorsController@addSector')->name('addSector');

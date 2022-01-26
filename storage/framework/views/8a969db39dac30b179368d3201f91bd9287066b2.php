@@ -363,26 +363,26 @@ unset($__errorArgs, $__bag); ?>
 
                                         <div class="btn-group-toggle" data-toggle="buttons">
                                             <?php $__currentLoopData = App\Consortia::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $consortium): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <label class="btn btn-outline-primary <?php echo e(in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'active' : ''); ?>">
-                                                <input type="checkbox" name="interest[]" autocomplete="off" <?php echo e(in_array($consortium->short_name, json_decode($user_interests)) == true ? 'checked' : ''); ?>  value="<?php echo e($consortium->short_name); ?>"> <?php echo e($consortium->short_name); ?>
+                                            <label class="btn btn-outline-primary <?php echo e(is_array(json_decode($user_interests)) && in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'active' : ''); ?>">
+                                                <input type="checkbox" name="interest[]" autocomplete="off" <?php echo e(is_array(json_decode($user_interests)) && in_array($consortium->short_name, json_decode($user_interests)) == true  ? 'checked' : ''); ?>  value="<?php echo e($consortium->short_name); ?>"> <?php echo e($consortium->short_name); ?>
 
                                             </label>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                         <div class="btn-group-toggle mt-3" data-toggle="buttons">
                                             <?php $__currentLoopData = App\ISP::groupBy('name')->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $isp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <label class="btn btn-outline-primary" <?php echo e(in_array($isp->name, json_decode($user_interests)) == true  ? 'active' : ''); ?>>
-                                                <input type="checkbox" name="interest[]" autocomplete="off" <?php echo e(in_array($isp->name, json_decode($user_interests)) == true ? 'checked' : ''); ?>  value="<?php echo e($isp->name); ?>"> <?php echo e($isp->name); ?>
+                                                <label class="btn btn-outline-primary <?php echo e(is_array(json_decode($user_interests)) && in_array($isp->name, json_decode($user_interests)) == true  ? 'active' : ''); ?>">
+                                                    <input type="checkbox" name="interest[]" autocomplete="off" <?php echo e(is_array(json_decode($user_interests)) && in_array($isp->name, json_decode($user_interests)) == true ? 'checked' : ''); ?>  value="<?php echo e($isp->name); ?>"> <?php echo e($isp->name); ?>
 
-                                            </label>
+                                                </label>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                         <div class="btn-group-toggle mt-3" data-toggle="buttons">
                                             <?php $__currentLoopData = App\Commodity::groupBy('name')->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $commodity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <label class="btn btn-outline-primary" <?php echo e(in_array($commodity->name, json_decode($user_interests)) == true  ? 'active' : ''); ?>>
-                                                <input type="checkbox" name="interest[]" autocomplete="off" <?php echo e(in_array($commodity->name, json_decode($user_interests)) == true ? 'checked' : ''); ?> value="<?php echo e($commodity->name); ?>"> <?php echo e($commodity->name); ?>
+                                                    <label class="btn btn-outline-primary <?php echo e(is_array(json_decode($user_interests)) && in_array($commodity->name, json_decode($user_interests)) == true  ? 'active' : ''); ?>">
+                                                        <input type="checkbox" name="interest[]" autocomplete="off" <?php echo e(is_array(json_decode($user_interests)) && in_array($commodity->name, json_decode($user_interests)) == true ? 'checked' : ''); ?> value="<?php echo e($commodity->name); ?>"> <?php echo e($commodity->name); ?>
 
-                                            </label>
+                                                    </label>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                     </div>
