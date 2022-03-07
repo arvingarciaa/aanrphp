@@ -41,7 +41,7 @@
                     <div class="container">
                         <div class="card card-body">
                             <h3>{{$consortium->short_name}}</h3>
-                            {{$consortium->profile}}
+                            {!!$consortium->profile!!}
                             <div class="btn-group">
                                 <a target="_blank" href="{{route('consortiaAboutPage', ['consortia' => $consortium->short_name])}}" class="btn btn-primary mt-3" role="button" aria-disabled="true">Link to page</a>
                                 <a target="_blank" href="{{$consortium->link}}" class="btn btn-secondary mt-3" role="button" aria-disabled="true">Link to website</a>
