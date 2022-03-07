@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div class="container-fluid px-0">
+<div class="container-fluid px-0" style="z-index:9999">
     <?php $page = App\LandingPageElement::find(1) ?>
     <nav class="navbar shadow navbar-expand-lg navbar-dark bg-light pl-3 pt-0 pb-0" style="height:90px" class="px-3">
         <div class="navbar-header" style="margin-top:auto;margin-bottom:auto">

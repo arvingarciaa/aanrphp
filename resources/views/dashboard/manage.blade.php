@@ -210,7 +210,7 @@
                     height:100%;
                     padding-top:350px;
                     position:absolute;
-                    z-index:9999;
+                    z-index:2;
                     background-color: rgba(255, 255, 255);
                     opacity:1;
                     transition:visibility 0.5s linear,opacity 0.5s linear;
