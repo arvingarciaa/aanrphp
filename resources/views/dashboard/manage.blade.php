@@ -391,7 +391,7 @@
                             <span class="text-white mr-3">Manage Resources: </span>
                             <div class="dropdown" style="display:initial">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <b>{!!request()->asset ? str_replace('_',' ',request()->asset) : 'Industries'!!}</b>
+                                    <b>{!!request()->asset ? str_replace('_',' ',request()->asset) : 'Select Asset'!!}</b>
                                 </button>
                                 <div class="dropdown-menu">
                                     <h6 class="dropdown-header">ISPs</h6>
@@ -410,8 +410,8 @@
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Artifact</h6>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Artifacts'])}}">AANR Content</a>
-                                    <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'API'])}}">API Upload</a>
                                     @if(auth()->user()->role == 5)
+                                    <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'API'])}}">API Upload</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Content'])}}">Content Type</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Content_Subtype'])}}">Content Subtype</a>
                                     <div class="dropdown-divider"></div>
@@ -422,7 +422,7 @@
                             </div>
                         </div>
                         @include('layouts.messages')
-                        @if(request()->asset == 'Industries' || !request()->asset)
+                        @if(request()->asset == 'Industries' || !request()->asset && auth()->user()->role == 5)
                             <div class="card shadow mb-5 mt-0 ml-0">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
@@ -525,7 +525,7 @@
                                     </table>
                                 </div>
                             </div>
-                        @elseif(request()->asset == 'Commodities')
+                        @elseif(request()->asset == 'Commodities' || !request()->asset && auth()->user()->role != 5)
                             <div class="card shadow mb-5 mt-0 ml-0">
                                 <div class="card-header px-5 pt-4">
                                     <h2 class="text-primary" >
@@ -1675,7 +1675,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach(App\User::all() as $user)
+                                            <?php
+                                                $users_all = App\User::all();
+                                                $users_from_auth_org = App\User::where('organization', '=', auth()->user()->organization)->get();
+                                            ?>
+                                            @foreach(auth()->user()->role == 5 ? $users_all : $users_from_auth_org as $user)
+                                            
                                                 <tr>
                                                     <td style="width:5%">{{$user->id}}</td>
                                                     <td style="width:15%">{{$user->email}}</td>
@@ -1692,7 +1697,7 @@
                                                         @endif
                                                     </td>
                                                     <td style="width:30%">
-                                                        @if((auth()->user()->role == 1 || auth()->user()->role == 2))
+                                                        @if(auth()->user()->role == 1 || auth()->user()->role == 2)
                                                             @if($user->role == 0 || ($user->consortia_admin_id == auth()->user()->consortia_admin_id && $user->role != 5) )
                                                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#setConsortiaAdminModal-{{$user->id}}"><i class="fas fa-edit"></i> Set as Consortia Admin</button>
                                                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteUserModal-{{$user->id}}"><i class="fas fa-trash"></i> Delete</button>

@@ -221,16 +221,24 @@
         <h2 class="mb-2 font-weight-bold" style="color:rgb(220,220,220)">{{$landing_page->latest_aanr_header}}</h2>
         <h5 class="mb-0" style="color:rgb(48, 152, 197)">{{$landing_page->latest_aanr_subheader}}</h5>
         <div class="row">
-            @foreach(App\ArtifactAANR::where('imglink', '!=', null)->take(3)->get() as $artifact)
+            @foreach(App\ArtifactAANR::where('is_agrisyunaryo', '!=', 1)->orderBy('date_published')->take(3)->get() as $artifact)
             <div class="col-sm-4">
                 <div class="card front-card h-auto shadow rounded">
-                    <img src="{{$artifact->imglink}}" class="card-img-top" height="200" style="object-fit: cover;">
+                    @if($artifact->imglink != null)
+                        <img src="{{$artifact->imglink}}" class="card-img-top" height="200" style="object-fit: cover;">
+                    @else
+                        <div class="card-img-top center-vertically px-3" style="height:200; background-color:rgb(150,150,150)">
+                                <span class="font-weight-bold" style="font-size: 17px;line-height: 1.5em;color: white;">
+                                    {{$artifact->title}}
+                                </span>
+                            </div>
+                    @endif
                     <div class="card-body">
                         <h4 class="card-title trail-end">{{$artifact->title}}</h4>
                         <div class="card-text trail-end" style="line-height: 120%;">
                             <p class="mb-2"><b>{{$artifact->author}}</b></p>
-                            <small>{{$artifact->consortia->short_name}}<br>           
-                                        {{$artifact->content->type}} <br> </small>
+                            <small>{{isset($artifact->consortia->short_name) ? $artifact->consortia->short_name : ''}}<br>           
+                                        {{isset($artifact->content->type) ? $artifact->content->type : ''}} <br> </small>
                         </div>
                     </div>
                     <a href="{{$artifact->link}}" target="_blank" class="stretched-link"></a>
