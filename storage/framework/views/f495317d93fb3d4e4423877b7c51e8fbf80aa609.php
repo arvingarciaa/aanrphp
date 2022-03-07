@@ -295,6 +295,8 @@
     <?php
         if ($landing_page->featured_artifact_id_1 != null) {
             $featured_publication_1 = App\ArtifactAANR::find($landing_page->featured_artifact_id_1);    
+        } else {
+            
         }
         if ($landing_page->featured_artifact_id_2 != null) {
             $featured_publication_2 = App\ArtifactAANR::find($landing_page->featured_artifact_id_2);    
@@ -303,7 +305,7 @@
     <h2 class="mb-2 font-weight-bold"><?php echo e($landing_page->featured_publications_header); ?></h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)"><?php echo e($landing_page->featured_publications_subheader); ?></h5>
     <div class="row">
-        <?php if($featured_publication_1 != null): ?>
+        <?php if(isset($featured_publication_1)): ?>
         <div class="col-sm-6">
             <div class="card">
                 <div class="row no-gutters">
@@ -332,7 +334,7 @@
             </div>
         </div>
         <?php endif; ?>
-        <?php if($featured_publication_2 != null): ?>
+        <?php if(isset($featured_publication_2)): ?>
         <div class="col-sm-6">
             <div class="card">
                 <div class="row no-gutters">

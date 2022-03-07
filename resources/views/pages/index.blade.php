@@ -295,6 +295,8 @@
     <?php
         if ($landing_page->featured_artifact_id_1 != null) {
             $featured_publication_1 = App\ArtifactAANR::find($landing_page->featured_artifact_id_1);    
+        } else {
+            
         }
         if ($landing_page->featured_artifact_id_2 != null) {
             $featured_publication_2 = App\ArtifactAANR::find($landing_page->featured_artifact_id_2);    
@@ -303,7 +305,7 @@
     <h2 class="mb-2 font-weight-bold">{{$landing_page->featured_publications_header}}</h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)">{{$landing_page->featured_publications_subheader}}</h5>
     <div class="row">
-        @if($featured_publication_1 != null)
+        @isset($featured_publication_1)
         <div class="col-sm-6">
             <div class="card">
                 <div class="row no-gutters">
@@ -330,8 +332,8 @@
                 </div>
             </div>
         </div>
-        @endif
-        @if($featured_publication_2 != null)
+        @endisset
+        @isset($featured_publication_2)
         <div class="col-sm-6">
             <div class="card">
                 <div class="row no-gutters">
@@ -358,7 +360,7 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endisset
     </div>
     @if(request()->edit == 1)
         <div class="hover-overlay" style="width:100%">    
