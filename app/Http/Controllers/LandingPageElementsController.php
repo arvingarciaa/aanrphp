@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\LandingPageElement;
+use App\FooterInfo;
 
 class LandingPageElementsController extends Controller
 {
@@ -95,6 +96,11 @@ class LandingPageElementsController extends Controller
 
     public function editIndustryProfileSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->industry_profile_visibility == 'on'){
+            $page->industry_profile_visibility = 1;
+        } else {
+            $page->industry_profile_visibility = 0;
+        }
         $page->industry_profile_header = $request->input('industry_profile_header');
         $page->industry_profile_subheader = $request->input('industry_profile_subheader');
         if($request->hasFile('agri_icon')){
@@ -175,6 +181,11 @@ class LandingPageElementsController extends Controller
 
     public function editLatestAANRSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->latest_aanr_visibility == 'on'){
+            $page->latest_aanr_visibility = 1;
+        } else {
+            $page->latest_aanr_visibility = 0;
+        }
         $page->latest_aanr_header = $request->input('latest_aanr_header');
         $page->latest_aanr_subheader = $request->input('latest_aanr_subheader');
 
@@ -207,6 +218,11 @@ class LandingPageElementsController extends Controller
 
     public function editUserTypeRecommendationSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->user_type_recommendation_visibility == 'on'){
+            $page->user_type_recommendation_visibility = 1;
+        } else {
+            $page->user_type_recommendation_visibility = 0;
+        }        
         $page->user_type_recommendation_header = $request->input('user_type_recommendation_header');
         $page->user_type_recommendation_subheader = $request->input('user_type_recommendation_subheader');
         $page->save();
@@ -215,14 +231,26 @@ class LandingPageElementsController extends Controller
 
     public function editFeaturedPublicationsSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->featured_publications_visibility == 'on'){
+            $page->featured_publications_visibility = 1;
+        } else {
+            $page->featured_publications_visibility = 0;
+        }     
         $page->featured_publications_header = $request->input('featured_publications_header');
         $page->featured_publications_subheader = $request->input('featured_publications_subheader');
+        $page->featured_artifact_id_1 = $request->featured_1;
+        $page->featured_artifact_id_2 = $request->featured_2;
         $page->save();
         return redirect('/?edit=1')->with('success', 'Landing Page Featured Publications Section Updated');
     }
 
     public function editFeaturedVideosSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->featured_videos_visibility == 'on'){
+            $page->featured_videos_visibility = 1;
+        } else {
+            $page->featured_videos_visibility = 0;
+        }     
         $page->featured_videos_header = $request->input('featured_videos_header');
         $page->featured_videos_subheader = $request->input('featured_videos_subheader');
         $page->featured_video_link_1 = $request->input('first_link');
@@ -234,6 +262,11 @@ class LandingPageElementsController extends Controller
 
     public function editRecommendedForYouSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->recommended_for_you_visibility == 'on'){
+            $page->recommended_for_you_visibility = 1;
+        } else {
+            $page->recommended_for_you_visibility = 0;
+        }     
         $page->recommended_for_you_header = $request->input('recommended_for_you_header');
         $page->recommended_for_you_subheader = $request->input('recommended_for_you_subheader');
         if($request->banner_color_radio == 1){
@@ -265,6 +298,11 @@ class LandingPageElementsController extends Controller
 
     public function editConsortiaMembersSection(Request $request){
         $page = LandingPageElement::find(1);
+        if($request->consortia_members_visibility == 'on'){
+            $page->consortia_members_visibility = 1;
+        } else {
+            $page->consortia_members_visibility = 0;
+        }     
         $page->consortia_members_header = $request->input('consortia_members_header');
         $page->consortia_members_subheader = $request->input('consortia_members_subheader');
         $page->save();
@@ -304,5 +342,27 @@ class LandingPageElementsController extends Controller
         }
         $page->save();
         return redirect('agrisyunaryo/?edit=1')->with('success', 'Agrisyunaryo Search Banner Updated');
+    }
+
+    public function editFooterinfo(Request $request){
+        $footer = FooterInfo::find(1);
+        $footer->about = $request->about;
+        $footer->phone_number = $request->phone_number;
+        $footer->address = $request->address;
+        $footer->email = $request->email;
+        $footer->fb_link = $request->fb_link;
+        $footer->twitter_link = $request->twitter_link;
+        $footer->instagram_link = $request->instagram_link;
+        $footer->youtube_link = $request->youtube_link;
+        $footer->save();
+        return redirect('/?edit=1')->with('success', 'Footer Info Updated');
+    }
+
+    public function editUsefulLinks(Request $request){
+        $page = LandingPageElement::find(1);
+        $page->useful_links = $request->useful_links;
+        $page->save();
+        return redirect('/usefulLinks?edit=1')->with('success', 'Useful Links Updated');
+
     }
 }

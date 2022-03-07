@@ -6,11 +6,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\User;
 
 class DigestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $name;
     /**
      * Create a new message instance.
      *
@@ -19,6 +21,8 @@ class DigestMail extends Mailable
     public function __construct()
     {
         //
+        $user = User::find(1);
+        $this->name = $user->first_name;
     }
 
     /**
@@ -28,6 +32,7 @@ class DigestMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.digest');
+        return $this->markdown('emails.digest')
+            ->subject('KM4AANR Weekly Digest');
     }
 }

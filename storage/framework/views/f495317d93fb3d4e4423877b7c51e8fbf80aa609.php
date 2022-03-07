@@ -40,10 +40,11 @@
     </div> 
 <?php endif; ?>
 
+<!-- CAROUSEL SLIDER SECTION -->
 <div class="container<?php echo e($landing_page->slider_container_toggle == 1 ? '-fluid' : ''); ?> pb-1 px-0" style="z-index:0">
     <div id="featuredBanner" style="" class="carousel slide" data-ride="carousel">
             <?php 
-                $sliders = App\LandingPageSlider::all();
+                $sliders = App\LandingPageSlider::all()->sortBy('weight');
                 $count = 0;
             ?>
             <ol class="carousel-indicators">
@@ -121,12 +122,12 @@
     </div>
 </div>
 
+<!-- SEARCH BAR SECTION -->
 <div class="container section-margin">
    <!-- <div class="text-center">
         <img src="/storage/page_images/<?php echo e($landing_page->top_banner); ?>" class="w-80" style="width:80%; margin-bottom:1rem; object-fit: contain;background-repeat: no-repeat">
     </div>
     -->
-
     <form action="/search" method="GET" role="search" class="mb-4 w-80">
         <?php echo e(csrf_field()); ?>
 
@@ -166,35 +167,8 @@
     </form>   
 </div>
 
-<style>
-    .sixp-input{
-        display:none;
-    }
-    .media-input{
-        display:none;
-    }
-</style>
-
-<script>
-    $(document).ready(function() {
-        $('input[type="radio"]').click(function() {
-            if($(this).attr('value') == 'sixp-radio' || $(this).attr('name') == 'sixp-input') {
-                $('.sixp-input').show();  
-                $('.media-input').hide();       
-            }
-            else if($(this).attr('value') == 'media-radio' || $(this).attr('name') == 'media-input'){
-                $('.media-input').show();  
-                $('.sixp-input').hide();
-            }
-            else {
-                $('.sixp-input').hide();  
-                $('.media-input').hide();
-            }
-        });
-    });
-</script>
-
-<div class="container section-margin <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
+<!-- INDUSTRY PROFILE SECTION -->
+<div class="container section-margin <?php echo e(request()->edit != '1' && $landing_page->industry_profile_visibility == 0 ? 'section-none' : ''); ?> <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
     <h2 class="mb-2 font-weight-bold"><?php echo e($landing_page->industry_profile_header); ?></h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)"><?php echo e($landing_page->industry_profile_subheader); ?></h5>
     <div class="row">
@@ -236,11 +210,12 @@
     <?php endif; ?>
 </div>
 
+<!-- LATEST AANR SECTION -->
 <?php if(App\ArtifactAANR::where('imglink', '!=', null)->count() != 0): ?>
 <?php if($landing_page->latest_aanr_bg_type == 1): ?>
-<div class="parallax-section pb-2 pt-1 <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background: <?php echo e($landing_page->latest_aanr_bg); ?>);">
+<div class="parallax-section <?php echo e(request()->edit != '1' && $landing_page->latest_aanr_visibility == 0 ? 'section-none' : ''); ?> pb-2 pt-1 <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background: <?php echo e($landing_page->latest_aanr_bg); ?>);">
 <?php else: ?>
-<div class="parallax-section pb-2 pt-1 <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background-image: url('/storage/page_images/<?php echo e($landing_page->latest_aanr_bg); ?>');">
+<div class="parallax-section <?php echo e(request()->edit != '1' && $landing_page->latest_aanr_visibility == 0 ? 'section-none' : ''); ?> pb-2 pt-1 <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background-image: url('/storage/page_images/<?php echo e($landing_page->latest_aanr_bg); ?>');">
 <?php endif; ?>
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:rgb(220,220,220)"><?php echo e($landing_page->latest_aanr_header); ?></h2>
@@ -271,7 +246,9 @@
     <?php endif; ?>
 </div>
 <?php endif; ?>
-<div class="container section-margin <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
+
+<!-- USER TYPE RECOMMENDATION SECTION -->
+<div class="container section-margin <?php echo e(request()->edit != '1' && $landing_page->user_type_recommendation_visibility == 0 ? 'section-none' : ''); ?> <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
     <h2 class="mb-2 font-weight-bold"><?php echo e($landing_page->user_type_recommendation_header); ?></h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)"><?php echo e($landing_page->user_type_recommendation_subheader); ?></h5>
     <div class="row">
@@ -313,59 +290,78 @@
     <?php endif; ?>
 </div>
 
-<div class="container section-margin <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
+<!-- FEATURED PUBLICATION SECTION -->
+<div class="container section-margin <?php echo e(request()->edit != '1' && $landing_page->featured_publications_visibility == 0 ? 'section-none' : ''); ?> <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
     <?php
-        $url = "https://elibrary.pcaarrd.dost.gov.ph/km-api/";
-        $data = @file_get_contents($url);
-        if($data == false){
-            $publications = [];
-        } else {
-
-            $publications = json_decode($data);
+        if ($landing_page->featured_artifact_id_1 != null) {
+            $featured_publication_1 = App\ArtifactAANR::find($landing_page->featured_artifact_id_1);    
+        }
+        if ($landing_page->featured_artifact_id_2 != null) {
+            $featured_publication_2 = App\ArtifactAANR::find($landing_page->featured_artifact_id_2);    
         }
     ?>
-    <?php if($publications != null): ?>
     <h2 class="mb-2 font-weight-bold"><?php echo e($landing_page->featured_publications_header); ?></h2>
     <h5 class="mb-0" style="color:rgb(23, 135, 184)"><?php echo e($landing_page->featured_publications_subheader); ?></h5>
     <div class="row">
+        <?php if($featured_publication_1 != null): ?>
         <div class="col-sm-6">
             <div class="card">
                 <div class="row no-gutters">
                     <div class="col-sm-4">
-                        <img class="card-img-top" src="/storage/page_images/PCRD-H001040.jpg" alt="Card image cap">
+                        <?php if($featured_publication_1->imglink != null): ?>
+                            <img class="card-img-top" style="width:100%" src="<?php echo e($featured_publication_1->imglink); ?>" alt="Card image cap">
+                        <?php else: ?>
+                        <div class="card-img-top center-vertically px-3" style="height:100%; background-color:rgb(150,150,150)">
+                                <span class="font-weight-bold" style="font-size: 17px;line-height: 1.5em;color: white;">
+                                    <?php echo e($featured_publication_1->title); ?>
+
+                                </span>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="col-sm-8">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo e($publications[0]->title); ?></h5>
-                            <span class="card-text">Los Baños, Laguna Philippine Council for Agriculture, Aquatic and Natural Resources Research and Development (PCAARRD)</span><br>
-                            <span>Philippine Council for Agriculture, Aquatic and Natural Resources Research and Development (PCAARRD)</span><br>
-                            <small>Cooking (Vegetables)</small><br>
+                            <h5 class="card-title"><?php echo e($featured_publication_1->title); ?></h5>
+                            <span class="card-text featured-publication-text"><?php echo $featured_publication_1->description; ?></span><br>
+                            <small><?php echo e($featured_publication_1->author); ?> <br> <?php echo e($featured_publication_1->date_published); ?></small>
+                            <br>
                             <a href="#" class="btn btn-primary">Learn More</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+        <?php if($featured_publication_2 != null): ?>
         <div class="col-sm-6">
             <div class="card">
                 <div class="row no-gutters">
                     <div class="col-sm-4">
-                        <img class="card-img-top" src="/storage/page_images/PCRD-H002606.jpg" alt="Card image cap">
+                        <?php if($featured_publication_2->imglink != null): ?>
+                            <img class="card-img-top" src="<?php echo e($featured_publication_2->imglink); ?>" alt="Card image cap">
+                        <?php else: ?>
+                            <div class="card-img-top center-vertically px-3" style="height:100%; background-color:rgb(150,150,150)">
+                                <span class="font-weight-bold" style="font-size: 17px;line-height: 1.5em;color: white;">
+                                    <?php echo e($featured_publication_2->title); ?>
+
+                                </span>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="col-sm-8">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo e($publications[1]->title); ?></h5>
-                            <span class="card-text">Los Baños, Laguna Philippine Council for Agriculture, Aquatic and Natural Resources Research and Development (PCAARRD)</span><br>
-                            <span>Philippine Council for Agriculture, Aquatic and Natural Resources Research and Development (PCAARRD)</span><br>
-                            <small>Organic gardening</small><br>
-                            <a href="#" class="btn btn-primary">Learn More</a>
+                            <h5 class="card-title"><?php echo e($featured_publication_2->title); ?></h5>
+                            <span class="card-text featured-publication-text"><?php echo $featured_publication_2->description; ?></span><br>
+                            <small><?php echo e($featured_publication_2->author); ?> <br> <?php echo e($featured_publication_1->date_published); ?></small>
+                            <br>
+                            <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
-    <?php endif; ?>
     <?php if(request()->edit == 1): ?>
         <div class="hover-overlay" style="width:100%">    
             <button type="button" class="btn btn-xs btn-primary" data-target="#editFeaturedPublicationsSectionModal" data-toggle="modal"><i class="far fa-edit"></i></button>      
@@ -412,7 +408,8 @@
     }
 ?>
 
-<div class="container section-margin <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
+<!-- FEATURED VIDEOS SECTION -->
+<div class="container section-margin <?php echo e(request()->edit != '1' && $landing_page->featured_videos_visibility == 0 ? 'section-none' : ''); ?> <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>">
     <h2 class="mb-2 font-weight-bold"><?php echo e($landing_page->featured_videos_header); ?></h2>
     <h5 class="mb-4" style="color:rgb(23, 135, 184)"><?php echo e($landing_page->featured_videos_subheader); ?></h5>
     <div id="featuredVideo" style="" class="carousel slide" data-ride="carousel">
@@ -517,10 +514,11 @@
     }
 ?>
 
+<!-- RECOMMENDED SECTION -->
 <?php if($landing_page->recommended_for_you_bg_type == 1): ?>
-<div class="recommended-section <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background: <?php echo e($landing_page->recommended_for_you_bg); ?>;">
+<div class="recommended-section <?php echo e(request()->edit != '1' && $landing_page->recommended_for_you_visibility == 0 ? 'section-none' : ''); ?> <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background: <?php echo e($landing_page->recommended_for_you_bg); ?>;">
 <?php else: ?>
-<div class="recommended-section parallax-section <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background-image: url('/storage/page_images/<?php echo e($landing_page->recommended_for_you_bg); ?>');">
+<div class="recommended-section <?php echo e(request()->edit != '1' && $landing_page->recommended_for_you_visibility == 0 ? 'section-none' : ''); ?> parallax-section <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" style="background-image: url('/storage/page_images/<?php echo e($landing_page->recommended_for_you_bg); ?>');">
 <?php endif; ?>
     <div class="container section-margin">
         <h2 class="mb-2 font-weight-bold" style="color:white"><?php echo e($landing_page->recommended_for_you_header); ?></h2>
@@ -588,19 +586,8 @@
     </div>
 </div>
 
-<style>
-    #techCards .tech-card-container:nth-child(3n+1) div .tech-card-color{
-        background-color: rgb(1, 197, 237);
-    }
-    #techCards .tech-card-container:nth-child(3n+2) div .tech-card-color {
-        background-color: rgb(255, 206, 16);
-    }
-    #techCards .tech-card-container:nth-child(3n+3) div .tech-card-color {
-        background-color: rgb(241, 86, 64);
-    }
-</style>
-
-<div class="consortia-section container section-margin text-center <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" id="consortiaGroup">
+<!-- CONSORTIA SECTION -->
+<div class="consortia-section <?php echo e(request()->edit != '1' && $landing_page->consortia_members_visibility == 0 ? 'section-none' : ''); ?> container section-margin text-center <?php echo e(request()->edit == '1' && $user != null ? 'overlay-container' : ''); ?>" id="consortiaGroup">
     <h1 class="mb-2 font-weight-bold"><?php echo e($landing_page->consortia_members_header); ?></h1>
     <h5 class="mb-4" style="color:rgb(23, 135, 184)"><?php echo e($landing_page->consortia_members_subheader); ?></h5>
     <?php $__currentLoopData = App\Consortia::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $consortium): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -682,6 +669,18 @@
 -->
 <?php $__env->stopSection(); ?>
 <style>
+    .featured-publication-text{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* number of lines to show */
+                line-clamp: 24; 
+        -webkit-box-orient: vertical;
+    }
+    .section-none{
+        display:none;
+    }
+
     .section-margin{
         margin-top:5rem;
         margin-bottom:5rem;
@@ -750,6 +749,23 @@
         left: 0;
         padding: 1.25rem;
     }
+
+    #techCards .tech-card-container:nth-child(3n+1) div .tech-card-color{
+        background-color: rgb(1, 197, 237);
+    }
+    #techCards .tech-card-container:nth-child(3n+2) div .tech-card-color {
+        background-color: rgb(255, 206, 16);
+    }
+    #techCards .tech-card-container:nth-child(3n+3) div .tech-card-color {
+        background-color: rgb(241, 86, 64);
+    }
+
+    .sixp-input{
+        display:none;
+    }
+    .media-input{
+        display:none;
+    }
 </style>
 <?php $__env->startSection('scripts'); ?>
 <script>  
@@ -760,6 +776,21 @@
             setTimeout(function () {
                 $pop.popover('hide');
             }, 10000);
+        });
+
+        $('input[type="radio"]').click(function() {
+            if($(this).attr('value') == 'sixp-radio' || $(this).attr('name') == 'sixp-input') {
+                $('.sixp-input').show();  
+                $('.media-input').hide();       
+            }
+            else if($(this).attr('value') == 'media-radio' || $(this).attr('name') == 'media-input'){
+                $('.media-input').show();  
+                $('.sixp-input').hide();
+            }
+            else {
+                $('.sixp-input').hide();  
+                $('.media-input').hide();
+            }
         });
     });
 </script>

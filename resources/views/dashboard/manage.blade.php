@@ -18,6 +18,7 @@
     $sliders = App\LandingPageSlider::all(); 
     $social_media = App\SocialMediaSticky::all();
     $header_links = App\HeaderLink::all(); 
+    $footer_links = App\FooterLink::all(); 
 ?>
 
 <style>
@@ -149,26 +150,26 @@
     @include('dashboard.modals.users')
     <div class="container-fluid">
         <div class="row" style="max-height:inherit; min-height:52.5rem">
-            <div class="col-xl-2 col-md-3 pl-0 pr-0" style="background-image: linear-gradient(to right, rgb(118,128,138) , rgb(79, 94, 109));">
+            <div class="col-xl-2 col-lg-3 pl-0 pr-0" style="background-image: linear-gradient(to right, rgb(118,128,138) , rgb(79, 94, 109));">
                 <div class="nav nav-tabs" style="border-bottom-width: 0px;">
                     <a class="list-group-item active" data-toggle="tab" href="#user_profile" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-user" style="margin-right:0.8rem"></i> User Profile</span>
                     </a>
                     @if(auth()->user()->role == 5)
-                    <a class="list-group-item" data-toggle="tab" href="#landing_page" style="padding-top:23px; padding-left:32px">
-                        <span><i class="fas fa-home" style="margin-right:0.8rem"></i> Manage Landing Page</span>
+                    <a class="list-group-item wrap-ellipsis" data-toggle="tab" href="#landing_page" style="padding-top:23px; padding-left:32px;">
+                        <span style=><i class="fas fa-home" style="margin-right:0.8rem"></i> Manage Landing Page</span>
                     </a>
                     @endif
-                    <a class="list-group-item" data-toggle="tab" href="#artifacts" style="padding-top:23px; padding-left:32px">
+                    <a class="list-group-item wrap-ellipsis" data-toggle="tab" href="#artifacts" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-database" style="margin-right:0.8rem"></i> Manage Resources</span>
                     </a>
-                    <a class="list-group-item" data-toggle="tab" href="#users" style="padding-top:23px; padding-left:32px">
+                    <a class="list-group-item wrap-ellipsis" data-toggle="tab" href="#users" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-user-friends" style="margin-right:0.8rem"></i> Manage Users <span class="badge badge-warning" style="{{$consortiaAdminRequests != 0 ? '' : 'display:none'}}">!</span></span>
                     </a>
-                    <a class="list-group-item" data-toggle="tab" href="#logs" style="padding-top:23px; padding-left:32px">
+                    <a class="list-group-item wrap-ellipsis" data-toggle="tab" href="#logs" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-clipboard-list" style="margin-right:0.8rem"></i> Activity Logs</span>
                     </a>
-                    <a class="list-group-item" href="/analytics/search" style="padding-top:23px; padding-left:32px">
+                    <a class="list-group-item wrap-ellipsis" href="/analytics/search" style="padding-top:23px; padding-left:32px">
                         <span><i class="fas fa-chart-line" style="margin-right:0.8rem"></i> Dashboard</span>
                     </a>
                 </div>
@@ -185,7 +186,42 @@
                     }
                 });
             </script>
-            <div class="col-xl-10 col-md-9 pl-0 pr-0">
+            <div class="col-xl-10 col-lg-9 pl-0 pr-0">
+                <div id="load" class="text-center">
+                    <div class="spinner-border"  style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <script>
+                    document.onreadystatechange = function () {
+                        var state = document.readyState
+                        if (state == 'complete') {
+                            document.getElementById('interactive');
+                            var x = document.getElementById('load');
+                            x.style.opacity = "0";
+                            x.style.visibility = "hidden";
+                            
+                        }
+                    }
+                </script>
+                <style>
+                    #load{
+                    width:100%;
+                    height:100%;
+                    padding-top:350px;
+                    position:absolute;
+                    z-index:9999;
+                    background-color: rgba(255, 255, 255);
+                    opacity:1;
+                    transition:visibility 0.5s linear,opacity 0.5s linear;
+
+                }
+                .wrap-ellipsis {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                </style>
                 <div class="tab-content">
                     <div class="tab-pane fade  active show" id="user_profile">
                         <div class="section-header shadow px-5">
@@ -371,13 +407,6 @@
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Consortia'])}}">Consortia</a>
                                     @endif
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Consortia_Members'])}}">Consortia Members</a>
-                                    @if(auth()->user()->role == 5)
-                                    <div class="dropdown-divider"></div>
-                                    <h6 class="dropdown-header">Advertisments</h6>
-                                    <a class="dropdown-item disabled" href="{{route('dashboardManage', ['asset' => 'Advertisements'])}}">Advertisements</a>
-                                    <a class="dropdown-item disabled" href="{{route('dashboardManage', ['asset' => 'Agenda'])}}">Agenda</a>
-                                    <a class="dropdown-item disabled" href="{{route('dashboardManage', ['asset' => 'Announcements'])}}">Announcements</a>
-                                    @endif
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Artifact</h6>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Artifacts'])}}">AANR Content</a>
@@ -387,8 +416,6 @@
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Content_Subtype'])}}">Content Subtype</a>
                                     <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Others</h6>
-                                    <a class="dropdown-item disabled" href="{{route('dashboardManage', ['asset' => 'Contributors'])}}">Contributors</a>
-                                    <a class="dropdown-item disabled" href="{{route('dashboardManage', ['asset' => 'Subscribers'])}}">Subscribers</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['asset' => 'Agrisyunaryo'])}}">Agrisyunaryo</a>
                                     @endif
                                 </div>
@@ -1001,6 +1028,9 @@
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Header_Logo'])}}">Header Logo</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Header_Links'])}}">Header Links</a>
                                     <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">Footer</h6>
+                                    <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Footer_Links'])}}">Footer Links</a>
+                                    <div class="dropdown-divider"></div>
                                     <h6 class="dropdown-header">Others</h6>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Search'])}}">Search Banner</a>
                                     <a class="dropdown-item" href="{{route('dashboardManage', ['landing_page' => 'Headlines'])}}">Headlines</a>
@@ -1090,6 +1120,44 @@
                                     </table>
                                 </div>
                             </div>
+                        @elseif(request()->landing_page == 'Footer_Links')
+                            <div class="card shadow mb-5 mt-0 ml-0">
+                                <div class="card-header px-5 pt-4">
+                                    <div class="text-primary" style="margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;">
+                                        <span style="font-size:1.8rem;"> Footer Links </span>
+                                        <span class="text-muted"><i>Edit footer links.</i></span>
+
+                                        <span class="float-right">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addFooterLinkModal"><i class="fas fa-plus"></i> Add Footer Link</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body px-5">
+                                    <table class="table data-table tech-table table-hover" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th width="45%">Name</th>
+                                                <th width="15%">Position</th>
+                                                <th width="25%">Link</th>
+                                                <th width="15%">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach(App\FooterLink::all() as $footer_link)
+                                            <tr>
+                                                <td><span class="text-muted">{{$footer_link->name}}</span></td>
+                                                <td><span class="text-muted">{{$footer_link->position}}</span></td>
+                                                <td><span class="text-muted">{{$footer_link->link}}</span></td>
+                                                <td class="">
+                                                    <button class="btn btn-primary pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#editFooterLinkModal-{{$footer_link->id}}"><i class="fas fa-edit"></i> Edit Details</button>
+                                                    <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteFooterLinkModal-{{$footer_link->id}}"><i class="fas fa-trash"></i> Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         @elseif(request()->landing_page == 'Headlines')
                             <div class="card shadow mb-5 mt-0 ml-0">
                                 <div class="card-header px-5 pt-4">
@@ -1148,8 +1216,9 @@
                                         <thead>
                                             <tr>
                                                 <th width="10%">#</th>
-                                                <th width="50%">Title</th>
+                                                <th width="35%">Title</th>
                                                 <th width="25%">Consortia</th>
+                                                <th width="15%">Weight</th>
                                                 <th width="15%">Actions</th>
                                             </tr>
                                         </thead>
@@ -1162,6 +1231,7 @@
                                                     <td>{{$count++}}</td>
                                                     <td>{{$slider->title}}</td>
                                                     <td>{{$slider->is_consortia == 0 ? 'AANR' : $slider->consortia->short_name}}</td>
+                                                    <td>{{$slider->weight}}</td>
                                                     <td class="text-center">
                                                         <button class="btn btn-primary pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#editSliderModal-{{$slider->id}}"><i class="fas fa-edit"></i> Edit Details</button>
                                                         <button class="btn btn-danger pl-1 pr-1 pt-0 pb-0" data-toggle="modal" data-target="#deleteSliderModal-{{$slider->id}}"><i class="fas fa-trash"></i> Delete</button>
@@ -1294,7 +1364,11 @@
                                     </span></h2>
                                 </div>
                             </div>       
-                        @endif                  
+                        @endif         
+                        
+                        @include('dashboard.modals.footerlinks')      
+                        @include('dashboard.modals.headerlinks')      
+                        @include('dashboard.modals.sliders')         
                         <!-- Modal for updateTopBannerModal -->
                             <div class="modal fade" id="addTopBannerModal" tabindex="-1" role="dialog" aria-labelledby="imageLabel" aria-hidden="true" style="z-index:9999">
                                 <div class="modal-dialog" role="document">
@@ -1563,301 +1637,6 @@
                                     </div>
                             @endforeach
                         <!-- END of Social Media Modals -->
-
-                        <!-- Header Links Modals -->
-                            <!-- Modal for ADD Header link -->
-                                <div class="modal fade" id="addHeaderLinkModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-l" role="document">
-                                        <div class="modal-content">
-                                            {{ Form::open(['action' => ['HeaderLinksController@addHeaderLink'], 'method' => 'POST']) }}
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="exampleModalLabel">Add Header Link</h6>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('link', 'Link to header', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('weight', 'Position weight (lowest to highest, from left to right)', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('weight', '', ['class' => 'form-control', 'placeholder' => 'Add a number'])}}
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                {{Form::submit('Save Changes', ['class' => 'btn btn-success'])}}
-                                            </div>
-                                            {{Form::close()}}
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                            @foreach($header_links as $header)
-                            <!-- Modal for EDIT header link -->
-                                <div class="modal fade" id="editHeaderLinkModal-{{$header->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-l" role="document">
-                                        <div class="modal-content">
-                                            {{ Form::open(['action' => ['HeaderLinksController@editHeaderLink', $header->id], 'method' => 'POST']) }}
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="exampleModalLabel">Edit Header Links</h6>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    {{Form::label('name', 'Name', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('name', $header->name, ['class' => 'form-control', 'placeholder' => 'Add a name'])}}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('link', 'Link to header', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('link', $header->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('weight', 'Position weight (lowest to highest, from left to right)', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('weight', $header->position, ['class' => 'form-control', 'placeholder' => 'Add a number'])}}
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                {{Form::submit('Save Changes', ['class' => 'btn btn-success'])}}
-                                            </div>
-                                            {{Form::close()}}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modal for DELETE header link -->
-                                <div class="modal fade" id="deleteHeaderLinkModal-{{$header->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <form action="{{ route('deleteHeaderLink', $header->id) }}" id="deleteForm" method="POST">
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <span>
-                                                    Are you sure you want to delete: <b>{{$header->name}}</b>?</br></br>
-                                                </span>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                                                <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                                            </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                            <!-- END of Header Links Modals -->
-
-                        <!-- Slider modals-->
-                            <!-- Modal for add Slider -->
-                                <div class="modal fade" id="addSliderModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-l" role="document">
-                                        <div class="modal-content">
-                                            {{ Form::open(['action' => ['LandingPageSlidersController@addSlider'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="exampleModalLabel">Add Slider</h6>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    {{Form::label('is_video_create', 'Slider Type')}}
-                                                    {{Form::select('is_video_create', ['0' => 'Text/Image', 
-                                                                                '1' => 'Video', 
-                                                                                ], '',['class' => 'form-control', 'name' => 'is_video_create']) }}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('consortia', 'Consortia', ['class' => 'col-form-label'])}}
-                                                    <select name="consortia" class="form-control" id="consortia">
-                                                        <option value="" disabled> Select Consortia </option>
-                                                        <option value="0">AANR</option>
-                                                        @foreach(App\Consortia::all() as $consortium_add)
-                                                            <option value="{{$consortium_add->id}}">{{$consortium_add->short_name}}</option>
-                                                        @endforeach
-                                                    </select> 
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
-                                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
-                                                </div>
-                                                <div class="is-video-create-no">
-                                                    <div class="form-group">
-                                                        {{Form::label('description', 'Description', ['class' => 'col-form-label'])}}
-                                                        {{Form::textarea('description', '', ['class' => 'form-control', 'placeholder' => 'Add a description', 'rows' => 4])}}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('textcard_enable', 'Enable text card?')}}
-                                                        {{Form::select('textcard_enable', ['yes' => 'Yes', 
-                                                                                    'no' => 'No', 
-                                                                                    ], '',['class' => 'form-control',]) }}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('button_text', 'Button Text', ['class' => 'col-form-label'])}}
-                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Text for the button"><i class="far fa-question-circle"></i></a>
-                                                        {{Form::text('button_text', '', ['class' => 'form-control', 'placeholder' => 'Add a text for the button'])}}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
-                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Link for the button"><i class="far fa-question-circle"></i></a>
-                                                        {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link for the button'])}}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('caption_align', 'Caption Align')}}
-                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Aligns the caption to the option selected"><i class="far fa-question-circle"></i></a>
-                                                        {{Form::select('caption_align', ['left' => 'Left', 
-                                                                                    'center' => 'Center', 
-                                                                                    'right' => 'Right'
-                                                                                    ], '',['class' => 'form-control', 'placeholder' => 'Select Align']) }}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{ Form::label('image', 'Slider Image', ['class' => 'col-form-label']) }}
-                                                        {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
-                                                    </div>
-                                                </div>
-                                                <div class="is-video-create-yes" style="display:none">
-                                                    <div class="form-group">
-                                                        {{Form::label('video_link', 'Link to YouTube video', ['class' => 'col-form-label'])}}
-                                                        {{Form::text('video_link', '', ['class' => 'form-control', 'placeholder' => 'Add a YouTube link for the slider'])}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                {{Form::submit('Add Slider', ['class' => 'btn btn-success'])}}
-                                            </div>
-                                            {{Form::close()}}
-                                        </div>
-                                    </div>
-                                </div>
-                            <!-- END modal for Slider -->
-                            
-                    
-                            @foreach($sliders as $slider)
-                                <!-- Modal for EDIT Slider -->
-                                    <div class="modal fade" id="editSliderModal-{{$slider->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog modal-l" role="document">
-                                            <div class="modal-content">
-                                                {{ Form::open(['action' => ['LandingPageSlidersController@editSlider', $slider->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
-                                                <div class="modal-header">
-                                                    <h6 class="modal-title" id="exampleModalLabel">Edit Slider</h6>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        {{Form::label('is_video_edit', 'Slider Type')}}
-                                                        {{Form::select('is_video_edit', ['0' => 'Text/Image', 
-                                                                                    '1' => 'Video', 
-                                                                                    ], $slider->is_video,['class' => 'form-control', 'name' => 'is_video_edit']) }}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('consortia', 'Consortia', ['class' => 'col-form-label'])}}
-                                                        <select name="consortia" class="form-control" id="consortia">
-                                                            <option value="" disabled> Select Consortia </option>
-                                                            <option value="0" {{$slider->consortia_id == null || $slider->consortia_id == 0 ? 'selected' : ''}}>AANR</option>
-                                                            @foreach(App\Consortia::all() as $consortium_edit)
-                                                                <option value="{{$consortium_edit->id}}" {{$slider->consortia_id == $consortium_edit->id ? 'selected' : ''}}>{{$consortium_edit->short_name}}</option>
-                                                            @endforeach
-                                                        </select> 
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('title', 'Title', ['class' => 'col-form-label'])}}
-                                                        {{Form::text('title', $slider->title, ['class' => 'form-control', 'placeholder' => 'Add a title'])}}
-                                                    </div>
-                                                    <div class="is-video-edit-no" style="{{$slider->is_video == 1 ? 'display:none' : ''}}">
-                                                        <div class="form-group">
-                                                            {{Form::label('textcard_enable', 'Enable text card?')}}
-                                                            {{Form::select('textcard_enable', ['yes' => 'Yes', 
-                                                                                        'no' => 'No', 
-                                                                                        ], $slider->textcard_enable,['class' => 'form-control', 'placeholder' => '------------']) }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{Form::label('description', 'Description', ['class' => 'col-form-label'])}}
-                                                            {{Form::textarea('description', $slider->description, ['class' => 'form-control', 'placeholder' => 'Add a description', 'rows' => 4])}}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{Form::label('button_text', 'Button Text', ['class' => 'col-form-label'])}}
-                                                            {{Form::text('button_text', $slider->button_text, ['class' => 'form-control', 'placeholder' => 'Add a text for the button'])}}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{Form::label('link', 'Link to article', ['class' => 'col-form-label'])}}
-                                                            {{Form::text('link', $slider->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{Form::label('caption_align', 'Caption Align')}}
-                                                            {{Form::select('caption_align', ['left' => 'Left', 
-                                                                                        'center' => 'Center', 
-                                                                                        'right' => 'Right'
-                                                                                        ], $slider->caption_align,['class' => 'form-control', 'placeholder' => 'Select Align']) }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{ Form::label('image', 'Replace Image', ['class' => 'col-form-label']) }}
-                                                            <img src="/storage/cover_images/{{$slider->image}}" class="card-img-top" style="width:100%;border:1px solid rgba(100,100,100,0.25)" >
-                                                            {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="is-video-edit-yes" style="{{$slider->is_video == 0 ? 'display:none' : ''}}">
-                                                        <div class="form-group">
-                                                            {{Form::label('video_link', 'Link to YouTube video', ['class' => 'col-form-label'])}}
-                                                            {{Form::text('video_link', $slider->video_link, ['class' => 'form-control', 'placeholder' => 'Add a YouTube link for the slider'])}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                    {{Form::submit('Submit Changes', ['class' => 'btn btn-success'])}}
-                                                </div>
-                                                {{Form::close()}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- END modal for edit Slider -->
-                                <!-- Modal for delete Slider -->
-                                    <div class="modal fade" id="deleteSliderModal-{{$slider->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <form action="{{ route('deleteSlider', $slider->id) }}" id="deleteForm" method="POST">
-                                                <div class="modal-header">
-                                                    <h6 class="modal-title" id="exampleModalLabel">Confirm Delete</h6>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <span>
-                                                        Are you sure you want to delete: <b>{{$slider->title}}</b>
-                                                    </span>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                                                    <input class="btn btn-danger" type="submit" value="Yes, Delete">
-                                                </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- END modal for delete Slider -->
-                            @endforeach
-                        <!-- END of Slider modals-->
                     </div>
                     <div class="tab-pane fade" id="users">
                         <div class="section-header shadow px-5" style="padding-top:23px">

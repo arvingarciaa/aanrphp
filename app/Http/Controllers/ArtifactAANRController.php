@@ -154,6 +154,7 @@ class ArtifactAANRController extends Controller
                 $artifactaanr->embed_link = $request->embed_link;
                 $artifactaanr->author = $request->author;
                 $artifactaanr->author_institution = $request->author_institution;
+                $artifactaanr->author_affiliation = $request->author_affiliation;
                 $artifactaanr->keywords = $request->keywords;
                 $artifactaanr->is_gad = $request->is_gad;
                 $artifactaanr->imglink = $request->imglink;
@@ -205,6 +206,7 @@ class ArtifactAANRController extends Controller
         $artifactaanr->author = $request->author;
         $artifactaanr->embed_link = $request->embed_link;
         $artifactaanr->author_institution = $request->author_institution;
+        $artifactaanr->author_affiliation = $request->author_affiliation;
         $artifactaanr->keywords = $request->keywords;
         $artifactaanr->gad = $request->gad;
         $artifactaanr->imglink = $request->imglink;
@@ -257,6 +259,18 @@ class ArtifactAANRController extends Controller
             }
             return redirect()->back()->with('success','AANR Content Deleted.'); 
         }
+    }
+
+    public function deleteSingleArtifact($artifact_id){
+        $artifactaanr = ArtifactAANR::find($artifact_id);
+        if($artifactaanr->file){
+            $filePath = public_path().'/storage/files/'.$artifactaanr->file;
+            unlink($filePath);
+        }
+        $artifactaanr->isp()->detach();
+        $artifactaanr->commodities()->detach();
+        $artifactaanr->delete();
+        return redirect()->back()->with('success','AANR Content Deleted.');
     }
 
     public function fetchConsortiaMemberDependent(Request $request){

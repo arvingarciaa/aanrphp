@@ -1,5 +1,7 @@
 <?php 
     $landing_page = App\LandingPageElement::find(1);
+    $footer_info = App\FooterInfo::find(1);
+    $publications_list = App\ArtifactAANR::where('content_id', '=', '15')->pluck('title', 'id')->all();
 ?>
 
 <div class="modal fade" id="editIndustryProfileSectionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -14,6 +16,11 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <?php echo e(Form::label('industry_profile_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->industry_profile_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="industry_profile_visibility">
+                </div>
                 <div class="form-group">
                     <?php echo e(Form::label('industry_profile_header', 'Industry Profile Header', ['class' => 'col-form-label required'])); ?>
 
@@ -150,6 +157,11 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <?php echo e(Form::label('latest_aanr_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->latest_aanr_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="latest_aanr_visibility">
+                </div>
+                <div class="form-group">
                     <?php echo e(Form::label('latest_aanr_header', 'Latest AANR Header', ['class' => 'col-form-label required'])); ?>
 
                     <?php echo e(Form::text('latest_aanr_header', $landing_page->latest_aanr_header, ['class' => 'form-control'])); ?>
@@ -214,6 +226,11 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <?php echo e(Form::label('user_type_recommendation_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->user_type_recommendation_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="user_type_recommendation_visibility">
+                </div>
+                <div class="form-group">
                     <?php echo e(Form::label('user_type_recommendation_header', 'User Type Recommendation Header', ['class' => 'col-form-label required'])); ?>
 
                     <?php echo e(Form::text('user_type_recommendation_header', $landing_page->user_type_recommendation_header, ['class' => 'form-control'])); ?>
@@ -250,6 +267,11 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <?php echo e(Form::label('featured_publications_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->featured_publications_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="featured_publications_visibility">
+                </div>
+                <div class="form-group">
                     <?php echo e(Form::label('featured_publications_header', 'Featured Publications Header', ['class' => 'col-form-label required'])); ?>
 
                     <?php echo e(Form::text('featured_publications_header', $landing_page->featured_publications_header, ['class' => 'form-control'])); ?>
@@ -260,6 +282,22 @@
 
                     <?php echo e(Form::text('featured_publications_subheader', $landing_page->featured_publications_subheader, ['class' => 'form-control'])); ?>
 
+                </div>
+                <div class="dropdown-divider mb-3"></div>
+                <div class="form-group mt-2">
+                    <h4 class="font-weight-bold">Featured Publications</h4>
+                    <div class="form-group">
+                        <?php echo e(Form::label('featured_1', 'First Featured Publication', ['class' => 'col-form-label required'])); ?>
+
+                        <?php echo e(Form::select('featured_1', $publications_list, $landing_page->featured_artifact_id_1,['class' => 'form-control publications-select', 'placeholder' => 'Select Publication', 'style' => 'width:100% !important'])); ?>
+
+                    </div>
+                    <div class="form-group">
+                        <?php echo e(Form::label('featured_2', 'Second Featured Publication', ['class' => 'col-form-label required'])); ?>
+
+                        <?php echo e(Form::select('featured_2', $publications_list, $landing_page->featured_artifact_id_2,['class' => 'form-control publications-select', 'placeholder' => 'Select Publication', 'style' => 'width:100% !important'])); ?>
+
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -285,6 +323,11 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <?php echo e(Form::label('featured_videos_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->featured_videos_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="featured_videos_visibility">
+                </div>
                 <div class="form-group">
                     <?php echo e(Form::label('featured_videos_header', 'Featured Videos Header', ['class' => 'col-form-label required'])); ?>
 
@@ -343,6 +386,11 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <?php echo e(Form::label('recommended_for_you_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->recommended_for_you_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="recommended_for_you_visibility">
+                </div>
                 <div class="form-group">
                     <?php echo e(Form::label('recommended_for_you_header', 'Recommended For You Header', ['class' => 'col-form-label required'])); ?>
 
@@ -408,6 +456,11 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <?php echo e(Form::label('consortia_members_visibility', 'Enable Section?', ['class' => 'col-form-label required'])); ?>
+
+                    <input type="checkbox" <?php echo e($landing_page->consortia_members_visibility == 1 ? 'checked' : ''); ?> data-toggle="toggle" name="consortia_members_visibility">
+                </div>
+                <div class="form-group">
                     <?php echo e(Form::label('consortia_members_header', 'Consortia Members Header', ['class' => 'col-form-label required'])); ?>
 
                     <?php echo e(Form::text('consortia_members_header', $landing_page->consortia_members_header, ['class' => 'form-control'])); ?>
@@ -419,6 +472,79 @@
                     <?php echo e(Form::text('consortia_members_subheader', $landing_page->consortia_members_subheader, ['class' => 'form-control'])); ?>
 
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <?php echo e(Form::submit('Save Changes', ['class' => 'btn btn-success'])); ?>
+
+            </div>
+            <?php echo e(Form::close()); ?>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editFooterInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <?php echo e(Form::open(['action' => ['LandingPageElementsController@editFooterInfo'], 'method' => 'POST', 'enctype' => 'multipart/form-data'])); ?>
+
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Edit Footer Info</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <?php echo e(Form::label('about', 'About', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::textarea('about', $footer_info->about, ['class' => 'form-control', 'rows' => '4'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('phone_number', 'Phone Number', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('phone_number', $footer_info->phone_number, ['class' => 'form-control'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('email', 'Email', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('email', $footer_info->email, ['class' => 'form-control'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('address', 'Address', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('address', $footer_info->address, ['class' => 'form-control'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('fb_link', 'Facebook Link', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('fb_link', $footer_info->fb_link, ['class' => 'form-control'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('twitter_link', 'Twitter Link', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('twitter_link', $footer_info->twitter_link, ['class' => 'form-control'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('instagram_link', 'Instagram Link', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('instagram_link', $footer_info->instagram_link, ['class' => 'form-control'])); ?>
+
+                </div>
+                <div class="form-group">
+                    <?php echo e(Form::label('youtube_link', 'Youtube Link', ['class' => 'col-form-label required'])); ?>
+
+                    <?php echo e(Form::text('youtube_link', $footer_info->youtube_link, ['class' => 'form-control'])); ?>
+
+                </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -450,6 +576,9 @@
                 $('.block-color-form').hide();  
                 $('.gradient-color-form').show();   
             }
+        });
+        $(document).ready(function() {
+            $('.publications-select').select2();
         });
     });
 

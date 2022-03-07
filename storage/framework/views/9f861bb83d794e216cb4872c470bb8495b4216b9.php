@@ -91,7 +91,7 @@
 ?>
 <div class="container-fluid mb-5 px-5">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-xl-3 col-lg-4 col-sm-12">
             <div class="card text-center">
                 <div class="card-header" style="text-align:left;background-color:white !important" >
                     <span><i class="fas fa-search"></i> TOTAL SEARCH</span><br>
@@ -123,7 +123,7 @@
               </div>
             </div>
         </div>
-        <div class="col-sm-10">
+        <div class="col-xl-9 col-lg-8 col-sm-12">
             <div class="card">
                 <div class="card-header" style="background-color:white !important">
                     <i class="fas fa-chart-line"></i> USERS <br>
@@ -134,7 +134,7 @@
                 </div>
              </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-header" style="background-color:white !important">
                     <i class="fas fa-chart-line"></i> CONTENT <br>
@@ -162,7 +162,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3 col-sm-12">
             <div class="card">
                 <div class="card-header" style="background-color:white !important">
                     <i class="fas fa-chart-line"></i> COMMODITIES <br>
@@ -173,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3 col-sm-12">
             <div class="card">
                 <div class="card-header" style="background-color:white !important">
                     <i class="fas fa-chart-line"></i> ISPs <br>

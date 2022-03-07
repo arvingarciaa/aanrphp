@@ -19,6 +19,7 @@
         "laravelcollective/html": "^6.2.1",
         "nicolaslopezj/searchable": "^1.13",
         "spatie/browsershot": "^3.52",
+        "spatie/laravel-backup": "^6.16",
         "stevebauman/location": "^6.2"
     },
     "require-dev": {

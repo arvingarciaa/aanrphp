@@ -14,10 +14,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/manage', function () {
     return view('pages.manage');
 });
@@ -38,6 +34,8 @@ Route::post('manage/editRecommendedForYouSection', 'LandingPageElementsControlle
 Route::post('manage/editConsortiaMembersSection', 'LandingPageElementsController@editConsortiaMembersSection')->name('editConsortiaMembersSection');
 Route::post('manage/editAgrisyunaryoSearchBanner', 'LandingPageElementsController@editAgrisyunaryoSearchBanner')->name('editAgrisyunaryoSearchBanner');
 Route::post('manage/editIndustryProfile', 'LandingPageElementsController@editIndustryProfile')->name('editIndustryProfile');
+Route::post('manage/editFooterInfo', 'LandingPageElementsController@editFooterInfo')->name('editFooterInfo');
+Route::post('manage/editUsefulLinks', 'LandingPageElementsController@editUsefulLinks')->name('editUsefulLinks');
 
 
 //Pages Controller
@@ -62,7 +60,12 @@ Route::post('headlines/{id}/editSocial', 'SocialMediaStickyController@editSocial
 //Header Links
 Route::post('headlines/{id}/editHeaderLink', 'HeaderLinksController@editHeaderLink')->name('editHeaderLink');
 Route::post('headlines/addHeaderLink', 'HeaderLinksController@addHeaderLink')->name('addHeaderLink');
-Route::post('headlines/{id}/deleteHeaderLink', 'HeaderLinksController@deleteHeaderLink')->name('deleteHeaderLink');
+Route::delete   ('headlines/{id}/deleteHeaderLink', 'HeaderLinksController@deleteHeaderLink')->name('deleteHeaderLink');
+
+//Footer Links
+Route::post('headlines/{id}/editFooterLink', 'FooterLinksController@editFooterLink')->name('editFooterLink');
+Route::post('headlines/addFooterLink', 'FooterLinksController@addFooterLink')->name('addFooterLink');
+Route::delete('headlines/{id}/deleteFooterLink', 'FooterLinksController@deleteFooterLink')->name('deleteFooterLink');
 
 //AANR Page
 Route::post('headlines/{id}/editAANRPage', 'AANRPageController@editAANRPage')->name('editAANRPage');
@@ -148,6 +151,7 @@ Route::post('headlines/addArtifact', 'ArtifactAANRController@addArtifact')->name
 Route::post('headlines/addView', 'ArtifactAANRController@addView')->name('addView');
 Route::post('headlines/{id}/editArtifact', 'ArtifactAANRController@editArtifact')->name('editArtifact');
 Route::delete('headlines/deleteArtifact', 'ArtifactAANRController@deleteArtifact')->name('deleteArtifact');
+Route::delete('headlines/{id}/deleteSingleArtifact', 'ArtifactAANRController@deleteSingleArtifact')->name('deleteSingleArtifact');
 Route::post('headlines/uploadPDFArtifact', 'ArtifactAANRController@uploadPDFArtifact')->name('uploadPDFArtifact');
 Route::post('dashboard/manage/fetchConsortiaMemberDependent', 'ArtifactAANRController@fetchConsortiaMemberDependent')->name('fetchConsortiaMemberDependent');
 Route::post('dashboard/manage/fetchContentSubtypeDependent', 'ArtifactAANRController@fetchContentSubtypeDependent')->name('fetchContentSubtypeDependent');

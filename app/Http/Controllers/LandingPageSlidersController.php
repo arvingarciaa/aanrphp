@@ -14,6 +14,7 @@ class LandingPageSlidersController extends Controller
 
         $slider = new LandingPageSlider;
         $slider->title = $request->title;
+        $slider->weight = $request->weight;
         if($request->consortia == null || $request->consortia == 0){
             $slider->is_consortia = 0;
         } else {
@@ -66,6 +67,7 @@ class LandingPageSlidersController extends Controller
         
         $slider = LandingPageSlider::find($slider_id);
         $slider->title = $request->title;
+        $slider->weight = $request->weight;
         if($request->consortia == null || $request->consortia == 0){
             $slider->is_consortia = 0;
             $slider->consortia_id = null;

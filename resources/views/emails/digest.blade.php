@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hi User, here’s your weekly summary of what’s happening in the AANR community.
+# Hi {{ $name }}, here’s your weekly summary of what’s happening in the AANR community.
 
 Latest from KM4AANR.PH
 
@@ -19,7 +19,7 @@ The Philippine Agricultural Scientist Vol 91 No 4 (2008): The Philippine Agricul
 
 # The Philippine Agricultural Scientist Vol 91 No 4 (2008): The Philippine Agricultural ScientistCashew (Anacardium occidentale L.) nut shell liquid (CNSL) from the Philippines and its phenolicconstituents or derivatives, viz., anacardic acid, cardanol and methyl anacardate, were tested for
 The Philippine Agricultural Scientist Vol 91 No 4 (2008): The Philippine Agricultural ScientistThe application of electrochemical processes, namely electro-oxidation and electrocoagulation, intreating spent ion-exchange-process (SIEP) effluent from a local sugar refinery was investigated.
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => 'aanr.ph'])
 Visit km4aanr.ph
 @endcomponent
 
