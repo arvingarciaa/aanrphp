@@ -147,7 +147,9 @@
                                 </div>
                                 <div class="form-group">
                                     {{ Form::label('image', 'Replace Image', ['class' => 'col-form-label']) }}
+                                    @if(isset($slider->image))
                                     <img src="/storage/cover_images/{{$slider->image}}" class="card-img-top" style="width:100%;border:1px solid rgba(100,100,100,0.25)" >
+                                    @endif
                                     {{ Form::file('image', ['class' => 'form-control mt-2 mb-3 pt-1'])}}
                                 </div>
                             </div>

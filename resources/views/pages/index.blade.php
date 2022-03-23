@@ -133,9 +133,9 @@
         {{ csrf_field() }}
         <div class="input-group">
             <label class="mr-2 radio-inline"><input type="radio" name="content_type" value="all" checked> All Content Types</label>
-            <span class="mx-2" style="color:rgba(124, 124, 124, 0.788)">|</span>
+            <span class="ml-2 mr-3" style="color:rgba(124, 124, 124, 0.788)">|</span>
             @foreach(App\Content::orderBy('type', 'asc')->get() as $content_type)
-                <label class="mx-2 radio-inline"><input type="radio" name="content_type" value="{{$content_type->id}}"> {{$content_type->type}}</label>
+                <label class="mr-3 radio-inline"><input type="radio" name="content_type" value="{{$content_type->id}}"> {{$content_type->type}}</label>
             @endforeach
         </div>
         <div class="input-group">
@@ -241,7 +241,7 @@
                                         {{isset($artifact->content->type) ? $artifact->content->type : ''}} <br> </small>
                         </div>
                     </div>
-                    <a href="{{$artifact->link}}" target="_blank" class="stretched-link"></a>
+                    <a href="{{$artifact->link != null ? $artifact->link : '/search?search='.$artifact->title.'#search-anchor'}}" target="_blank" class="stretched-link"></a>
                 </div>
             </div>
             @endforeach
@@ -461,7 +461,7 @@
 <?php
     if($user != null){
         $compiled_featured_artifacts = collect();
-        if($user->organization != null){
+        if($user->organization != null && $user->is_organization_other != 1){
             $user_consortia_id = App\Consortia::where('short_name', '=', $user->organization)->first()->id;
             $organization_artifacts = App\ArtifactAANR::where('consortia_id', '=', $user_consortia_id)->get();
             foreach($organization_artifacts as $organization_artifact){
@@ -549,7 +549,7 @@
                                 <h4 class="card-title trail-end">{{$compiled_featured_artifact->title}}</h4>
                                 <div class="card-text trail-end" style="line-height: 120%;">
                                     <p class="mb-2"><b>{{$compiled_featured_artifact->author}}</b></p>
-                                    <small>{{$compiled_featured_artifact->consortia->short_name}}<br>           
+                                    <small>{{isset($compiled_featured_artifact->consortia->short_name) ? $compiled_featured_artifact->consortia->short_name : '--'}}<br>           
                                                 {{$compiled_featured_artifact->content->type}} <br> </small>
                                 </div>
                             </div>
@@ -574,11 +574,11 @@
                                 <h4 class="card-title trail-end">{{$recommended_artifact_not_logged_in->title}}</h4>
                                 <div class="card-text trail-end" style="line-height: 120%;">
                                     <p class="mb-2"><b>{{$recommended_artifact_not_logged_in->author}}</b></p>
-                                    <small>{{$recommended_artifact_not_logged_in->consortia->short_name}}<br>           
-                                                {{$recommended_artifact_not_logged_in->content->type}} <br> </small>
+                                    <small>{{isset($recommended_artifact_not_logged_in->consortia->short_name) ? $recommended_artifact_not_logged_in->consortia->short_name : '--'}}<br>           
+                                                {{isset($recommended_artifact_not_logged_in->content->type) ? $recommended_artifact_not_logged_in->content->type : '--'}} <br> </small>
                                 </div>
                             </div>
-                            <a href="/search?search={{$recommended_artifact_not_logged_in->link != null ? $recommended_artifact_not_logged_in->link : '/search?search='.$recommended_artifact_not_logged_in->title.'#search-anchor'}}" target="_blank" class="stretched-link"></a>
+                            <a href="{{$recommended_artifact_not_logged_in->link != null ? $recommended_artifact_not_logged_in->link : '/search?search='.$recommended_artifact_not_logged_in->title.'#search-anchor'}}" target="_blank" class="stretched-link"></a>
                         </div>
                     </div>
                 @endforeach
@@ -654,16 +654,14 @@
         <h1 class="font-weight-bold">Never miss an update</h1>
         <p style="font-size:120%">Get recommendations straight in your inbox. Keep up-to-date with the latest research and development in agriculture, aquatic and natural resources here in the Philippines. Let us know what topics you are interested in!</p>
         <div class="input-group" style="font-size:2.5rem">
+            {{ Form::open(['action' => ['LandingPageElementsController@sendEmailToRegister'], 'style' => 'width:100%; display:flex', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
             <input type="text" class="form-control" style="height:2.5rem" name="email"
-                placeholder="Input your email address"> <span class="input-group-btn">
-                <a href="/register" class="btn btn-outline-secondary" style="color:white;border:1px solid #ced4da;height:100%;background-color:rgb(40,109,158)">
-                    Subscribe and sign up
-                </a>
+                placeholder="Input your email address"> 
+            <span class="input-group-btn">
+                {{Form::submit('Subscribe and sign up', ['class' => 'btn btn-outline-secondary', 'style' => 'color:white;border:1px solid #ced4da;height:100%;background-color:rgb(40,109,158)'])}}
             </span>
+            {{Form::close()}}
         </div>
-        <p class="" style="font-size:80%; padding-left:5rem; padding-right:5rem">
-        By checking this box, you confirm that you have read and are agreeing to our terms of use regarding the storage of the data submitted through this form. To know more about how we handle your data, read our privacy policy here.
-        </p>
     </div>
 </div>
 <!--

@@ -30,7 +30,7 @@
                         {{Form::text('link', '', ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('keywords', 'Search keywords', ['class' => 'col-form-label required'])}}
+                        {{Form::label('keywords', 'Search keywords', ['class' => 'col-form-label'])}}
                         {{Form::text('keywords', '', ['class' => 'form-control', 'placeholder' => 'Separate keywords with commas'])}}
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                             {{Form::text('link', $agrisyunaryo->link, ['class' => 'form-control', 'placeholder' => 'Add a link'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('keywords', 'Search keywords', ['class' => 'col-form-label required'])}}
+                            {{Form::label('keywords', 'Search keywords', ['class' => 'col-form-label'])}}
                             {{Form::text('keywords', $agrisyunaryo->keywords, ['class' => 'form-control', 'placeholder' => 'Separate keywords with commas'])}}
                         </div>
                     </div>

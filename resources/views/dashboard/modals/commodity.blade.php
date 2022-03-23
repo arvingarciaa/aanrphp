@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {{Form::label('isp', 'ISP', ['class' => 'col-form-label required'])}}
+                        {{Form::label('isp', 'ISP', ['class' => 'col-form-label'])}}
                         {{Form::select('isp', App\ISP::pluck('name', 'id')->all(), null,['class' => 'form-control', 'placeholder' => 'Select ISP']) }}
                     </div>
                     <div class="form-group">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            {{Form::label('isp', 'ISP', ['class' => 'col-form-label required'])}}
+                            {{Form::label('isp', 'ISP', ['class' => 'col-form-label'])}}
                             {{Form::select('isp', App\ISP::pluck('name', 'id')->all(), $commodity->isp_id,['class' => 'form-control', 'placeholder' => 'Select ISP']) }}
                         </div>
                         <div class="form-group">

@@ -10,7 +10,7 @@ class LandingPageElementsController extends Controller
 {
     public function updateTopBanner(Request $request){
         $this->validate($request, [
-            'image' => 'required'
+            'image' => ['required', 'mimes:jpeg,bmp,png,gif', 'max:10240']
         ]);
 
         $page = LandingPageElement::find(1);
@@ -29,12 +29,12 @@ class LandingPageElementsController extends Controller
         $page->top_banner = $imageName;
         $page->save();
 
-        return redirect('/manage')->with('success', 'Top banner image updated');
+        return redirect()->back()->with('success', 'Top banner image updated');
     }
 
     public function updateConsortiaBanner(Request $request){
         $this->validate($request, [
-            'image' => 'required'
+            'image' => ['required', 'mimes:jpeg,bmp,png,gif', 'max:10240']
         ]);
 
         $page = LandingPageElement::find(1);
@@ -53,12 +53,12 @@ class LandingPageElementsController extends Controller
         $page->consortia_banner = $imageName;
         $page->save();
 
-        return redirect('/manage')->with('success', 'Consortia banner image updated');
+        return redirect()->back()->with('success', 'Consortia banner image updated');
     }
 
     public function updateHeaderLogo(Request $request){
         $this->validate($request, [
-            'image' => 'required'
+            'image' => ['required', 'mimes:jpeg,bmp,png,gif', 'max:10240']
         ]);
 
         $page = LandingPageElement::find(1);
@@ -77,7 +77,7 @@ class LandingPageElementsController extends Controller
         $page->header_logo = $imageName;
         $page->save();
 
-        return redirect('/manage')->with('success', 'Header Logo image updated');
+        return redirect()->back()->with('success', 'Header Logo image updated');
     }
 
     public function updateLandingPageViews(Request $request){
@@ -91,10 +91,18 @@ class LandingPageElementsController extends Controller
         $page->landing_page_item_need_help = $request->input('landing_page_item_need_help');
         $page->landing_page_item_elib_publication = $request->input('landing_page_item_elib_publication');
         $page->save();
-        return redirect('/manage')->with('success', 'Landing page views updated');
+        return redirect()->back()->with('success', 'Landing page views updated');
     }
 
     public function editIndustryProfileSection(Request $request){
+        $this->validate($request, [
+            'agri_icon' => ['mimes:jpeg,bmp,png,gif', 'max:10240'],
+            'agri_bg' => ['mimes:jpeg,bmp,png,gif', 'max:10240'],
+            'aqua_icon' => ['mimes:jpeg,bmp,png,gif', 'max:10240'],
+            'aqua_bg' => ['mimes:jpeg,bmp,png,gif', 'max:10240'],
+            'natural_icon' => ['mimes:jpeg,bmp,png,gif', 'max:10240'],
+            'natural_bg' => ['mimes:jpeg,bmp,png,gif', 'max:10240'],
+        ]);
         $page = LandingPageElement::find(1);
         if($request->industry_profile_visibility == 'on'){
             $page->industry_profile_visibility = 1;
@@ -180,6 +188,9 @@ class LandingPageElementsController extends Controller
     }
 
     public function editLatestAANRSection(Request $request){
+        $this->validate($request, [
+            'image' => ['mimes:jpeg,bmp,png,gif', 'max:10240']
+        ]);
         $page = LandingPageElement::find(1);
         if($request->latest_aanr_visibility == 'on'){
             $page->latest_aanr_visibility = 1;
@@ -356,6 +367,10 @@ class LandingPageElementsController extends Controller
         $footer->youtube_link = $request->youtube_link;
         $footer->save();
         return redirect('/?edit=1')->with('success', 'Footer Info Updated');
+    }
+
+    public function sendEmailToRegister(Request $request){
+        return redirect('/register?email='.$request->email)->with('success', 'Please fill up the rest of the form to register.');
     }
 
     public function editUsefulLinks(Request $request){

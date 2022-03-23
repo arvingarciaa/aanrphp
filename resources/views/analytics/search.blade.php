@@ -23,7 +23,7 @@
 <?php 
     $landing_page = App\LandingPageElement::find(1);
     $aanrPage = App\AANRPage::first();
-    $totalContent = App\ArtifactAANR::all();
+    $totalContent = App\ArtifactAANR::where('is_agrisyunaryo', '=', 0)->get();
 
     //Total search for the month
     $totalSearchCurrentMonth = App\SearchQuery::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();

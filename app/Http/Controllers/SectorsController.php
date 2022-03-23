@@ -9,7 +9,8 @@ class SectorsController extends Controller
 {
     public function addSector(Request $request){
         $this->validate($request, array(
-            'name' => 'required|max:100'
+            'name' => 'required|max:100',
+            'industry' => 'required'
         ));
 
         $user = auth()->user();
@@ -24,7 +25,8 @@ class SectorsController extends Controller
     
     public function editSector(Request $request, $sector_id){
         $this->validate($request, array(
-            'name' => 'required|max:100'
+            'name' => 'required|max:100',
+            'industry' => 'required'
         ));
         
         $user = auth()->user();

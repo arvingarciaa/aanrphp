@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
-
 @section('breadcrumb')
     <ol class="breadcrumb pb-0" style="background-color:transparent">
         <li class="breadcrumb-item"><a class="breadcrumb-link" href="/">km4aanr</a></li>
-        <li class="breadcrumb-item"><a class="breadcrumb-link" href="/">Dashboard</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-link" href="/analytics/search">Dashboard</a></li>
         <li class="breadcrumb-item active" aria-current="page">Manage</li>
     </ol>
 @endsection
@@ -175,17 +174,6 @@
                 </div>
             </div>
 
-            <script>
-                $(function() {
-                    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                        localStorage.setItem('lastTab', $(this).attr('href'));
-                    });
-                    var lastTab = localStorage.getItem('lastTab');
-                    if (lastTab) {
-                        $('[href="' + lastTab + '"]').tab('show');
-                    }
-                });
-            </script>
             <div class="col-xl-10 col-lg-9 pl-0 pr-0">
                 <div id="load" class="text-center">
                     <div class="spinner-border"  style="width: 3rem; height: 3rem;" role="status">
@@ -549,7 +537,7 @@
                                                     <tr>
                                                         <td>{{$commodity->id}}</td>
                                                         <td>{{$commodity->name}}</td>
-                                                        <td>{{$commodity->isp->name}}</td>
+                                                        <td>{{$commodity->isp_id != null ? $commodity->isp->name : '-'}}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editCommodityModal-{{$commodity->id}}"><i class="fas fa-edit"></i> Edit Details</button>
                                                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteCommodityModal-{{$commodity->id}}"><i class="fas fa-trash"></i> Delete Entry</button>
@@ -1817,11 +1805,21 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
+
         $(".list-group-item-action").on('click', function() {
             $(".list-group-item-action").each(function(index) {
                 $(this).removeClass("active show");
             });
         })
+        $(function() {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                localStorage.setItem('lastTab', $(this).attr('href'));
+            });
+            var lastTab = localStorage.getItem('lastTab');
+            if (lastTab) {
+                $('[href="' + lastTab + '"]').tab('show');
+            }
+        });
         $(document).ready(function() {
             // init datatable on #example table
             $('.data-table').DataTable({

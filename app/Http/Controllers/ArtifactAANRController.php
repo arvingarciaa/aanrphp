@@ -140,7 +140,7 @@ class ArtifactAANRController extends Controller
                     'title' => 'required',
                     'content' => 'required',
                     'consortia' => 'required',
-                    'manual_file' => 'file|max:10240|mimes:pdf'
+                    'manual_file' => 'file|max:10240|mimes:pdf,jpeg,png'
                 ));
                 $artifactaanr = new ArtifactAANR;
                 $artifactaanr->title = $request->title;
@@ -191,7 +191,7 @@ class ArtifactAANRController extends Controller
     public function editArtifact(Request $request, $artifact_id){
         $this->validate($request, array(
             'title' => 'required',
-            'file' => 'file|max:10240|mimes:jpg'
+            'file' => 'file|max:10240|mimes:pdf,jpeg,png'
         ));
         $user = auth()->user();
         $artifactaanr = ArtifactAANR::find($artifact_id);

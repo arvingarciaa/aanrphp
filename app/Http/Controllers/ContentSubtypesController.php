@@ -9,7 +9,8 @@ class ContentSubtypesController extends Controller
 {
     public function addContentSubtype(Request $request){
         $this->validate($request, array(
-            'name' => 'required|max:50'
+            'name' => 'required|max:50',
+            'content' => 'required'
         ));
 
         $user = auth()->user();
@@ -23,7 +24,8 @@ class ContentSubtypesController extends Controller
     
     public function editContentSubtype(Request $request, $content_subtype_id){
         $this->validate($request, array(
-            'name' => 'required|max:50'
+            'name' => 'required|max:50',
+            'content' => 'required'
         ));
         
         $user = auth()->user();

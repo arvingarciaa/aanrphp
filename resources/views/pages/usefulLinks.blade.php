@@ -22,6 +22,7 @@
 @include('layouts.messages')
 
 @include('pages.modals.usefulLinks')
+
 @if($user != null && $user->role == 5)
     <div class="edit-bar">
         <nav class="navbar navbar-expand-lg shadow rounded" style="background-color:{{request()->edit == 1 ? '#53ade9' : '#05b52c'}}; height:52px">
@@ -36,10 +37,10 @@
         </nav>
     </div> 
 @endif
-<div class="text-center">
+<div class="text-center {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
     <img style="width:100%" src="storage/cover_images/Useful links.gif" alt="">
 </div>
-<div class="container mt-5 mb-5 {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
+<div class="container mt-5 mb-5 {{request()->edit == '1' ? 'overlay-container' : ''}}">
     
     <span class="pt-3" style="font-size:1rem">{!! $landing_page->useful_links !!}</span>
 

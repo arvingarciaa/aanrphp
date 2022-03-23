@@ -10,7 +10,8 @@ class AgrisyunaryosController extends Controller
 {
     public function addAgrisyunaryo(Request $request){
         $this->validate($request, array(
-            'title' => 'required|max:255'
+            'title' => 'required|max:255',
+            'image' => ['mimes:jpeg,bmp,png,gif', 'max:10240']
         ));
 
         $user = auth()->user();
@@ -40,7 +41,8 @@ class AgrisyunaryosController extends Controller
     
     public function editAgrisyunaryo(Request $request, $agrisyunaryo_id){
         $this->validate($request, array(
-            'title' => 'required|max:255'
+            'title' => 'required|max:255',
+            'image' => ['mimes:jpeg,bmp,png,gif', 'max:10240']
         ));
         $agrisyunaryo = Agrisyunaryo::find($agrisyunaryo_id);
         $user = auth()->user();

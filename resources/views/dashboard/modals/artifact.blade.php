@@ -67,7 +67,7 @@
                             </div>
                             <div class="form-group">
                                 {{Form::label('date_published', 'Date Published', ['class' => 'col-form-label'])}}
-                                {{ Form::date('date_published','',['class' => 'form-control']) }}
+                                {{ Form::date('date_published','',['class' => 'form-control', 'id' => 'artifact_date_published']) }}
                             </div>
                             <div class="form-group">
                                 {{Form::label('author', 'Author', ['class' => 'col-form-label'])}}
@@ -238,7 +238,12 @@
         $('#edit-link').val(content_link);
         $('#edit-keywords').val(keywords);
         $('#artifact-id').val(content_id);
-    });   */
+    });   
+    $( function() {
+        $( "#artifact_date_published" ).datepicker({
+            maxDate: 0 
+        });
+    });*/
     $('.dynamic_consortia_member').change(function(){
         if($(this).val() != ''){
             var consortia_member = $(this).attr('id');

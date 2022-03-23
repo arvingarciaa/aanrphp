@@ -36,7 +36,7 @@ Route::post('manage/editAgrisyunaryoSearchBanner', 'LandingPageElementsControlle
 Route::post('manage/editIndustryProfile', 'LandingPageElementsController@editIndustryProfile')->name('editIndustryProfile');
 Route::post('manage/editFooterInfo', 'LandingPageElementsController@editFooterInfo')->name('editFooterInfo');
 Route::post('manage/editUsefulLinks', 'LandingPageElementsController@editUsefulLinks')->name('editUsefulLinks');
-
+Route::post('manage/sendEmailToRegister', 'LandingPageElementsController@sendEmailToRegister')->name('sendEmailToRegister');
 
 //Pages Controller
 Route::get('/', 'PagesController@getLandingPage')->name('getLandingPage');

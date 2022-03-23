@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container pb-5">
+    @include('layouts.messages')
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card shadow" style="background-color:rgb(241,241,241)">
@@ -36,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-form-label font-weight-bold required">{{ __('E-Mail Address') }}</label>
-                            <input style="color:black" id="email" type="email" placeholder="example@email.com" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                            <input style="color:black" id="email" type="email" placeholder="example@email.com" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ request()->email ? request()->email : ''}}" required autocomplete="email">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -67,7 +68,6 @@
                                 @foreach(App\Consortia::all() as $consortium)
                                     <option value="{{$consortium->short_name}}">{{$consortium->short_name}}</option>
                                 @endforeach
-                                <option value="PCAARRD">PCAARRD</option>
                                 <option value='other'>Other</option>
                             </select>
                             <div class="form-group consortia-input" >

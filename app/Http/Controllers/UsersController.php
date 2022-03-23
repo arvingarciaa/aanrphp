@@ -12,10 +12,16 @@ use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
     public function createUser(Request $request){
-        $this->validate($request, array(
-            'first_name' => 'required|max:200',
-            'last_name' => 'required|max:200'
-        ));
+        $this->validate($request, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'contact_number' => ['required', 'digits:10']
+        ],
+        [
+          'contact_number.digits' => 'Contact number is not valid!'  
+        ]
+        );
 
         $user = new User;
         $user->first_name = $request->first_name;
@@ -41,7 +47,8 @@ class UsersController extends Controller
     public function editUser(Request $request, $user_id){
         $this->validate($request, array(
             'first_name' => 'required|max:200',
-            'last_name' => 'required|max:200'
+            'last_name' => 'required|max:200',
+            'phone' => ['required|regex:/(9)[0-9]{9}/']
         ));
 
         $user = User::find($user_id);

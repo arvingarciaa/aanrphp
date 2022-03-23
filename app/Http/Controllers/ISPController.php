@@ -8,7 +8,8 @@ class ISPController extends Controller
 {
     public function addISP(Request $request){
         $this->validate($request, array(
-            'name' => 'required|max:100'
+            'name' => 'required|max:100',
+            'sector' => 'required'
         ));
 
         $isp = new ISP;
@@ -22,7 +23,8 @@ class ISPController extends Controller
     
     public function editISP(Request $request, $isp_id){
         $this->validate($request, array(
-            'name' => 'required|max:100'
+            'name' => 'required|max:100',
+            'sector' => 'required'
         ));
         
         $isp = ISP::find($isp_id);
