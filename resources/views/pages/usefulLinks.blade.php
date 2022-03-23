@@ -40,7 +40,7 @@
 <div class="text-center {{request()->edit == '1' && $user != null ? 'overlay-container' : ''}}">
     <img style="width:100%" src="storage/cover_images/Useful links.gif" alt="">
 </div>
-<div class="container mt-5 mb-5 {{request()->edit == '1' ? 'overlay-container' : ''}}">
+<div style="min-height:50px" class="container mt-5 mb-5 {{request()->edit == '1' ? 'overlay-container' : ''}}">
     
     <span class="pt-3" style="font-size:1rem">{!! $landing_page->useful_links !!}</span>
 
