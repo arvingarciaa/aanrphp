@@ -8,7 +8,7 @@
     <div id="carouselContent" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
             @foreach($headlines as $headline)
-                <div class="carousel-item {{$count == 0 ? 'active' : ''}} text-center p-4">
+                <div class="wrap-ellipsis carousel-item {{$count == 0 ? 'active' : ''}} text-center p-4" style="color:white">
                     <a href="{{$headline->link}}" target="_blank" style="text-decoration: none; color:white; font-size:15px">{{$headline->title}}</a>
                 </div>
                 <?php $count++ ?>

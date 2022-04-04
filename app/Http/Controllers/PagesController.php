@@ -46,6 +46,10 @@ class PagesController extends Controller
         return view('analytics.search');
     }
 
+    public function searchAnalyticsWithFilter(Request $request){
+        return redirect('/analytics/search?from='.$request->year_from_filter.'&to='.$request->year_to_filter.'&filter=yes');
+    }
+
     public function saveAnalytics(){
         $now = Carbon::now();
         $file_name = 'aanr_analytics'. $now->format('dmy').'.pdf';
@@ -80,8 +84,6 @@ class PagesController extends Controller
         $pageView->save();
         return view('pages.index');
     }
-
-
 
     public function contentEdit($content_id){
 

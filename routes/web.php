@@ -51,6 +51,7 @@ Route::get('aanr/about', 'PagesController@AANRAboutPage')->name('AANRAboutPage')
 Route::get('pcaarrd/about', 'PagesController@PCAARRDAboutPage')->name('PCAARRDAboutPage');
 Route::get('agrisyunaryo', 'PagesController@agrisyunaryo')->name('agrisyunaryo');
 Route::get('analytics/search', 'PagesController@searchAnalytics')->name('searchAnalytics');
+Route::get('analytics/searchWithFilter', 'PagesController@searchAnalyticsWithFilter')->name('searchAnalyticsWithFilter');
 Route::get('analytics/search/save', 'PagesController@saveAnalytics')->name('saveAnalytics');
 
 //Social Media

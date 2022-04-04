@@ -609,3 +609,40 @@ margin-right:-4px;
   transform: translate(0%);
   z-index: 10000;
 }
+
+
+.wrap-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.slider-styled .noUi-handle .noUi-touch-area {
+  border: 1px solid transparent;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  width: auto;
+  height: auto;
+}
+
+/* Show a border when hovering the area the handle responds to */
+.slider-styled .noUi-handle:hover .noUi-touch-area {
+  border: 1px dashed #7f7f7f;
+}
+.slider-round {
+  height: 10px;
+}
+
+.slider-round .noUi-connect {
+  background: #3FB8AF;
+}
+
+.slider-round .noUi-handle {
+  height: 18px;
+  width: 18px;
+  top: -5px;
+  right: -9px; /* half the width */
+  border-radius: 9px;
+}

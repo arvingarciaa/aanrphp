@@ -132,7 +132,6 @@ class ArtifactAANRController extends Controller
                     $artifact->consortia_id = $consortia_id;
                     $artifact->consortia_member_id = $consortia_member_id;
                     $artifact->save();
-
                 }
 
             } else {

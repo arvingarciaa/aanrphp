@@ -44,6 +44,7 @@
     <!-- no-ui-slider -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" integrity="sha512-qveKnGrvOChbSzAdtSs8p69eoLegyh+1hwOMbmpCViIwj7rn4oJjdmMvWOuyQlTOZgTlZA0N2PXA7iA8/2TUYA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js" integrity="sha512-ZKqmaRVpwWCw7S7mEjC89jDdWRD/oMS0mlfH96mO0u3wrPYoN+lXmqvyptH4P9mY6zkoPTSy5U2SwKVXRY5tYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
     
     <!-- x-editable -->
     <link href="{{ asset('css/bootstrap-editable.css') }}" rel="stylesheet">
@@ -92,52 +93,6 @@
         </div>
         <section class="sticky-top">
             @include('layouts.navbar')
-            <nav class="navbar navbar-expand-lg navbar-dark p-0" style="background-color:#216d9e; height:52px">
-                <div class="col-auto">
-                    @yield('breadcrumb')
-                </div>
-                <div class="container float-right mr-2">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#2ndnavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse pr-4" id="2ndnavbar">
-                        <ul class="navbar-nav ml-auto">
-                            @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('REGISTER') }}</a>
-                                </li>
-                            @endif
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        Welcome, {{ Auth::user()->first_name }} <span class="caret"></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        @if(auth()->user()->role == 5)
-                                            <a href="/dashboard/manage" class="dropdown-item">Manage Dashboard</a>
-                                        @else
-                                            <a href="/dashboard/userDashboard" class="dropdown-item">Manage Dashboard</a>
-                                        @endif
-                                        
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                                {{ __('Logout') }}
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </div>
-                                </li>
-                            @endguest
-                        </ul>
-                    </div>
-                </div>
-            </nav>
         </section>
         @yield('content')
             
@@ -152,8 +107,5 @@
         }
     </style>
 </body>
-    
     @yield('scripts')
-  
-
 </html>

@@ -204,11 +204,6 @@
                     transition:visibility 0.5s linear,opacity 0.5s linear;
 
                 }
-                .wrap-ellipsis {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
                 </style>
                 <div class="tab-content">
                     <div class="tab-pane fade  active show" id="user_profile">

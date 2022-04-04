@@ -16,11 +16,11 @@ class ArtifactAANR extends Model
     protected $searchable = [
         'columns' => [
             'artifactaanr.title' => 10,
-            'artifactaanr.keywords' => 10,
-            'artifactaanr.description' => 5,
-            'artifactaanr.author_institution' => 3,
-            'artifactaanr.author' => 3,
-            'artifactaanr.date_published' => 3,
+            'artifactaanr.keywords' => 5,
+            'artifactaanr.description' => 3,
+            'artifactaanr.author_institution' => 2,
+            'artifactaanr.author' => 2,
+            'artifactaanr.date_published' => 2,
         ]
     ];
 

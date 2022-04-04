@@ -30,6 +30,10 @@
     if($totalSearchCurrentMonth <= 0){
         $totalSearchCurrentMonth = 1;
     }
+    $totalSearchWithFilter = 0;
+    if(request()->filter == 'yes'){
+        $totalSearchWithFilter = App\SearchQuery::whereBetween('created_at', [request()->from, request()->to])->count();
+    }
     $totalSearchLastMonth = App\SearchQuery::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', date('Y'))->count();
     if($totalSearchLastMonth == 0){
         $totalSearchIncreasePercent = 100;
@@ -43,6 +47,12 @@
     if($averageSearchCurrentHalfMonth <= 0){
         $averageSearchCurrentHalfMonth = 1;
     }
+
+    $averageSearchWithFilter = null;
+    if(request()->from){
+        $averageSearchWithFilter = sprintf("%.2f", App\SearchQuery::whereBetween('created_at', [request()->from, request()->to])->count()/15);
+    }
+
     $averageSearchLastHalfMonth = sprintf("%.2f", App\SearchQuery::whereBetween('created_at', [Carbon::now()->subdays(30),Carbon::now()->subdays(15)])->count()/15);
     if($averageSearchLastHalfMonth == 0){
         $averageSearchIncreasePercent = 100;
@@ -85,24 +95,80 @@
     $page_visitors_freq_array = array();
     $page_visitors_freq_array[0] = array();
     $page_visitors_freq_array[1] = array();
-    for ($i = 14; $i >= 0; $i--) {
-        array_push($page_visitors_freq_array[1], App\PageViews::whereDate('created_at', Carbon::now()->subDays($i))->count());
-        array_push($page_visitors_freq_array[0], Carbon::now()->subDays($i)->format('F d'));
+    $totalVisitorsWithFilter = 0;
+    if(request()->filter == 'yes'){
+        for ($i = 14; $i >= 0; $i--) {
+            array_push($page_visitors_freq_array[1], App\PageViews::whereDate('created_at', Carbon::parse(request()->to)->subDays($i))->count());
+            array_push($page_visitors_freq_array[0], Carbon::parse(request()->to)->subDays($i)->format('F d'));
+        }
+
+        $totalVisitorsWithFilter = App\PageViews::whereBetween('created_at', [request()->from, request()->to])->count();
+    } else {
+        for ($i = 14; $i >= 0; $i--) {
+            array_push($page_visitors_freq_array[1], App\PageViews::whereDate('created_at', Carbon::now()->subDays($i))->count());
+            array_push($page_visitors_freq_array[0], Carbon::now()->subDays($i)->format('F d'));
+        }
     }
 ?>
 <div class="container-fluid mb-5 px-5">
+    {{ Form::open(['action' => ['PagesController@searchAnalyticsWithFilter'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+    {{ method_field('GET') }}
+    <div class="card">
+        <div class="card-header" style="text-align:left;background-color:white !important" >
+            <div class="float-left">
+                <span><i class="fas fa-search"></i> FILTER</span><br>
+                <small class="text-muted">Filter data by date.</small>
+            </div>
+            <div class="float-right">
+                {{Form::submit('Apply Filter', ['class' => 'btn btn-primary'])}}
+                <a href="/analytics/search" class="btn btn-success">Clear Filter</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-2">
+                                {{Form::label('year_from', 'From: ', ['class' => 'col-form-label'])}}
+                            </div>
+                            <div class="col-9">
+                                {{ Form::date('year_from_filter', Carbon::now()->startOfMonth(),['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-2">
+                                {{Form::label('year_to', 'To: ', ['class' => 'col-form-label'])}}
+                            </div>
+                            <div class="col-9">
+                                {{ Form::date('year_to_filter', Carbon::now()->addDay(),['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ Form::close() }}
     <div class="row">
         <div class="col-xl-3 col-lg-4 col-sm-12">
             <div class="card text-center">
                 <div class="card-header" style="text-align:left;background-color:white !important" >
                     <span><i class="fas fa-search"></i> TOTAL SEARCH</span><br>
-                    <small class="text-muted">Total number of searches made this month</small>
+                    <small class="text-muted">Total number of searches made <span class="{{request()->filter == 'yes' ? 'font-weight-bold' : ''}}">{{request()->filter == 'yes' ? 'from '.Carbon::parse(request()->from)->format('M d, Y').' to '.Carbon::parse(request()->to)->format('M d, Y') : 'this month'}}</span></small>
                 </div>
                 <div class="card-body" style="height:150px">
                     <span style="font-size:3.5rem; color:rgb(59,155,207)">
-                        {{$totalSearchCurrentMonth}}
+                        {{request()->filter == 'yes' ? $totalSearchWithFilter : $totalSearchCurrentMonth}}
                     </span><br>
-                    <h5 class="" style="{{$totalSearchIncreasePercent >= 0 ? 'color:rgb(83,186,139)' : 'color:rgb(243,23,0)'}}">
+                    <h5 style="{{request()->filter != 'yes' ? 'display:none;' : ''}}; color:rgb(83,186,139)">
+                        Total Searches
+                    </h5>
+                    <h5 class="" style="{{request()->filter == 'yes' ? 'display:none;' : ''}} {{$totalSearchIncreasePercent >= 0 ? 'color:rgb(83,186,139)' : 'color:rgb(243,23,0)'}}">
                         <i class="fas {{$totalSearchIncreasePercent >= 0 ? 'fa-caret-up' : 'fa-caret-down'}}"></i> {{$totalSearchCurrentMonth - $totalSearchLastMonth}} / {{$totalSearchIncreasePercent}}% 
                     </h5>
                 </div>
@@ -110,13 +176,16 @@
             <div class="card text-center">
               <div class="card-header" style="text-align:left;background-color:white !important" >
                   <span><i class="fas fa-search"></i> SEARCH PER DAY</span><br>
-                  <small class="text-muted">Average daily search for the last 15 days</small>
+                  <small class="text-muted">Average daily search <span class="{{request()->filter == 'yes' ? 'font-weight-bold' : ''}}">{{request()->filter == 'yes' ?  'from '.Carbon::parse(request()->from)->format('M d, Y').' to '.Carbon::parse(request()->to)->format('M d, Y') : 'for the last 15 days'}}</span></small>
               </div>
               <div class="card-body" style="height:150px">
                   <span style="font-size:3.5rem; color:rgb(59,155,207)">
-                      {{$averageSearchCurrentHalfMonth}}
+                      {{request()->filter == 'yes' ? $averageSearchWithFilter : $averageSearchCurrentHalfMonth}}
                   </span><br>
-                  <h5 class="" style="{{$averageSearchIncreasePercent >= 0 ? 'color:rgb(83,186,139)' : 'color:rgb(243,23,0)'}}">
+                  <h5 style="{{request()->filter != 'yes' ? 'display:none;' : ''}}; color:rgb(83,186,139)">
+                      Searches per day
+                  </h5>
+                  <h5 class="" style="{{request()->filter == 'yes' ? 'display:none;' : ''}}{{$averageSearchIncreasePercent >= 0 ? 'color:rgb(83,186,139)' : 'color:rgb(243,23,0)'}}">
                       <i class="fas {{$averageSearchIncreasePercent >= 0 ? 'fa-caret-up' : 'fa-caret-down'}}"></i> {{$averageSearchCurrentHalfMonth - $averageSearchLastHalfMonth}} / {{$averageSearchIncreasePercent}}% 
                   </h5>
               </div>
@@ -126,10 +195,18 @@
             <div class="card">
                 <div class="card-header" style="background-color:white !important">
                     <i class="fas fa-chart-line"></i> USERS <br>
-                    <small class="text-muted">Number of daily users for the last 15 days</small>
+                    <small class="text-muted">Number of {{request()->filter == 'yes' ? '' : 'daily'}} users <span class="{{request()->filter == 'yes' ? 'font-weight-bold' : ''}}">{{request()->filter == 'yes' ? 'from '.Carbon::parse(request()->to)->subDays(14)->format('M d, Y').' to '.Carbon::parse(request()->to)->format('M d, Y') : 'for the last 15 days'}}</span></small>
                 </div>
-                <div class="card-body">
-                    <canvas id="daily_visitors" style="height:355px !important;"></canvas>
+                <div class="card-body text-center">
+                    <div style="{{request()->filter != 'yes' ? 'display:none;' : ''}}" class="py-4">
+                        <span style="font-size:10rem; color:rgb(59,155,207)">
+                            {{$totalVisitorsWithFilter}}
+                        </span><br>
+                        <h2 style="{{request()->filter != 'yes' ? 'display:none;' : ''}}; color:rgb(83,186,139)">
+                            Users visited the site from {{Carbon::parse(request()->from)->format('M d, Y')}} to {{Carbon::parse(request()->to)->format('M d, Y')}}
+                        </h2>
+                    </div>
+                    <canvas id="daily_visitors" style="height:355px !important;{{request()->filter == 'yes' ? 'display:none;' : ''}}"></canvas>
                 </div>
              </div>
         </div>
