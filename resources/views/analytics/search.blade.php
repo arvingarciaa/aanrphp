@@ -117,7 +117,7 @@
         <div class="card-header" style="text-align:left;background-color:white !important" >
             <div class="float-left">
                 <span><i class="fas fa-search"></i> FILTER</span><br>
-                <small class="text-muted">Filter data by date.</small>
+                <small class="text-muted">Filter analytics by date.</small>
             </div>
             <div class="float-right">
                 {{Form::submit('Apply Filter', ['class' => 'btn btn-primary'])}}
