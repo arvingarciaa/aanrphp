@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    public function get(Request $request){
+        $user_id = Auth::id();
+        $user = User::find($user_id);
+        return $user;
+    }
+
     public function createUser(Request $request){
         $this->validate($request, [
             'first_name' => ['required', 'string', 'max:255'],
