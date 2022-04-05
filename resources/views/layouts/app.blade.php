@@ -77,6 +77,15 @@
 
     @yield('top_scripts')
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMSF26WS97"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BMSF26WS97');
+    </script>
 
 </head>
 <body style="background-color:white">
