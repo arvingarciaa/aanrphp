@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Useful Links')
 @section('breadcrumb')
     <?php
         $headlines = App\Headline::all();

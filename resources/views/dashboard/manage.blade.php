@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Admin Dashboard')
 @section('breadcrumb')
     <ol class="breadcrumb pb-0" style="background-color:transparent">
         <li class="breadcrumb-item"><a class="breadcrumb-link" href="/">km4aanr</a></li>

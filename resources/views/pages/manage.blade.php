@@ -1,6 +1,5 @@
 @extends('layouts.app')
-
-    
+@section('title', 'Admin Dashboard')
 @section('top_scripts')
 
 @endsection

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'User Dashboard')
 
 @section('breadcrumb')
     <ol class="breadcrumb pb-0" style="background-color:transparent">
