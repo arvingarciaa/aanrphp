@@ -1,5 +1,7 @@
 @extends('layouts.app')
-@section('title', 'Search')
+@section('title')
+{{ isset($query) ? $query : 'Search'}}
+@endsection
 @section('breadcrumb')
     <?php
         $headlines = App\Headline::all();
