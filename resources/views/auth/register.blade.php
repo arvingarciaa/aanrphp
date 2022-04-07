@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Register')
 @section('content')
 <div class="container pb-5">
     @include('layouts.messages')
