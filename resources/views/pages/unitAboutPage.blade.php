@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('title', 'About Unit')
 @section('breadcrumb')
     <?php
         $headlines = App\Headline::all();
@@ -25,6 +24,10 @@
 @endsection
 
     
+@section('title')
+{{ isset($unit->acronym) ? 'About '.$unit->acronym : 'About Unit'}}
+
+@endsection
 @section('content')
 @include('layouts.messages')
 

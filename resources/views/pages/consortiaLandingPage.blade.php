@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('title', 'Consortia')
 @section('breadcrumb')
     <?php
         $headlines = App\Headline::all();
@@ -16,6 +15,9 @@
             @endforeach
         </div>
     </div>
+@endsection
+@section('title')
+    {{ isset($consortium->short_name) ? $consortium->short_name : 'Consortia'}}
 @endsection
 @section('content')
 @include('layouts.messages')

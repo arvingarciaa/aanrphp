@@ -1,18 +1,22 @@
 @extends('layouts.app')
-@section('title', 'About Consortia')
+
+<?php
+    $headlines = App\Headline::all();
+    $count = 0;
+    if(request()->consortia){
+        $consortium = App\Consortia::where('short_name','=',request()->consortia)->first();
+    } else {
+        $consortium = App\Consortia::first();
+    }
+    $user = auth()->user();
+    $pcaarrdPage = App\PCAARRDPage::first();
+    $aanrPage = App\AANRPage::first();
+?>
+
+@section('title')
+{{ isset($consortium->short_name) ? 'About '.$consortium->short_name : 'About Consortia'}}
+@endsection
 @section('breadcrumb')
-    <?php
-        $headlines = App\Headline::all();
-        $count = 0;
-        if(request()->consortia){
-            $consortium = App\Consortia::where('short_name','=',request()->consortia)->first();
-        } else {
-            $consortium = App\Consortia::first();
-        }
-        $user = auth()->user();
-        $pcaarrdPage = App\PCAARRDPage::first();
-        $aanrPage = App\AANRPage::first();
-    ?>
     <div id="carouselContent" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
             @foreach($headlines as $headline)
