@@ -1759,9 +1759,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table class="table data-table tech-table table-hover" style="width:100%">
+                                <table id="activity-logs-table" class="table tech-table table-hover" style="width:100%">
                                     <thead>
                                         <tr>
+                                            <th width="5%">Changes</th>
                                             <th width="5%">#</th>
                                             <th width="15%">Timestamp</th>
                                             <th width="5%">User ID</th>
@@ -1773,14 +1774,15 @@
                                     </thead>
                                     <tbody>
                                             @foreach(App\Log::orderBy('id', 'desc')->get(); as $log)
-                                                <tr>
-                                                    <td>{{$log->id}}</td>
-                                                    <td>{{Carbon\Carbon::parse($log->created_at)->format('M d,Y g:i:s A')}}</td>
-                                                    <td>{{$log->user_id}}</td>
-                                                    <td>{{$log->user_email}}</td>
-                                                    <td>{{$log->IP_address}}</td>
-                                                    <td>{{$log->resource}}</td>
-                                                    <td>{{$log->action}}</td>
+                                                <tr data-child-value="{{$log->changes}}">
+                                                    <td width="5%" class="details-control"></td>
+                                                    <td width="5%">{{$log->id}}</td>
+                                                    <td width="15%">{{Carbon\Carbon::parse($log->created_at)->format('M d,Y g:i:s A')}}</td>
+                                                    <td width="5%">{{$log->user_id}}</td>
+                                                    <td width="10%">{{$log->user_email}}</td>
+                                                    <td width="10%">{{$log->IP_address}}</td>
+                                                    <td width="10%">{{$log->resource}}</td>
+                                                    <td width="40%">{{$log->action}}</td>
                                                 </tr>
                                             @endforeach
                                             
@@ -1795,12 +1797,20 @@
         </div>
     </div>
 
-
-                                
+    <style>
+        @import url('//cdn.datatables.net/1.10.2/css/jquery.dataTables.css');
+        td.details-control {
+            background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+        tr.shown td.details-control {
+            background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+    </style>
+                    
 @endsection
 @section('scripts')
     <script type="text/javascript">
-
         $(".list-group-item-action").on('click', function() {
             $(".list-group-item-action").each(function(index) {
                 $(this).removeClass("active show");
@@ -1815,13 +1825,35 @@
                 $('[href="' + lastTab + '"]').tab('show');
             }
         });
+        function format(value) {
+            return '<div>' + value + '</div>';
+        }
         $(document).ready(function() {
-            // init datatable on #example table
             $('.data-table').DataTable({
                 "order": [[ 0, "desc" ]],
             });
             $('.data-table-options').DataTable({
                 "order": [[ 1, "desc" ]],
+            });
+
+            var table = $('#activity-logs-table').DataTable({
+                "order": [[ 0, "desc" ]],
+            });
+
+            //Add event listener for opening and closing details on datatable 
+            $('#activity-logs-table').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(tr.data('child-value'))).show();
+                    tr.addClass('shown');
+                }
             });
             $('select[name$="is_video_create"]').click(function() {
                 if($(this).val() == '0') {

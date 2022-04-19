@@ -22,7 +22,8 @@ class UsersController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'contact_number' => ['required', 'digits:10']
+            'contact_number' => ['required', 'digits:10'],
+            'select_org' => 'required'
         ],
         [
           'contact_number.digits' => 'Contact number is not valid!'  

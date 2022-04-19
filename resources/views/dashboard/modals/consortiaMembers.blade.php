@@ -40,7 +40,7 @@
                         {{Form::text('website', '', ['class' => 'form-control', 'placeholder' => 'Add website'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('consortia', 'Consortia')}}
+                        {{Form::label('consortia', 'Consortia', ['class' => 'col-form-label required'])}}
                         {{Form::select('consortia', $consortia, null,['class' => 'form-control', 'placeholder' => 'Select Consortia']) }}
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                             {{Form::text('website', $consortia_member->website, ['class' => 'form-control', 'placeholder' => 'Add website'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('consortia', 'Consortia')}}
+                            {{Form::label('consortia', 'Consortia', ['class' => 'col-form-label required'])}}
                             {{Form::select('consortia', $consortia, $consortia_member->consortia_id,['class' => 'form-control', 'placeholder' => 'Select Consortia']) }}
                         </div>
                     </div>

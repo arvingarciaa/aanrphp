@@ -8,6 +8,7 @@ use App\Consortia;
 use App\Content;
 use App\ContentSubtype;
 use App\ConsortiaMember;
+use App\Log;
 use Illuminate\Support\Facades\DB;
 use Session;
 
@@ -193,45 +194,110 @@ class ArtifactAANRController extends Controller
             'file' => 'file|max:10240|mimes:pdf,jpeg,png'
         ));
         $user = auth()->user();
-        $artifactaanr = ArtifactAANR::find($artifact_id);
-        $artifactaanr->title = $request->title;
-        $artifactaanr->date_published = $request->date_published;
-        $artifactaanr->description = $request->description;
-        $artifactaanr->content_id = $request->content;
-        $artifactaanr->contentsubtype_id = $request->subcontent_type;
-        $artifactaanr->consortia_id = $request->consortia;
-        $artifactaanr->consortia_member_id = $request->consortia_member;
-        $artifactaanr->link = $request->link;
-        $artifactaanr->author = $request->author;
-        $artifactaanr->embed_link = $request->embed_link;
-        $artifactaanr->author_institution = $request->author_institution;
-        $artifactaanr->author_affiliation = $request->author_affiliation;
-        $artifactaanr->keywords = $request->keywords;
-        $artifactaanr->gad = $request->gad;
-        $artifactaanr->imglink = $request->imglink;
-        $artifactaanr->is_gad = $request->is_gad;
-        $artifactaanr->isp()->sync($request->isp);
-        $artifactaanr->commodities()->sync($request->commodities);
-        if($request->hasFile('file')){
-            $pdfFile = $request->file('file');
-            $pdfName = uniqid().$pdfFile->getClientOriginalName();
-            $pdfFile->move(public_path('/storage/files/'), $pdfName);
-            $artifactaanr->file = $pdfName;
-            $artifactaanr->file_type = pathinfo(storage_path().'/storage/files/'.$pdfName, PATHINFO_EXTENSION);
+        $temp_changes = '';
+        $log = new Log;
+        if($user->role != 5 && $user->role != 1){
+            return redirect()->back()->with('error','Your account is not authorized to use this function.'); 
+        } else {
+            $artifactaanr = ArtifactAANR::find($artifact_id);
+            if($artifactaanr->title != $request->title){
+                $temp_changes = $temp_changes.'<strong>Title:</strong> '.$artifactaanr->title.' <strong>-></strong> '.$request->title.'<br>';
+            }
+            if($artifactaanr->date_published != $request->date_published){
+                $temp_changes = $temp_changes.'<strong>Date Published:</strong> '.$artifactaanr->date_published.' <strong>-></strong> '.$request->date_published.'<br>';
+            }
+            if($artifactaanr->description != $request->description){
+                $temp_changes = $temp_changes.'<strong>Description:</strong> '.$artifactaanr->description.' <strong>-></strong> '.$request->description.'<br>';
+            }
+            if($artifactaanr->content_id != $request->content){
+                $temp_changes = $temp_changes.'<strong>Content ID:</strong> '.$artifactaanr->content_id.' <strong>-></strong> '.$request->content.'<br>';
+            }
+            if($artifactaanr->contentsubtype_id != $request->subcontent_type){
+                $temp_changes = $temp_changes.'<strong>Subcontent Type ID:</strong> '.$artifactaanr->contentsubtype_id.' <strong>-></strong> '.$request->subcontent_type.'<br>';
+            }
+            if($artifactaanr->consortia_id != $request->consortia){
+                $temp_changes = $temp_changes.'<strong>Consortia ID:</strong> '.$artifactaanr->consortia_id.' <strong>-></strong> '.$request->consortia.'<br>';
+            }
+            if($artifactaanr->consortia_member_id != $request->consortia_member){
+                $temp_changes = $temp_changes.'<strong>Consortia Member ID:</strong> '.$artifactaanr->consortia_member_id.' <strong>-></strong> '.$request->consortia_member.'<br>';
+            }
+            if($artifactaanr->link != $request->link){
+                $temp_changes = $temp_changes.'<strong>Link:</strong> '.$artifactaanr->link.' <strong>-></strong> '.$request->link.'<br>';
+            }
+            if($artifactaanr->author != $request->author){
+                $temp_changes = $temp_changes.'<strong>Author:</strong> '.$artifactaanr->author.' <strong>-></strong> '.$request->author.'<br>';
+            }
+            if($artifactaanr->embed_link != $request->embed_link){
+                $temp_changes = $temp_changes.'<strong>Embed Link:</strong> '.$artifactaanr->embed_link.' <strong>-></strong> '.$request->embed_link.'<br>';
+            }
+            if($artifactaanr->author_institution != $request->author_institution){
+                $temp_changes = $temp_changes.'<strong>Author Insitution:</strong> '.$artifactaanr->author_institution.' <strong>-></strong> '.$request->author_institution.'<br>';
+            }
+            if($artifactaanr->author_affiliation != $request->author_affiliation){
+                $temp_changes = $temp_changes.'<strong>Author Affiliation:</strong> '.$artifactaanr->author_affiliation.' <strong>-></strong> '.$request->author_affiliation.'<br>';
+            }
+            if($artifactaanr->keywords != $request->keywords){
+                $temp_changes = $temp_changes.'<strong>Keywords:</strong> '.$artifactaanr->keywords.' <strong>-></strong> '.$request->keywords.'<br>';
+            }
+            if($artifactaanr->gad != $request->gad){
+                $temp_changes = $temp_changes.'<strong>GAD:</strong> '.$artifactaanr->gad.' <strong>-></strong> '.$request->gad.'<br>';
+            }
+            if($artifactaanr->imglink != $request->imglink){
+                $temp_changes = $temp_changes.'<strong>Image Link:</strong> '.$artifactaanr->imglink.' <strong>-></strong> '.$request->imglink.'<br>';
+            }
+            if($artifactaanr->is_gad != $request->is_gad){
+                $temp_changes = $temp_changes.'<strong>Is GAD?:</strong> '.$artifactaanr->is_gad.' <strong>-></strong> '.$request->is_gad.'<br>';
+            }
+
+
+            $artifactaanr->title = $request->title;
+            $artifactaanr->date_published = $request->date_published;
+            $artifactaanr->description = $request->description;
+            $artifactaanr->content_id = $request->content;
+            $artifactaanr->contentsubtype_id = $request->subcontent_type;
+            $artifactaanr->consortia_id = $request->consortia;
+            $artifactaanr->consortia_member_id = $request->consortia_member;
+            $artifactaanr->link = $request->link;
+            $artifactaanr->author = $request->author;
+            $artifactaanr->embed_link = $request->embed_link;
+            $artifactaanr->author_institution = $request->author_institution;
+            $artifactaanr->author_affiliation = $request->author_affiliation;
+            $artifactaanr->keywords = $request->keywords;
+            $artifactaanr->gad = $request->gad;
+            $artifactaanr->imglink = $request->imglink;
+            $artifactaanr->is_gad = $request->is_gad;
+            $artifactaanr->isp()->sync($request->isp);
+            $artifactaanr->commodities()->sync($request->commodities);
+            if($request->hasFile('file')){
+                $pdfFile = $request->file('file');
+                $pdfName = uniqid().$pdfFile->getClientOriginalName();
+                $pdfFile->move(public_path('/storage/files/'), $pdfName);
+                $artifactaanr->file = $pdfName;
+                $artifactaanr->file_type = pathinfo(storage_path().'/storage/files/'.$pdfName, PATHINFO_EXTENSION);
+            }
+            $artifactaanr->save();
+            foreach(DB::table('artifactaanr_isp')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
+                $temp_sector_id = DB::table('isp')->where('id', '=', $entry->isp_id)->first()->sector_id;
+                $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
+                DB::table('artifactaanr_isp')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
+            }
+            foreach(DB::table('artifactaanr_commodity')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
+                $temp_isp_id = DB::table('commodities')->where('id', '=', $entry->commodity_id)->first()->isp_id;
+                $temp_sector_id = DB::table('isp')->where('id', '=', $temp_isp_id)->first()->sector_id;
+                $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
+                DB::table('artifactaanr_commodity')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
+            }
+
+            $log->user_id = $user->id;
+            $log->user_email = $user->email;
+            $log->changes = $temp_changes;
+            $log->action = 'Edited \''. $artifactaanr->title.'\' details';
+            $log->IP_address = $request->ip();
+            $log->resource = 'Artifacts';
+            $log->save();
+
+            return redirect()->back()->with('success','ArtifactAANR Updated.'); 
         }
-        $artifactaanr->save();
-        foreach(DB::table('artifactaanr_isp')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
-            $temp_sector_id = DB::table('isp')->where('id', '=', $entry->isp_id)->first()->sector_id;
-            $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
-            DB::table('artifactaanr_isp')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
-        }
-        foreach(DB::table('artifactaanr_commodity')->where('artifactaanr_id', '=', $artifactaanr->id)->get() as $entry){
-            $temp_isp_id = DB::table('commodities')->where('id', '=', $entry->commodity_id)->first()->isp_id;
-            $temp_sector_id = DB::table('isp')->where('id', '=', $temp_isp_id)->first()->sector_id;
-            $temp_industry_id = DB::table('sectors')->where('id', '=', $temp_sector_id)->first()->industry_id;
-            DB::table('artifactaanr_commodity')->where('id', '=', $entry->id)->update(['industry_id' => DB::table('industries')->where('id', '=', $temp_industry_id)->first()->id]);
-        }
-        return redirect()->back()->with('success','ArtifactAANR Updated.'); 
     }
 
     public function addISPIndustryID(Request $request){
@@ -243,20 +309,39 @@ class ArtifactAANRController extends Controller
     }
 
     public function deleteArtifact(Request $request){
-        if(!$request->input('artifactaanr_check')){
-            return redirect()->back()->with('error','No content selected.');
+
+        $user = auth()->user();
+        $temp_changes = '';
+        $log = new Log;
+        if($user->role != 5 && $user->role != 1){
+            return redirect()->back()->with('error','Your account is not authorized to use this function.'); 
         } else {
-            $artifactaanr = ArtifactAANR::whereIn('id', $request->input('artifactaanr_check'))->get();
-            foreach ($artifactaanr as $artifact) {
-                if($artifact->file){
-                    $filePath = public_path().'/storage/files/'.$artifact->file;
-                    unlink($filePath);
+            if(!$request->input('artifactaanr_check')){
+                return redirect()->back()->with('error','No content selected.');
+            } else {
+                $temp_changes = 'Deleted: ';
+                $artifactaanr = ArtifactAANR::whereIn('id', $request->input('artifactaanr_check'))->get();
+                foreach ($artifactaanr as $artifact) {
+                    if($artifact->file){
+                        $filePath = public_path().'/storage/files/'.$artifact->file;
+                        unlink($filePath);
+                    }
+                    $temp_changes = $temp_changes.$artifact->title.'<br>';
+                    $artifact->isp()->detach();
+                    $artifact->commodities()->detach();
+                    $artifact->delete();
                 }
-                $artifact->isp()->detach();
-                $artifact->commodities()->detach();
-                $artifact->delete();
+
+                $log->user_id = $user->id;
+                $log->user_email = $user->email;
+                $log->changes = $temp_changes;
+                $log->action = 'Deleted content';
+                $log->IP_address = $request->ip();
+                $log->resource = 'Artifacts';
+                $log->save();
+
+                return redirect()->back()->with('success','AANR Content Deleted.'); 
             }
-            return redirect()->back()->with('success','AANR Content Deleted.'); 
         }
     }
 
