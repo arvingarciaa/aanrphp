@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC+8',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -232,6 +232,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Location' => Stevebauman\Location\Facades\Location::class,
         'Carbon' => 'Carbon\Carbon',
+        
 
     ],
 

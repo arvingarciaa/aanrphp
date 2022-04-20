@@ -26,6 +26,7 @@ use Redirect;
 use Carbon\Carbon;
 use Stevebauman\Location\Facades\Location;
 use Spatie\Browsershot\Browsershot;
+use Elastic\Elasticsearch\ClientBuilder;
 
 
 class PagesController extends Controller
@@ -69,9 +70,25 @@ class PagesController extends Controller
             echo $file;
         }, 200, $headers); 
     }
-    
+
+    public function testElastic($age, $name){
+        $client = ClientBuilder::create()->build();	//connect with the client
+        $params = array();
+        $params['body']  = array(	
+          'name' => $name, 											//preparing structred data
+          'age' => $age
+          
+        );
+        $params['index'] = 'BeyBlade';
+        $params['type']  = 'BeyBlade_Owner';
+        $result = $client->index($params);							//using Index() function to inject the data
+        var_dump($result);
+    }
 
     public function getLandingPage(){
+            $client = ClientBuilder::create()->build();
+            dd($client);
+        
         $pageView = new PageViews;
         $pageView->session_id = \Request::getSession()->getId();
         if(Auth::user()){

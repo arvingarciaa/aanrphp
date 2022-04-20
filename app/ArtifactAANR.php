@@ -44,3 +44,4 @@ class ArtifactAANR extends Model
         return $this->belongsToMany('App\Commodity', 'artifactaanr_commodity','artifactaanr_id', 'commodity_id');
     }
 }
+

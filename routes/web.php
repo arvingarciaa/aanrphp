@@ -1,4 +1,5 @@
 <?php
+use Elasticsearch\ClientBuilder;
 
 /*
 |--------------------------------------------------------------------------
@@ -215,3 +216,5 @@ Route::post('ckeditor/upload', 'CKEditorController@store')->name('ckeditor.uploa
 
 //Logs
 Route::get('logs/download', 'LogsController@exportLogs')->name('exportLogs');
+
+Route::get('/enter/{age}/{name}', 'PagesController@testElastic')->name('testElastic');
