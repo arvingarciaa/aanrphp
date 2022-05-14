@@ -7,7 +7,7 @@ use App\User;
 use Auth;
 use App\Consortia;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Http;
 
 class UsersController extends Controller
 {
@@ -26,7 +26,7 @@ class UsersController extends Controller
             'select_org' => 'required'
         ],
         [
-          'contact_number.digits' => 'Contact number is not valid!'  
+          'contact_number.digits' => 'Contact number is not valid!'
         ]
         );
 
@@ -48,7 +48,14 @@ class UsersController extends Controller
         $user->save();
         Auth::loginUsingId($user->id);
 
-        return redirect('/')->with('success','Registration Success! Welcome.'); 
+
+
+        Http::post('community.aanr.ph/user/register?_format=json', [
+            "name" => $request->first_name,
+            "mail" => $request->email,
+            "pass" => Hash::make($request->password)
+        ]);
+        return redirect('/')->with('success','Registration Success! Welcome.');
     }
 
     public function editUser(Request $request, $user_id){
@@ -85,40 +92,40 @@ class UsersController extends Controller
     }
 
     public function sendConsortiaAdminRequest(Request $request, $user_id){
-      
+
         $user = User::find($user_id);
         $user->consortia_admin_request = 1;
         $user->consortia_admin_id = $request->consortia_admin_id;
         $user->save();
 
-        return redirect()->back()->with('success','Request Sent. Please wait for admin approval.'); 
+        return redirect()->back()->with('success','Request Sent. Please wait for admin approval.');
     }
 
     public function consortiaAdminRequestApprove(Request $request, $user_id){
-      
+
         $user = User::find($user_id);
         $user->consortia_admin_request = 2;
         $user->role = 2;
         $user->save();
 
-        return redirect()->back()->with('success','Request approved.'); 
+        return redirect()->back()->with('success','Request approved.');
     }
 
     public function consortiaAdminRequestDecline(Request $request, $user_id){
-      
+
         $user = User::find($user_id);
         $user->consortia_admin_request = 0;
         $user->role = 1;
         $user->consortia_admin_id = null;
         $user->save();
 
-        return redirect()->back()->with('success','Request declined.'); 
+        return redirect()->back()->with('success','Request declined.');
     }
 
     public function deleteUser( $user_id){
         $user = User::find($user_id);
         $user->delete();
 
-        return redirect()->back()->with('success','User Account Deleted.'); 
+        return redirect()->back()->with('success','User Account Deleted.');
     }
 }

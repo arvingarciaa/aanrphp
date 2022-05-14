@@ -9,8 +9,8 @@
             <div class="card shadow" style="background-color:rgb(241,241,241)">
                 <div class="card-body py-5 mx-5" style="padding-left:10rem; padding-right:10rem">
                     <h2 class="text-center mb-4">Sign up for KM4AANR</h2>
-                    <div class="dropdown-divider-2 mb-3" style="border-top:2px solid #dedede !important"></div>  
-                    
+                    <div class="dropdown-divider-2 mb-3" style="border-top:2px solid #dedede !important"></div>
+
                     <form method="POST" action="{{ route('createUser') }}">
                         @csrf
                         <div class="form-group" style="margin-bottom:0.2rem">
@@ -53,17 +53,17 @@
                         </div>
                         <div class="form-group">
                             {{Form::label('age_range', 'Age Range', ['class' => 'col-form-label'])}}
-                            {{Form::select('age_range', ['1' => '15-18', 
-                                                        '2' => '19-22', 
-                                                        '3' => '23-30', 
-                                                        '4' => '31-40', 
-                                                        '5' => '41-50', 
-                                                        '6' => '51-60', 
-                                                        '7' => '61 Onwards', 
+                            {{Form::select('age_range', ['1' => '15-18',
+                                                        '2' => '19-22',
+                                                        '3' => '23-30',
+                                                        '4' => '31-40',
+                                                        '5' => '41-50',
+                                                        '6' => '51-60',
+                                                        '7' => '61 Onwards',
                                                         ], '',['class' => 'form-control', 'style' => 'color:black', 'placeholder' => '------------']) }}
                         </div>
                         <div class="form-group">
-                            {{Form::label('organization', 'Organization', ['class' => 'col-form-label font-weight-bold'])}}
+                            {{Form::label('organization', 'Organization', ['class' => 'col-form-label font-weight-bold required'])}}
                             <select class="form-control" data-live-search="true" name="select_org" id="select_org">
                                 <option disabled selected>Select Organization</option>
                                 @foreach(App\Consortia::all() as $consortium)
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {{Form::label('contact_number', 'Contact Number', ['class' => 'col-form-label font-weight-bold'])}}
+                            {{Form::label('contact_number', 'Contact Number', ['class' => 'col-form-label font-weight-bold required'])}}
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">+63</span>
@@ -98,7 +98,7 @@
                             <label for="password-confirm" class="col-form-label font-weight-bold required">{{ __('Confirm Password') }}</label>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
-                        
+
                         <script>
                             $(document).ready(function() {
                                 $("#select_org").change(function(){
