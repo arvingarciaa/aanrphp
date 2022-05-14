@@ -51,9 +51,9 @@ class UsersController extends Controller
 
 
         Http::post('community.aanr.ph/user/register?_format=json', [
-            "name" => $request->first_name,
-            "mail" => $request->email,
-            "pass" => Hash::make($request->password)
+            "name" => ["value" => $user->first_name],
+            "mail" => ["value" => $user->email],
+            "pass" => ["value" => $user->password]
         ]);
         return redirect('/')->with('success','Registration Success! Welcome.');
     }
