@@ -12,8 +12,7 @@ use App\Log;
 use Illuminate\Support\Facades\DB;
 use Session;
 
-class ArtifactAANRController extends Controller
-{
+class ArtifactAANRController extends Controller{
     public function uploadPDFArtifact(Request $request)
     {
         $this->validate($request, array(
@@ -136,12 +135,13 @@ class ArtifactAANRController extends Controller
                 }
 
             } else {
-                $this->validate($request, array(
+                $this->validate($request, [
                     'title' => 'required',
+                    'date_published' => 'before:tomorrow',
                     'content' => 'required',
                     'consortia' => 'required',
                     'manual_file' => 'file|max:10240|mimes:pdf,jpeg,png'
-                ));
+                ]);
                 $artifactaanr = new ArtifactAANR;
                 $artifactaanr->title = $request->title;
                 $artifactaanr->date_published = $request->date_published;
@@ -191,6 +191,7 @@ class ArtifactAANRController extends Controller
     public function editArtifact(Request $request, $artifact_id){
         $this->validate($request, array(
             'title' => 'required',
+            'date_published' => 'before:tomorrow',
             'file' => 'file|max:10240|mimes:pdf,jpeg,png'
         ));
         $user = auth()->user();
